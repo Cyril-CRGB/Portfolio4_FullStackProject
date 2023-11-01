@@ -17,28 +17,30 @@ EMPLOYEES_MARITAL_STATUS = [
     ("O", "Other"),
 ]
 CHILDREN_BELOW_18 = [
-    ("ONE", 1),
-    ("TWO", 2),
-    ("THREE", 3),
-    ("FOUR", 4),
-    ("FIVE", 5),
-    ("SIX", 6),
-    ("SEVEN", 7),
-    ("EIGHT", 8),
-    ("NINE", 9),
-    ("THEN", 10),
+    (0, 0),
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5),
+    (6, 6),
+    (7, 7),
+    (8, 8),
+    (9, 9),
+    (10, 10),  # to be corrected
 ]
 CHILDREN_BELOW_25 = [
-    ("ONE", 1),
-    ("TWO", 2),
-    ("THREE", 3),
-    ("FOUR", 4),
-    ("FIVE", 5),
-    ("SIX", 6),
-    ("SEVEN", 7),
-    ("EIGHT", 8),
-    ("NINE", 9),
-    ("THEN", 10),
+    (0, 0),
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5),
+    (6, 6),
+    (7, 7),
+    (8, 8),
+    (9, 9),
+    (10, 10)  # to be corrected
 ]
 
 
@@ -50,9 +52,9 @@ class Employees(models.Model):
     employees_marital_status = models.CharField(
         max_length=1, choices=EMPLOYEES_MARITAL_STATUS)
     children_for_allocations_type_1 = models.IntegerField(
-        choices=CHILDREN_BELOW_18)
+        choices=CHILDREN_BELOW_18, blank=True)
     children_for_allocations_type_2 = models.IntegerField(
-        choices=CHILDREN_BELOW_25)
+        choices=CHILDREN_BELOW_25, blank=True)
     birth_date = models.DateField()
     employees_age = models.PositiveSmallIntegerField()
     email_adress = models.EmailField()
@@ -65,7 +67,7 @@ class Employees(models.Model):
     employees_bankaccount = models.CharField(max_length=21)
     # basic salary information
     start_date = models.DateField()
-    end_date = models.DateField()
+    end_date = models.DateField(blank=True)
     employees_holiday_rights = models.IntegerField()
     base_monthly_salary = models.IntegerField()
     employees_phone_allocation = models.PositiveSmallIntegerField()
