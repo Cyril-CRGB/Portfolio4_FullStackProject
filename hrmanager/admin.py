@@ -13,5 +13,12 @@ class EmployeesAdmin(SummernoteModelAdmin):
     list_display = ('last_name', 'first_name',
                     'start_date', 'employees_status')
     search_fields = ['last_name', 'first_name']
+    actions = ['deactivate_employee', 'activate_employee']
+
+    def deactivate_employee(self, request, queryset):
+        queryset.update(employees_status=1)
+
+    def activate_employee(self, request, queryset):
+        queryset.update(employees_status=0)
 
 # admin.site.register(Employees)

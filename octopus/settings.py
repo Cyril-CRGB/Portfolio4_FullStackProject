@@ -65,12 +65,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'octopus.urls'
-
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 if development:
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [],
+            'DIRS': [TEMPLATES_DIR],
             'APP_DIRS': True,
             'OPTIONS': {
                 'context_processors': [
@@ -83,7 +83,7 @@ if development:
         },
     ]
 else:
-    TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
