@@ -10,7 +10,7 @@
           <div class="card mb-4">
             <div class="card-body">
               <div class="image-container">
-                {% if "placeholder" in post.featured_image.url %}
+                {% if "placeholder" in employee.featured_image.url %}
                 <img
                   class="card-img-top"
                   src="https://codeinstitute.s3.amazonaws.com/fullstack/blog/default.jpg"
@@ -21,20 +21,19 @@
                   src=" {{ post.featured_image.url }}"
                 />
                 {% endif %}
-                <div class="image-flash">
-                  <p class="author">
-                    Start date : {{ employees_list.start_date }}
-                  </p>
-                </div>
+                <!--<div class="image-flash">
+                  <p class="author">Employee :</p>
+                </div> -->
               </div>
               <a href="#" class="post-link">
-                <h2 class="card-title">{{ employees_list.title }}</h2>
-                <p class="card-text">{{ employees_list.employees_status }}</p>
+                <h2 class="card-title">{{ employee.last_name }}</h2>
+                <p class="card-text">{{ employee.first_name }}</p>
               </a>
               <hr />
               <p class="card-text text-muted h6">
-                {{ employees_list.created_on}} <i class="far fa-heart"></i> {{
-                employees_list.updated_date }}
+                {{ employee.employees_gender}}
+                <!--<i class=""></i>-->
+                / {{ employee.start_date }}
               </p>
             </div>
           </div>
