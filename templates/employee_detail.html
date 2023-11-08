@@ -1,7 +1,16 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="masthead">
-  <p>here is supposed to be the detail of the selected employee</p>
+  <div>
+    <p>Here is the detail of the selected employee</p>
+  </div>
+  <div>
+    <ul>
+      <li>Title: {{ selected_employee.title }}</li>
+      <li>First Name: {{ selected_employee.first_name }}</li>
+      <li>Last Name: {{ selected_employee.last_name }}</li>
+    </ul>
+  </div>
 </div>
 
 {% endblock content %}
