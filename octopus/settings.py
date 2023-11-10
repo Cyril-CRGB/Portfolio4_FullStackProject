@@ -33,7 +33,7 @@ DEBUG = development
 
 if development:
     ALLOWED_HOSTS = [
-        '8000-cyril-crgb-portfolio4-fu-2r1ef7gh0t.us2.codeanyapp.com']
+        '8000-cyril-crgb-portfolio4-fu-5iyjbxlegt.us2.codeanyapp.com']
 else:
     ALLOWED_HOSTS = [
         'portfolio4-fullstackproject-67b0ea26bc65.herokuapp.com']

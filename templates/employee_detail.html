@@ -1,15 +1,51 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="masthead">
-  <div>
-    <p>Here is the detail of the selected employee</p>
-  </div>
-  <div>
-    <ul>
+  <div></div>
+  <div class="table-responsive container mt-5">
+    <table class="table table-striped table-sm align-middle caption-top">
+      <caption>
+        Here are the general information about the employee
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Categories</th>
+          <th scope="col">Content</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Title:</th>
+          <td>{{ selected_employee.title }}</td>
+          <td>
+            <a
+              href="#"
+              class="btn btn-secondary btn-sm disabled"
+              tableindex="-1"
+              role="button"
+              aria-disabled="true"
+              >Modify</a
+            >
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">First Name:</th>
+          <td>{{ selected_employee.first_name }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Last Name:</th>
+          <td>{{ selected_employee.last_name }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <!--<ul>
       <li>Title: {{ selected_employee.title }}</li>
       <li>First Name: {{ selected_employee.first_name }}</li>
       <li>Last Name: {{ selected_employee.last_name }}</li>
-    </ul>
+    </ul>-->
   </div>
 </div>
 
