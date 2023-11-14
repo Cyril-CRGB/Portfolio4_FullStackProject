@@ -32,6 +32,7 @@
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
@@ -53,20 +54,26 @@
                 <span class="navbar-text text-muted">
                     people is success
                 </span>
+                
             </div>
+            
         </div>
+        
     </nav>
+    <hr />
 
     <main class="flex-shrink-0 main-bg">
+        
         {% block content %}
         <!-- Content Goes here -->
         {% endblock content %}
     </main>
 
     <!-- Footer -->
-    <footer class="footer mt-auto py-3 dark-bg">
-        <p class="m-0 text-center text-white">Made by Cyril Bromberger</p>
-        <p class="m-0 text-center text-white">Follow us: <i class="fab fa-facebook-square ms-3"></i>
+    <footer class="footer fixed-bottom mt-auto py-3 dark-bg">
+        <hr />
+        <p class="m-0 text-center">Made by Cyril Bromberger</p>
+        <p class="m-0 text-center">Follow us: <i class="fab fa-facebook-square ms-3"></i>
             <i class="fab fa-twitter-square ms-3"></i>
             <i class="fab fa-instagram-square ms-3"></i>
             <i class="fab fa-youtube-square ms-3"></i>

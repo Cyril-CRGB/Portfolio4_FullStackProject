@@ -1,0 +1,54 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container-fluid">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'Listofemployees' %}"
+        >List of employee</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="#"
+        >Add an new employee</a
+      >
+    </li>
+  </ul>
+  <div class="container-fluid">
+    <div class="row">
+      <p></p>
+    </div>
+    <form>
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"
+              >Email address</label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+            />
+            <div id="emailHelp" class="form-text">
+              We'll never share your email with anyone else.
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label"
+              >Password</label
+            >
+            <input
+              type="password"
+              class="form-control"
+              id="exampleInputPassword1"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{%endblock%}

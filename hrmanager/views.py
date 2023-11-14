@@ -2,13 +2,13 @@ from django.shortcuts import render
 from django.views import generic
 from .models import Employees
 from django.views import View
-#from django import template
+# from django import template
 
-#register = template.Library()
+# register = template.Library()
 
 
-#@register.filter
-#def get_model_fields(model):
+# @register.filter
+# def get_model_fields(model):
 #    return model._meta.fields
 
 # def HomeView(request):
@@ -32,3 +32,9 @@ class EnployeeDetailView(generic.DetailView):
     model = Employees
     template_name = 'employee_detail.html'
     context_object_name = 'selected_employee'
+
+
+class EnployeeAddView(generic.ListView):
+    model = Employees
+    template_name = 'employee_add.html'
+    context_object_name = 'employee_add'

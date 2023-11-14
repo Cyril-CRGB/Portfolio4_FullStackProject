@@ -1,6 +1,19 @@
 {% extends "base.html" %} {% block content %}
 
 <div class="container-fluid">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="#"
+        >List of employee</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'Addanemployees' %}"
+        >Add a new employee</a
+      >
+    </li>
+  </ul>
+
   <div class="row">
     <!-- Blog Entries Column -->
     <div class="col-12 mt-3 left">

@@ -1,7 +1,25 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="masthead">
-  <div></div>
+  <div>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'Listofemployees' %}"
+          >List of employee</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'Addanemployees' %}"
+          >Add a new employee</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#"
+          >{{ selected_employee.first_name }}</a
+        >
+      </li>
+    </ul>
+  </div>
   <div class="table-responsive container mt-5">
     <table class="table table-striped table-sm align-middle caption-top">
       <caption>
