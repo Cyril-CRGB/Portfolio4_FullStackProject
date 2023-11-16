@@ -17,7 +17,9 @@
     <div class="row">
       <p></p>
     </div>
-    <form>
+    <form method="POST" action="{% url 'Addanemployees' %}">
+      {% csrf_token %}
+      <!-- row 1 -->
       <div class="row">
         <div class="col">
           <div class="mb-3">
@@ -47,8 +49,106 @@
             <div id="lastnameHelp" class="form-text">Enter the last name.</div>
           </div>
         </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="InputEmployeesgender" class="form-label">Gender</label>
+            <input
+              type="text"
+              class="form-control"
+              id="InputEmployeesgender"
+              aria-describedby="employeesgenderHelp"
+              name="employees_gender"
+            />
+            <div id="employeesgenderHelp" class="form-text">
+              Chose gender: M/F/O.
+            </div>
+          </div>
+        </div>
       </div>
+      <!-- row 2 -->
       <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="InputEmployeesMaritalStatus" class="form-label"
+              >Marital status</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="InputEmployeesMaritalStatus"
+              aria-describedby="employeesmaritalstatusHelp"
+              name="employees_marital_status"
+            />
+            <div id="employeesmaritalstatusHelp" class="form-text">
+              Chose marital status: M/D/S/P/O.
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputchildrenforallocationstype1" class="form-label"
+              >Children allocation below 18</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Inputchildrenforallocationstype1"
+              aria-describedby="childrenforallocationstype1Help"
+              name="children_for_allocations_type_1"
+            />
+            <div id="childrenforallocationstype1Help" class="form-text">
+              Chose number of children: 0 to 10.
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputchildrenforallocationstype2" class="form-label"
+              >Children allocation below 25</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Inputchildrenforallocationstype2"
+              aria-describedby="childrenforallocationstype2Help"
+              name="children_for_allocations_type_2"
+            />
+            <div id="childrenforallocationstype2Help" class="form-text">
+              Chose number of children: 0 to 10.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- row 3 -->
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputbirthdate" class="form-label">Birth date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="Inputbirthdate"
+              aria-describedby="birthdateHelp"
+              name="birth_date"
+            />
+            <div id="birthdateHelp" class="form-text">
+              Date format: dd/mm/yyyy
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputemployeesage" class="form-label">Age</label>
+            <input
+              type="text"
+              class="form-control"
+              id="Inputemployeesage"
+              aria-describedby="employeesageHelp"
+              name="employees_age"
+            />
+            <div id="employeesageHelp" class="form-text">Enter the age.</div>
+          </div>
+        </div>
         <div class="col">
           <div class="mb-3">
             <label for="InputEmail" class="form-label">Email address</label>
@@ -64,20 +164,255 @@
             </div>
           </div>
         </div>
+      </div>
+      <!-- row 4 -->
+      <div class="row">
         <div class="col">
           <div class="mb-3">
             <label for="InputPhoneNumber" class="form-label"
               >Phone number</label
             >
             <input
-              type="phone number"
+              type="text"
               class="form-control"
               id="InputPhoneNumber"
               aria-describedby="Phonenumberhelp"
               name="phone_number"
             />
             <div id="Phonenumberhelp" class="form-text">
-              Exemple of a valid phone number format : +41799998813.
+              Exemple of a valid phone number format : 0041799998813.
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputemergencycontact" class="form-label"
+              >Emergency contact</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Inputemergencycontact"
+              aria-describedby="emergencycontactHelp"
+              name="emergency_contact"
+            />
+            <div id="emergencycontactHelp" class="form-text">
+              Enter the name of contact in case of an emergency
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputemergencyphonenumber" class="form-label"
+              >Emergency phone number</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Inputemergencyphonenumber"
+              aria-describedby="emergencyphonenumberHelp"
+              name="emergency_phonenumber"
+            />
+            <div id="emergencyphonenumberHelp" class="form-text">
+              Enter a phone number for the emergency contact: 0041799998813
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- row 5 -->
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputemployeepicture" class="form-label"
+              >Employee's photo</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Inputemployeepicture"
+              aria-describedby="employeepictureHelp"
+              name="employee_picture"
+            />
+            <div id="employeepictureHelp" class="form-text">
+              Upload a photo in format: .png or .jpeg
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputsocialsecuritynumber" class="form-label"
+              >Social Security number</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Inputsocialsecuritynumber"
+              aria-describedby="socialsecuritynumberHelp"
+              name="social_security_number"
+            />
+            <div id="socialsecuritynumberHelp" class="form-text">
+              Enter a social security number: max 13 char.
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputemployeesbankaccount" class="form-label"
+              >Bank account</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Inputemployeesbankaccount"
+              aria-describedby="employeesbankaccountHelp"
+              name="employees_bankaccount"
+            />
+            <div id="employeesbankaccountHelp" class="form-text">
+              Enter an iban number: max 21 char.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- row 6 -->
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputstartdate" class="form-label">Start date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="Inputstartdate"
+              aria-describedby="startdateHelp"
+              name="start_date"
+            />
+            <div id="startdateHelp" class="form-text">
+              Date format: dd/mm/yyyy
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputenddate" class="form-label">End date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="Inputenddate"
+              aria-describedby="enddateHelp"
+              name="end_date"
+            />
+            <div id="enddateHelp" class="form-text">
+              Date format: dd/mm/yyyy
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputemployeesholidayrights" class="form-label"
+              >Holiday right</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Inputemployeesholidayrights"
+              aria-describedby="employeesholidayrightsHelp"
+              name="employees_holiday_rights"
+            />
+            <div id="employeesholidayrightsHelp" class="form-text">
+              Enter a number.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- row 7 -->
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputbasemonthlysalary" class="form-label"
+              >Monthly salary</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Inputbasemonthlysalary"
+              aria-describedby="basemonthlysalaryHelp"
+              name="base_monthly_salary"
+            />
+            <div id="basemonthlysalaryHelp" class="form-text">
+              Enter a number.
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputemployeesphoneallocation" class="form-label"
+              >Phone monthly allocation</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Inputemployeesphoneallocation"
+              aria-describedby="employeesphoneallocationHelp"
+              name="employees_phone_allocation"
+            />
+            <div id="employeesphoneallocationHelp" class="form-text">
+              Enter a number.
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label
+              for="Inputemployeesrepresentationallocation"
+              class="form-label"
+              >Representation monthly allocation</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Inputemployeesrepresentationallocation"
+              aria-describedby="employeesrepresentationallocationHelp"
+              name="employees_representation_allocation"
+            />
+            <div id="employeesrepresentationallocationHelp" class="form-text">
+              Enter a number.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- row 8 -->
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="Inputseniority" class="form-label">Seniority</label>
+            <input
+              type="text"
+              class="form-control"
+              id="Inputseniority"
+              aria-describedby="seniorityHelp"
+              name="seniority"
+            />
+            <div id="seniorityHelp" class="form-text">
+              Enter the number of year the employee has been working.
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <div class="form-check">
+              <label for="Inputemployeesstatus" class="form-label"
+                >Employee status</label
+              >
+              <input
+                type="checkbox"
+                class="form-check-input"
+                value=""
+                id="Inputemployeesstatus"
+                aria-describedby="employeesstatusHelp"
+                name="employees_status"
+              />
+              <div id="employeesstatusHelp" class="form-text">
+                Is the employee inactive?
+              </div>
             </div>
           </div>
         </div>
