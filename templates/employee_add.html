@@ -19,6 +19,24 @@
     </div>
     <form method="POST" action="{% url 'Addanemployees' %}">
       {% csrf_token %}
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="InputTitle" class="form-label">Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="InputTitle"
+              aria-describedby="titleHelp"
+              name="title"
+            />
+            <div id="titleHelp" class="form-text">
+              Enter the last name and the first name.
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- row 1 -->
       <div class="row">
         <div class="col">
@@ -60,7 +78,7 @@
               name="employees_gender"
             />
             <div id="employeesgenderHelp" class="form-text">
-              Chose gender: M/F/O.
+              Chose gender: Male/Female/Other.
             </div>
           </div>
         </div>
@@ -80,7 +98,7 @@
               name="employees_marital_status"
             />
             <div id="employeesmaritalstatusHelp" class="form-text">
-              Chose marital status: M/D/S/P/O.
+              Chose marital status: Married/Divorced/Single/Partnership/Other.
             </div>
           </div>
         </div>
@@ -132,7 +150,7 @@
               name="birth_date"
             />
             <div id="birthdateHelp" class="form-text">
-              Date format: dd/mm/yyyy
+              Date format: yyyy-mm-dd
             </div>
           </div>
         </div>
@@ -286,7 +304,7 @@
               name="start_date"
             />
             <div id="startdateHelp" class="form-text">
-              Date format: dd/mm/yyyy
+              Date format: yyyy-mm-dd
             </div>
           </div>
         </div>
@@ -301,7 +319,7 @@
               name="end_date"
             />
             <div id="enddateHelp" class="form-text">
-              Date format: dd/mm/yyyy
+              Date format: yyyy-mm-dd
             </div>
           </div>
         </div>
@@ -418,6 +436,7 @@
         </div>
       </div>
       <div>
+        <!-- {{ form.as_p }} -->
         <p></p>
         <button type="submit" class="btn btn-primary">Add Employee</button>
       </div>

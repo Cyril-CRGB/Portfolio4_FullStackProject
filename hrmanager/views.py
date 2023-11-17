@@ -3,6 +3,7 @@ from django.views import generic
 from .models import Employees
 from django.views import View
 from django.urls import reverse_lazy
+from .forms import NewEmployeeForm
 # from django import template
 
 # register = template.Library()
@@ -38,10 +39,14 @@ class EnployeeDetailView(generic.DetailView):
 class EnployeeAddView(generic.edit.CreateView):
     model = Employees
     template_name = 'employee_add.html'
-    fields = ['first_name', 'last_name', 'employees_gender',
-              'employees_marital_status', 'children_for_allocations_type_1', 'children_for_allocations_type_2',
-              'birth_date', 'employees_age', 'email_adress', 'phone_number', 'emergency_contact', 'emergency_phonenumber',
-              'employee_picture', 'social_security_number', 'employees_bankaccount', 'start_date', 'end_date',
-              'employees_holiday_rights', 'base_monthly_salary', 'employees_phone_allocation',
-              'employees_representation_allocation', 'seniority', 'employees_status']
+    form_class = NewEmployeeForm
     success_url = reverse_lazy('Listofemployees')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        print("Form is valid!")
+        return response
+
+    def form_invalid(self, form):
+        print("Form is invalid!")
+        return super().form_invalid(form)
