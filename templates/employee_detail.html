@@ -38,14 +38,62 @@
           <th scope="row">Title:</th>
           <td>{{ selected_employee.title }}</td>
           <td>
-            <a
+            <!--<a
               href="#"
               class="btn btn-secondary btn-sm disabled"
               tableindex="-1"
               role="button"
               aria-disabled="true"
               >Modify</a
+            >-->
+            <a
+              class="btn btn-primary btn-sm"
+              data-bs-toggle="offcanvas"
+              href="#offcanvasExample"
+              role="button"
+              aria-controls="offcanvasExample"
             >
+              Modify
+            </a>
+            <div
+              class="offcanvas offcanvas-start"
+              tabindex="-1"
+              id="offcanvasExample"
+              aria-labelledby="offcanvasExampleLabel"
+            >
+              <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+                  Title:
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="offcanvas"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="offcanvas-body">
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1"
+                    >New value:</span
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="{{ selected_employee.title }}"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                  />
+                  <button
+                    class="btn btn-outline-primary"
+                    type="button"
+                    id="button-addon2"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
           </td>
         </tr>
         <tr>
