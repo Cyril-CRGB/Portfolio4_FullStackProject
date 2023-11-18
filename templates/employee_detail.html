@@ -5,7 +5,7 @@
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link" href="{% url 'Listofemployees' %}"
-          >List of employee</a
+          >List of employees</a
         >
       </li>
       <li class="nav-item">
@@ -21,13 +21,14 @@
     </ul>
   </div>
   <div class="table-responsive container mt-5">
+    <!--table 2-->
     <table class="table table-striped table-sm align-middle caption-top">
       <caption>
-        Here are the general information about the employee
+        Information about the employee
       </caption>
       <thead>
         <tr>
-          <th scope="col">Categories</th>
+          <th scope="col">Personal information</th>
           <th scope="col">Content</th>
           <th scope="col">Action</th>
         </tr>
@@ -57,13 +58,157 @@
           <td>{{ selected_employee.last_name }}</td>
           <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
         </tr>
+        <tr>
+          <th scope="row">Gender:</th>
+          <td>{{ selected_employee.employees_gender }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Marital status:</th>
+          <td>{{ selected_employee.employees_marital_status }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Children below 18:</th>
+          <td>{{ selected_employee.children_for_allocations_type_1 }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Children below 25:</th>
+          <td>{{ selected_employee.children_for_allocations_type_2 }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Birthday:</th>
+          <td>{{ selected_employee.birth_date }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Age:</th>
+          <td>{{ selected_employee.employees_age }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Email adress:</th>
+          <td>{{ selected_employee.email_adress }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Phone number:</th>
+          <td>{{ selected_employee.phone_number }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Emergency contact:</th>
+          <td>{{ selected_employee.emergency_contact }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Emergency phone number:</th>
+          <td>{{ selected_employee.emergency_phonenumber }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Picture:</th>
+          <td>{{ selected_employee.employee_picture }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Social Security number, AVS:</th>
+          <td>{{ selected_employee.social_security_number }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
       </tbody>
     </table>
-    <!--<ul>
-      <li>Title: {{ selected_employee.title }}</li>
-      <li>First Name: {{ selected_employee.first_name }}</li>
-      <li>Last Name: {{ selected_employee.last_name }}</li>
-    </ul>-->
+  </div>
+  <div class="table-responsive container mt-5">
+    <!--table 2-->
+    <table class="table table-striped table-sm align-middle caption-top">
+      <caption>
+        Information about the salary and payment
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Salary information</th>
+          <th scope="col">Content</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Bank account, IBAN:</th>
+          <td>{{ selected_employee.employees_bankaccount }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Start date:</th>
+          <td>{{ selected_employee.start_date }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">End date:</th>
+          <td>{{ selected_employee.end_date }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Holiday rights:</th>
+          <td>{{ selected_employee.employees_holiday_rights }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Monthly salary:</th>
+          <td>{{ selected_employee.base_monthly_salary }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Monthly phone allocation:</th>
+          <td>{{ selected_employee.employees_phone_allocation }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Monthly representation allocation:</th>
+          <td>{{ selected_employee.employees_representation_allocation }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-responsive container mt-5">
+    <!--table 3-->
+    <table class="table table-striped table-sm align-middle caption-top">
+      <caption>
+        Information about the profil
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Profil information</th>
+          <th scope="col">Content</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Seniority:</th>
+          <td>{{ selected_employee.seniority }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Inactive:</th>
+          <td>{{ selected_employee.employees_status }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Created date:</th>
+          <td>{{ selected_employee.created_date }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Updated date:</th>
+          <td>{{ selected_employee.updated_date }}</td>
+          <td><a class="btn btn-primary btn-sm" href="">Modify</a></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 

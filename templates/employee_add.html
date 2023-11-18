@@ -4,12 +4,12 @@
   <ul class="nav nav-tabs">
     <li class="nav-item">
       <a class="nav-link" href="{% url 'Listofemployees' %}"
-        >List of employee</a
+        >List of employees</a
       >
     </li>
     <li class="nav-item">
       <a class="nav-link active" aria-current="page" href="#"
-        >Add an new employee</a
+        >New employee</a
       >
     </li>
   </ul>
@@ -21,19 +21,25 @@
       {% csrf_token %}
       <div class="row">
         <div class="col">
-          <div class="mb-3">
-            <label for="InputTitle" class="form-label">Title</label>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Title</span>
             <input
               type="text"
               class="form-control"
-              id="InputTitle"
-              aria-describedby="titleHelp"
+              placeholder="Enter the role of the employee"
               name="title"
+              aria-describedby="basic-addon1"
             />
-            <div id="titleHelp" class="form-text">
-              Enter the last name and the first name.
-            </div>
+            <button type="button" class="btn btn-outline-primary" id="button-addon2">Add this employee</button>
           </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+            </div>
         </div>
       </div>
 
@@ -143,7 +149,7 @@
           <div class="mb-3">
             <label for="Inputbirthdate" class="form-label">Birth date</label>
             <input
-              type="date"
+              type="text"
               class="form-control"
               id="Inputbirthdate"
               aria-describedby="birthdateHelp"
@@ -297,7 +303,7 @@
           <div class="mb-3">
             <label for="Inputstartdate" class="form-label">Start date</label>
             <input
-              type="date"
+              type="text"
               class="form-control"
               id="Inputstartdate"
               aria-describedby="startdateHelp"
@@ -312,7 +318,7 @@
           <div class="mb-3">
             <label for="Inputenddate" class="form-label">End date</label>
             <input
-              type="date"
+              type="text"
               class="form-control"
               id="Inputenddate"
               aria-describedby="enddateHelp"
@@ -397,7 +403,7 @@
           </div>
         </div>
       </div>
-      <!-- row 8 -->
+      <!-- row 8 
       <div class="row">
         <div class="col">
           <div class="mb-3">
@@ -435,10 +441,7 @@
           </div>
         </div>
       </div>
-      <div>
-        <!-- {{ form.as_p }} -->
-        <p></p>
-        <button type="submit" class="btn btn-primary">Add Employee</button>
+      <div>-->
       </div>
     </form>
   </div>
