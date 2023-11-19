@@ -11,3 +11,9 @@ class NewEmployeeForm(forms.ModelForm):
                   'employee_picture', 'social_security_number', 'employees_bankaccount', 'start_date', 'end_date',
                   'employees_holiday_rights', 'base_monthly_salary', 'employees_phone_allocation',
                   'employees_representation_allocation', 'seniority', 'employees_status']
+
+
+class ModifyEmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employees
+        fields = []
