@@ -54,6 +54,7 @@ class EnployeeAddView(generic.edit.CreateView):
 
     def form_invalid(self, form):
         print("Form is invalid!")
+        print(form.errors) 
         return super().form_invalid(form)
 
 
