@@ -30,7 +30,7 @@
               name="title"
               aria-describedby="basic-addon1"
             />
-            <button type="button" class="btn btn-outline-primary" id="button-addon2">Add this employee</button>
+            <button type="submit" class="btn btn-outline-primary" id="button-addon2">Add this employee</button>
           </div>
         </div>
         <div class="col">
@@ -46,225 +46,155 @@
       <!-- row 1 -->
       <div class="row">
         <div class="col">
-          <div class="mb-3">
-            <label for="InputFirstName" class="form-label">First name</label>
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">First name</span>
             <input
               type="text"
               class="form-control"
-              id="InputFirstName"
-              aria-describedby="firstnameHelp"
+              placeholder="Enter the first name"
+              aria-describedby="basic-addon1"
               name="first_name"
             />
-            <div id="firstnameHelp" class="form-text">
-              Enter the first name.
-            </div>
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="InputLastName" class="form-label">Last Name</label>
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Last Name</span>
             <input
               type="text"
               class="form-control"
-              id="InputLastName"
-              aria-describedby="lastnameHelp"
+              placeholder="Enter the last name"
+              aria-describedby="basic-addon1"
               name="last_name"
             />
-            <div id="lastnameHelp" class="form-text">Enter the last name.</div>
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="InputEmployeesgender" class="form-label">Gender</label>
-            <input
-              type="text"
-              class="form-control"
-              id="InputEmployeesgender"
-              aria-describedby="employeesgenderHelp"
-              name="employees_gender"
-            />
-            <div id="employeesgenderHelp" class="form-text">
-              Chose gender: Male/Female/Other.
-            </div>
+          <div class="input-group mb-3 flex-nowrap">
+            <label class="input-group-text" for="inputGroupSelectGender">Gender</label>
+            <select class="form-select" id="inputGroupSelectGender" name="employees_gender" >
+                <option selected></option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
           </div>
         </div>
       </div>
       <!-- row 2 -->
       <div class="row">
         <div class="col">
-          <div class="mb-3">
-            <label for="InputEmployeesMaritalStatus" class="form-label"
-              >Marital status</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="InputEmployeesMaritalStatus"
-              aria-describedby="employeesmaritalstatusHelp"
-              name="employees_marital_status"
-            />
-            <div id="employeesmaritalstatusHelp" class="form-text">
-              Chose marital status: Married/Divorced/Single/Partnership/Other.
-            </div>
+          <div class="input-group mb-3 flex-nowrap">
+                <label class="input-group-text" for="inputGroupSelectMaritalStatus">Marital status</label>
+                <select class="form-select" id="inputGroupSelectMaritalStatus" name="employees_marital_status">
+                    <option selected></option>
+                    <option value="Married">Married</option>
+                    <option value="Divorced">Divorced</option>
+                    <option value="Single">Single</option>
+                    <option value="Partnership">Partnership</option>
+                    <option value="Other">Other</option>
+                </select>
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputchildrenforallocationstype1" class="form-label"
-              >Children allocation below 18</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="Inputchildrenforallocationstype1"
-              aria-describedby="childrenforallocationstype1Help"
-              name="children_for_allocations_type_1"
-            />
-            <div id="childrenforallocationstype1Help" class="form-text">
-              Chose number of children: 0 to 10.
-            </div>
+          <div class="input-group mb-3 flex-nowrap">
+                <label class="input-group-text" for="inputGroupSelectChildrenBelow18">Children below 18</label>
+                <select class="form-select" id="inputGroupSelectChildrenBelow18" name="children_for_allocations_type_1">
+                    <option selected></option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputchildrenforallocationstype2" class="form-label"
-              >Children allocation below 25</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="Inputchildrenforallocationstype2"
-              aria-describedby="childrenforallocationstype2Help"
-              name="children_for_allocations_type_2"
-            />
-            <div id="childrenforallocationstype2Help" class="form-text">
-              Chose number of children: 0 to 10.
-            </div>
+          <div class="input-group mb-3 flex-nowrap">
+                <label class="input-group-text" for="inputGroupSelectChildrenBelow25">Children below 25</label>
+                <select class="form-select" id="inputGroupSelectChildrenBelow25" name="children_for_allocations_type_2">
+                    <option selected></option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
           </div>
         </div>
       </div>
       <!-- row 3 -->
       <div class="row">
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputbirthdate" class="form-label">Birth date</label>
-            <input
-              type="text"
-              class="form-control"
-              id="Inputbirthdate"
-              aria-describedby="birthdateHelp"
-              name="birth_date"
-            />
-            <div id="birthdateHelp" class="form-text">
-              Date format: yyyy-mm-dd
-            </div>
+          <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Birth date</span>
+                <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1"
+                    name="birth_date"/>
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputemployeesage" class="form-label">Age</label>
-            <input
-              type="text"
-              class="form-control"
-              id="Inputemployeesage"
-              aria-describedby="employeesageHelp"
-              name="employees_age"
-            />
-            <div id="employeesageHelp" class="form-text">Enter the age.</div>
+          <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Age</span>
+                <input type="text" class="form-control" placeholder="Enter the age" aria-describedby="basic-addon1" name="employees_age"/>
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="InputEmail" class="form-label">Email address</label>
-            <input
-              type="email"
-              class="form-control"
-              id="InputEmail"
-              aria-describedby="emailHelp"
-              name="email_adress"
-            />
-            <div id="emailHelp" class="form-text">
-              Enter a valid email address.
-            </div>
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Email address</span>
+            <input type="email" class="form-control" placeholder="Enter a valid email address" aria-describedby="basic-addon1"
+                name="email_adress"/>
           </div>
         </div>
       </div>
       <!-- row 4 -->
       <div class="row">
         <div class="col">
-          <div class="mb-3">
-            <label for="InputPhoneNumber" class="form-label"
-              >Phone number</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="InputPhoneNumber"
-              aria-describedby="Phonenumberhelp"
-              name="phone_number"
-            />
-            <div id="Phonenumberhelp" class="form-text">
-              Exemple of a valid phone number format : 0041799998813.
-            </div>
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Phone number</span>
+            <input type="text" class="form-control" placeholder="0799998813" aria-describedby="basic-addon1"
+                name="phone_number"/>
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputemergencycontact" class="form-label"
-              >Emergency contact</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="Inputemergencycontact"
-              aria-describedby="emergencycontactHelp"
-              name="emergency_contact"
-            />
-            <div id="emergencycontactHelp" class="form-text">
-              Enter the name of contact in case of an emergency
-            </div>
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Emergency contact</span>
+            <input type="text" class="form-control" placeholder="Enter the name of contact in case of an emergency" aria-describedby="basic-addon1" name="emergency_contact"/>
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputemergencyphonenumber" class="form-label"
-              >Emergency phone number</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="Inputemergencyphonenumber"
-              aria-describedby="emergencyphonenumberHelp"
-              name="emergency_phonenumber"
-            />
-            <div id="emergencyphonenumberHelp" class="form-text">
-              Enter a phone number for the emergency contact: 0041799998813
-            </div>
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Emergency phone number</span>
+            <input type="text" class="form-control" placeholder="0799998813"
+                aria-describedby="basic-addon1" name="emergency_phonenumber" />
           </div>
         </div>
       </div>
       <!-- row 5 -->
       <div class="row">
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputemployeepicture" class="form-label"
-              >Employee's photo</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="Inputemployeepicture"
-              aria-describedby="employeepictureHelp"
-              name="employee_picture"
-            />
-            <div id="employeepictureHelp" class="form-text">
-              Upload a photo in format: .png or .jpeg
-            </div>
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFilePicture">Employee's picture</label>
+            <input type="file" class="form-control" id="inputGroupFilePicture" name="employee_picture">
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputsocialsecuritynumber" class="form-label"
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Social Security number</span>
+            <input type="text" class="form-control" placeholder="max 13 char" aria-describedby="basic-addon1"
+                name="social_security_number"/>
+            <!--<label for="Inputsocialsecuritynumber" class="form-label"
               >Social Security number</label
             >
             <input
@@ -276,12 +206,15 @@
             />
             <div id="socialsecuritynumberHelp" class="form-text">
               Enter a social security number: max 13 char.
-            </div>
+            </div>-->
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputemployeesbankaccount" class="form-label"
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Bank account</span>
+            <input type="text" class="form-control" placeholder="iban: max 21 char" aria-describedby="basic-addon1"
+                name="employees_bankaccount" />
+            <!--<label for="Inputemployeesbankaccount" class="form-label"
               >Bank account</label
             >
             <input
@@ -293,15 +226,17 @@
             />
             <div id="employeesbankaccountHelp" class="form-text">
               Enter an iban number: max 21 char.
-            </div>
+            </div>-->
           </div>
         </div>
       </div>
       <!-- row 6 -->
       <div class="row">
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputstartdate" class="form-label">Start date</label>
+          <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Start date</span>
+                <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1" name="start_date" />
+            <!--<label for="Inputstartdate" class="form-label">Start date</label>
             <input
               type="text"
               class="form-control"
@@ -311,12 +246,14 @@
             />
             <div id="startdateHelp" class="form-text">
               Date format: yyyy-mm-dd
-            </div>
+            </div>-->
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputenddate" class="form-label">End date</label>
+          <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">End date</span>
+                <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1" name="end_date" />
+            <!--<label for="Inputenddate" class="form-label">End date</label>
             <input
               type="text"
               class="form-control"
@@ -326,12 +263,15 @@
             />
             <div id="enddateHelp" class="form-text">
               Date format: yyyy-mm-dd
-            </div>
+            </div>-->
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputemployeesholidayrights" class="form-label"
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Holiday right</span>
+            <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
+                name="employees_holiday_rights" />
+            <!--<label for="Inputemployeesholidayrights" class="form-label"
               >Holiday right</label
             >
             <input
@@ -343,15 +283,18 @@
             />
             <div id="employeesholidayrightsHelp" class="form-text">
               Enter a number.
-            </div>
+            </div>-->
           </div>
         </div>
       </div>
       <!-- row 7 -->
       <div class="row">
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputbasemonthlysalary" class="form-label"
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Monthly salary</span>
+            <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
+                name="base_monthly_salary" />
+            <!--<label for="Inputbasemonthlysalary" class="form-label"
               >Monthly salary</label
             >
             <input
@@ -363,12 +306,15 @@
             />
             <div id="basemonthlysalaryHelp" class="form-text">
               Enter a number.
-            </div>
+            </div>-->
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label for="Inputemployeesphoneallocation" class="form-label"
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Phone monthly allocation</span>
+            <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
+                name="employees_phone_allocation" />
+            <!--<label for="Inputemployeesphoneallocation" class="form-label"
               >Phone monthly allocation</label
             >
             <input
@@ -380,12 +326,15 @@
             />
             <div id="employeesphoneallocationHelp" class="form-text">
               Enter a number.
-            </div>
+            </div>-->
           </div>
         </div>
         <div class="col">
-          <div class="mb-3">
-            <label
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Representation monthly allocation</span>
+            <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
+                name="employees_representation_allocation" />
+            <!--<label
               for="Inputemployeesrepresentationallocation"
               class="form-label"
               >Representation monthly allocation</label
@@ -399,7 +348,7 @@
             />
             <div id="employeesrepresentationallocationHelp" class="form-text">
               Enter a number.
-            </div>
+            </div>-->
           </div>
         </div>
       </div>

@@ -16,4 +16,4 @@ class NewEmployeeForm(forms.ModelForm):
 class ModifyEmployeeForm(forms.ModelForm):
     class Meta:
         model = Employees
-        fields = []
+        fields = ['title']
