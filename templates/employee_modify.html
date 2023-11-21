@@ -1,49 +1,22 @@
-{% block content %}
-
-<div
-  class="offcanvas offcanvas-start"
-  tabindex="-1"
-  id="offcanvasExample"
-  aria-labelledby="offcanvasExampleLabel"
->
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Title:</h5>
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="offcanvas"
-      aria-label="Close"
-    ></button>
+{% extends "base.html" %} {% block content %}
+<form method="POST" action="{% url 'modify_employee' pk=current_pk %}">
+  {% csrf_token %}
+  <div class="col">
+    <div class="mb-3">{{current_pk}}</div>
   </div>
-  <div class="offcanvas-body">
-    <form
-      method="POST"
-      action="{% url 'modify_employee' pk=selected_employee_pk %}"
-    >
-      {% csrf_token %}
-      <div>
-        <p>Employee PK: {{ selected_employee_pk }}</p>
-      </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">New value:</span>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="{{ selected_employee.title }}"
-          aria-label="Username"
-          aria-describedby="basic-addon1"
-          name="title"
-        />
-        <button
-          class="btn btn-outline-primary"
-          type="submit"
-          id="button-addon2"
-        >
-          Submit
-        </button>
-      </div>
-    </form>
+  <div class="col">
+    <div class="mb-3">{{ form.as_p }}</div>
   </div>
-</div>
+  <div class="col">
+    <div class="mb-3">
+      <button type="submit" class="btn btn-outline-primary" id="button-addon2">
+        Modify this employee
+      </button>
+    </div>
+  </div>
+</form>
+{% endblock %}
 
-{% endblock content %}
+<!--<form method="POST" action="{% url 'modify_employee' pk=employee.pk %}">
+  {% csrf_token %}-->
+<!--</form>-->

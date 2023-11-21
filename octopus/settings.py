@@ -157,6 +157,7 @@ USE_TZ = True
 
 if development:
     STATIC_URL = '/static/'
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 else:
     STATIC_URL = '/static/'
     STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'

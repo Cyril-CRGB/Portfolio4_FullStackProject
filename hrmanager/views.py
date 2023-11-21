@@ -49,12 +49,12 @@ class EnployeeAddView(generic.edit.CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        print("Form is valid!")
+        print("Form EnployeeAddView is valid!")
         return response
 
     def form_invalid(self, form):
-        print("Form is invalid!")
-        print(form.errors) 
+        print("Form EnployeeAddView is invalid!")
+        print(form.errors)
         return super().form_invalid(form)
 
 
@@ -65,14 +65,22 @@ class ModifyEmployeeView(generic.edit.UpdateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
+        print("Form ModifyEmployeeView is valid!")
         return redirect('Detailofemployees', pk=self.kwargs['pk'])
 
     def form_invalid(self, form):
+        print("Form ModifyEmployeeView is invalid!")
+        print(form.errors)
         return super().form_invalid(form)
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
         return get_object_or_404(Employees, pk=pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_pk'] = self.object.pk
+        return context
 
     def get_success_url(self):
         return reverse_lazy('Detailofemployees', kwargs={'pk': self.kwargs['pk']})
