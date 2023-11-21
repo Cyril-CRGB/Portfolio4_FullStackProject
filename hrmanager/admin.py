@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Employees
+from .models import Employees, salary_items
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -21,4 +21,10 @@ class EmployeesAdmin(SummernoteModelAdmin):
     def activate_employee(self, request, queryset):
         queryset.update(employees_status=0)
 
+
 # admin.site.register(Employees)
+
+
+@admin.register(salary_items)
+class YearAdmin(SummernoteModelAdmin):
+    search_fields = ['validity_year']

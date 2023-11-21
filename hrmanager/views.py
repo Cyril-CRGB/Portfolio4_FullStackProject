@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
-from .models import Employees
+from .models import Employees, salary_items
 from django.views import View
 from django.urls import reverse_lazy
-from .forms import NewEmployeeForm, ModifyEmployeeForm
+from .forms import NewEmployeeForm, ModifyEmployeeForm, NewItemForm
 # from django import template
 
 # register = template.Library()
@@ -49,11 +49,11 @@ class EnployeeAddView(generic.edit.CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        print("Form EnployeeAddView is valid!")
+        print("NewEmployeeForm is valid!")
         return response
 
     def form_invalid(self, form):
-        print("Form EnployeeAddView is invalid!")
+        print("NewEmployeeForm is invalid!")
         print(form.errors)
         return super().form_invalid(form)
 
@@ -65,11 +65,11 @@ class ModifyEmployeeView(generic.edit.UpdateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        print("Form ModifyEmployeeView is valid!")
+        print("ModifyEmployeeForm is valid!")
         return redirect('Detailofemployees', pk=self.kwargs['pk'])
 
     def form_invalid(self, form):
-        print("Form ModifyEmployeeView is invalid!")
+        print("ModifyEmployeeForm is invalid!")
         print(form.errors)
         return super().form_invalid(form)
 
@@ -84,3 +84,38 @@ class ModifyEmployeeView(generic.edit.UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('Detailofemployees', kwargs={'pk': self.kwargs['pk']})
+
+
+class YearList(generic.ListView):
+    model = salary_items
+    queryset = salary_items.objects.order_by('validity_year')
+    template_name = 'year_list.html'
+    paginate_by = 6
+
+
+class YearDetailView(generic.DetailView):
+    model = salary_items
+    template_name = 'year_detail.html'
+    context_object_name = 'selected_year'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['selected_year_pk'] = self.object.pk
+        return context
+
+
+class YearAddView(generic.edit.CreateView):
+    model = salary_items
+    template_name = 'year_add.html'
+    form_class = NewItemForm
+    success_url = reverse_lazy('Yearview')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        print("NewItemForm is valid!")
+        return response
+
+    def form_invalid(self, form):
+        print("NewItemForm is invalid!")
+        print(form.errors)
+        return super().form_invalid(form)

@@ -1,9 +1,9 @@
 {% extends "base.html" %} {% block content %}
 <form method="POST" action="{% url 'modify_employee' pk=current_pk %}">
   {% csrf_token %}
-  <div class="col">
+  <!--<div class="col">
     <div class="mb-3">{{current_pk}}</div>
-  </div>
+  </div>-->
   <div class="col">
     <div class="mb-3">{{ form.as_p }}</div>
   </div>

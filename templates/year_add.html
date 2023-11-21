@@ -1,0 +1,210 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container-fluid">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'Yearview' %}"
+        >List of years</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="#"
+        >New year</a
+      >
+    </li>
+  </ul>
+  <div class="container-fluid">
+    <div class="row">
+      <p></p>
+    </div>
+    <form method="POST" action="{% url 'Addayear' %}">
+      {% csrf_token %}
+    <!-- row 1 -->
+    <div class="row">
+        <div class="col">
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Year</span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter a year"
+              name="validity_year"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <button type="submit" class="btn btn-outline-primary" id="button-addon2">Add this year</button>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+            </div>
+        </div>
+      </div>
+    <!-- row 2 -->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">AVS/AI</span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter the AVS/AI rate"
+              aria-describedby="basic-addon1"
+              name="avs_item"
+            />
+            <span class="input-group-text">%</span>
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">AC</span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter the AC rate"
+              aria-describedby="basic-addon1"
+              name="ac_item"
+            />
+            <span class="input-group-text">%</span>
+          </div>
+        </div>
+        <div class="col">
+            <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">AC2</span>
+                <input type="text" class="form-control" placeholder="Enter the AC2 rate" aria-describedby="basic-addon1"
+                    name="ac2_item" />
+                <span class="input-group-text">%</span>
+            </div>
+        </div>
+      </div>
+    <!-- row 3 -->
+      <div class="row">
+        <div class="col">
+            <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">LAA professional</span>
+                <input type="text" class="form-control" placeholder="Enter the LAAP rate" aria-describedby="basic-addon1"
+                    name="laap_item" />
+                <span class="input-group-text">%</span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">LAA non professional</span>
+                <input type="text" class="form-control" placeholder="Enter the LAANP rate" aria-describedby="basic-addon1"
+                    name="laanp_item" />
+                <span class="input-group-text">%</span>
+            </div>
+        </div>
+        <div class="col">
+        <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">LAA complementary</span>
+            <input type="text" class="form-control" placeholder="Enter the LAAC rate" aria-describedby="basic-addon1"
+                name="laac_item" />
+            <span class="input-group-text">%</span>
+        </div>
+        </div>
+      </div>
+    <!-- row 4 -->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">LAA complementary exceding</span>
+                <input type="text" class="form-control" placeholder="Enter the LAACE rate" aria-describedby="basic-addon1"
+                    name="laace_item"/>
+                <span class="input-group-text">%</span>
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">AMAT</span>
+                <input type="text" class="form-control" placeholder="Enter the AMAT rate" aria-describedby="basic-addon1" name="amat_item"/>
+                <span class="input-group-text">%</span>
+           </div>
+        </div>
+        <div class="col">
+        <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">ALFA</span>
+            <input type="text" class="form-control" placeholder="Enter the ALFA rate" aria-describedby="basic-addon1"
+                name="alfa_item" />
+            <span class="input-group-text">%</span>
+        </div>
+        </div>
+      </div>
+    <!-- row 5 -->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">APG Sickness</span>
+            <input type="text" class="form-control" placeholder="Enter the APG Sickness rate" aria-describedby="basic-addon1"
+                name="apgmal_item"/>
+            <span class="input-group-text">%</span>
+          </div>
+        </div>
+        <div class="col">
+            <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Children care</span>
+                <input type="text" class="form-control" placeholder="Enter the Children care rate" aria-describedby="basic-addon1"
+                    name="alpetiteenfance_item" />
+                <span class="input-group-text">%</span>
+            </div>
+        </div>
+        <div class="col">
+        <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Expense report</span>
+            <input type="text" class="form-control" placeholder="Enter the Expense report rate" aria-describedby="basic-addon1"
+                name="expense_report" />
+            <span class="input-group-text">%</span>
+        </div>
+        </div>
+      </div>
+    <!-- row 6 -->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <label class="input-group-text" for="basic-addon1">Public transportation fees</label>
+            <input type="text" class="form-control" placeholder="Enter the Public transportation fees rate" aria-describedby="basic-addon1" name="public_transportation_fees">
+            <span class="input-group-text">%</span>
+          </div>
+        </div>
+        <div class="col">
+        </div>
+        <div class="col">
+        </div>
+      </div>
+    <!-- row 7 -->
+      <div class="row">
+        <div class="col">
+        </div>
+        <div class="col">
+        </div>
+        <div class="col">
+        </div>
+      </div>
+    <!-- row 8 -->
+      <div class="row">
+        <div class="col">
+        </div>
+        <div class="col">
+        </div>
+        <div class="col">
+        </div>
+      </div>
+    <!-- row 9 -->
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col">
+        </div>
+        <div class="col">
+        </div>
+        <!--{{ form.as_p }}
+        <button type="submit" class="btn btn-outline-primary" id="button-addon2">Add this employee</button>-->
+    </div>
+      </div>
+    </form>
+  </div>
+</div>
+{%endblock%}

@@ -89,6 +89,7 @@ class Employees(models.Model):
 
 
 class salary_items(models.Model):
+    validity_year = models.CharField(max_length=4, unique=True, default='')
     # constant variables for automatic calculation
     avs_item = models.DecimalField(max_digits=4, decimal_places=2)
     ac_item = models.DecimalField(max_digits=4, decimal_places=2)
@@ -105,3 +106,9 @@ class salary_items(models.Model):
     expense_report = models.DecimalField(max_digits=5, decimal_places=2)
     public_transportation_fees = models.DecimalField(
         max_digits=6, decimal_places=2)
+
+    class Meta:
+        ordering = ['validity_year']
+
+    def __str__(self):
+        return self.validity_year
