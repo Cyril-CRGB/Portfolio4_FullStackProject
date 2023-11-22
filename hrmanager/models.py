@@ -102,7 +102,7 @@ class salary_items(models.Model):
     alfa_item = models.DecimalField(max_digits=4, decimal_places=2)
     apgmal_item = models.DecimalField(max_digits=4, decimal_places=2)
     alpetiteenfance_item = models.DecimalField(max_digits=4, decimal_places=2)
-    # temporary variables for manual entries
+    # temporary variables for manual entries --> should be in Employees model
     expense_report = models.DecimalField(max_digits=5, decimal_places=2)
     public_transportation_fees = models.DecimalField(
         max_digits=6, decimal_places=2)
@@ -112,3 +112,67 @@ class salary_items(models.Model):
 
     def __str__(self):
         return self.validity_year
+
+
+class GeneratorData(models.Model):
+    gd_year = models.IntegerField()
+    gd_month = models.CharField(max_length=20)
+    gd_title = models.CharField(max_length=255)
+    gd_first_name = models.CharField(max_length=255)
+    gd_last_name = models.CharField(max_length=255)
+    gd_base_monthly_salary = models.IntegerField()
+    gd_child_allocation_1 = models.IntegerField()
+    gd_child_allocation_2 = models.IntegerField()
+    gd_total_monthly_wage = models.IntegerField()
+    gd_total_monthly_wage_for_social_insurance = models.IntegerField()
+    gd_total_monthly_wage_for_social_taxes = models.IntegerField()
+    gd_avs_item = models.DecimalField(max_digits=10, decimal_places=2)
+    gd_ac_item = models.DecimalField(max_digits=10, decimal_places=2)
+    gd_ac2_item = models.DecimalField(
+        max_digits=10, decimal_places=2)
+    gd_laap_item = models.DecimalField(
+        max_digits=4, decimal_places=2)
+    gd_laanp_item = models.DecimalField(max_digits=10, decimal_places=2)
+    gd_laac_item = models.DecimalField(max_digits=10, decimal_places=2)
+    gd_laace_item = models.DecimalField(max_digits=10, decimal_places=2)
+    gd_amat_item = models.DecimalField(max_digits=10, decimal_places=2)
+    gd_alfa_item = models.DecimalField(max_digits=10, decimal_places=2)
+    gd_apgmal_item = models.DecimalField(max_digits=10, decimal_places=2)
+    gd_alpetiteenfance_item = models.DecimalField(
+        max_digits=10, decimal_places=2)
+    gd_total_social_deduction = models.DecimalField(
+        max_digits=10, decimal_places=2)
+    gd_employees_phone_allocation = models.PositiveSmallIntegerField()
+    gd_employees_representation_allocation = models.PositiveSmallIntegerField()
+    gd_expense_report = models.DecimalField(
+        max_digits=10, decimal_places=2)
+    gd_public_transportation_fees = models.DecimalField(
+        max_digits=10, decimal_places=2)
+    gd_paid_salary = models.DecimalField(
+        max_digits=10, decimal_places=2)
+
+    # def calculate_gd_child_allocation_1(self):
+    # figure to be replaced by a new item in salary_item
+    # Employees.children_for_allocations_type_1 * 311
+    # pass
+
+    # def calculate_gd_child_allocation_1(self):
+    # figure to be replaced by a new item in salary_item
+    # Employees.children_for_allocations_type_2 * 411
+    # pass
+
+    def calculate_gd_total_monthly_wage(self):
+        return self.gd_base_monthly_salary
+
+    # def calculate_gd_total_monthly_wage_for_social_insurance(self):
+        # self.gd_base_monthly_salary + self.gd_public_transportation_fees
+        # pass
+
+    # def calculate_gd_total_monthly_wage_for_social_taxes(self):
+        # self.gd_base_monthly_salary + self.gd_public_transportation_fees +
+        # self.gd_child_allocation_1 + self.gd_child_allocation_2
+        # pass
+        
+    def calculate_gd_avs_item(self):
+        return self.calculate_gd_total_monthly_wage * -salary_items.avs_item
+        pass 

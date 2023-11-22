@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
-from .models import Employees, salary_items
+from .models import Employees, salary_items, GeneratorData
 from django.views import View
 from django.urls import reverse_lazy
 from .forms import NewEmployeeForm, ModifyEmployeeForm, NewYearForm, ModifyYearForm
@@ -138,3 +138,29 @@ class ModifyYearView(generic.edit.UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('Detailofyears', kwargs={'pk': self.kwargs['pk']})
+
+
+class GeneratorYearView(View):
+    template_name = 'generator_year.html'
+
+    def get(self, request, *args, **kwargs):
+        years = set(salary_items.objects.values_list(
+            'validity_year', flat=True))
+        return render(request, self.template_name, {'years': years})
+
+
+class GeneratorMonthView(View):
+    template_name = 'generator_month.html'
+
+    def get(self, request, year, *args, **kwargs):
+        months = ['January', 'February', 'March', 'April', 'May', 'June',
+                  'July', 'August', 'September', 'October', 'November', 'December']
+        return render(request, self.template_name, {'year': year, 'months': months})
+
+
+class GeneratorMonthlyTableView(View):
+    template_name = 'generator_monthly_table.html'
+
+    def get(self, request, year, month, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
