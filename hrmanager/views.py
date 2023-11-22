@@ -3,18 +3,8 @@ from django.views import generic
 from .models import Employees, salary_items
 from django.views import View
 from django.urls import reverse_lazy
-from .forms import NewEmployeeForm, ModifyEmployeeForm, NewItemForm
-# from django import template
+from .forms import NewEmployeeForm, ModifyEmployeeForm, NewYearForm, ModifyYearForm
 
-# register = template.Library()
-
-
-# @register.filter
-# def get_model_fields(model):
-#    return model._meta.fields
-
-# def HomeView(request):
-#    return render(request, 'index.html')
 
 class HomeView(View):
     def get(self, request, *args, **kwargs):
@@ -27,7 +17,6 @@ class EmployeesList(generic.ListView):
         employees_status=0).order_by('last_name')
     template_name = 'employee_list.html'
     paginate_by = 6
-    # context_object_name = 'employees'
 
 
 class EnployeeDetailView(generic.DetailView):
@@ -80,6 +69,7 @@ class ModifyEmployeeView(generic.edit.UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['current_pk'] = self.object.pk
+        context['form'] = ModifyEmployeeForm(instance=self.object)
         return context
 
     def get_success_url(self):
@@ -107,7 +97,7 @@ class YearDetailView(generic.DetailView):
 class YearAddView(generic.edit.CreateView):
     model = salary_items
     template_name = 'year_add.html'
-    form_class = NewItemForm
+    form_class = NewYearForm
     success_url = reverse_lazy('Yearview')
 
     def form_valid(self, form):
@@ -119,3 +109,32 @@ class YearAddView(generic.edit.CreateView):
         print("NewItemForm is invalid!")
         print(form.errors)
         return super().form_invalid(form)
+
+
+class ModifyYearView(generic.edit.UpdateView):
+    model = salary_items
+    form_class = ModifyYearForm
+    template_name = 'year_modify.html'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        print("AddYearForm is valid!")
+        return redirect('Detailofyears', pk=self.kwargs['pk'])
+
+    def form_invalid(self, form):
+        print("AddYearForm is invalid!")
+        print(form.errors)
+        return super().form_invalid(form)
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')
+        return get_object_or_404(salary_items, pk=pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_pk'] = self.object.pk
+        context['form'] = ModifyYearForm(instance=self.object)
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('Detailofyears', kwargs={'pk': self.kwargs['pk']})

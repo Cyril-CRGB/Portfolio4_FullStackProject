@@ -19,4 +19,6 @@ urlpatterns = [
          name='Detailofyears'),
     path('year/new/', views.YearAddView.as_view(),
          name='Addayear'),
+    path('year/<int:pk>/modify/', views.ModifyYearView.as_view(),
+         name='modify_year'),
 ]
