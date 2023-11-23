@@ -1,5 +1,5 @@
 from django import forms
-from .models import Employees, salary_items
+from .models import Employees, salary_items, GeneratorData
 
 
 class NewEmployeeForm(forms.ModelForm):
@@ -40,3 +40,8 @@ class ModifyYearForm(forms.ModelForm):
                   'laanp_item', 'laac_item', 'laace_item',
                   'amat_item', 'alfa_item', 'apgmal_item', 'alpetiteenfance_item',
                   'expense_report', 'public_transportation_fees']
+
+
+class GeneratorYearForm(forms.Form):
+    selected_year = forms.ModelChoiceField(queryset=salary_items.objects.all(
+    ), empty_label=None, label='Select Year', widget=forms.Select(attrs={'class': 'form-control'}))

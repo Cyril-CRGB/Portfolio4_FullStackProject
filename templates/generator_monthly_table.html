@@ -2,26 +2,38 @@
 
 <div class="container-fluid">
   <div class="container-fluid">
-    <h2>Select Month for {{month}} {{ year }}:</h2>
+    <h2>
+      Selected salary periode:
+      <span>{{generator_data_instance.gd_month}}</span>
+      <span>{{generator_data_instance.gd_year}}</span>
+    </h2>
   </div>
   <div class="container-fluid">
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
+          <th scope="col">Year</th>
+          <th scope="col">Month</th>
+          <th scope="col">Title</th>
+          <th scope="col">First name</th>
+          <th scope="col">Last name</th>
+          <th scope="col">Base monthly salary</th>
+          <th scope="col">Total monthly wage</th>
+          <th scope="col">AVS Item</th>
         </tr>
       </thead>
       <tbody>
+        {% for item in data %}
         <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+          <th scope="row">{{ item.gd_title }}</th>
+          <td>{{ item.gd_first_name }}</td>
+          <td>{{ item.gd_last_name }}</td>
+          <td>{{ item.gd_base_monthly_salary }}</td>
+          <td>{{ item.calculate_gd_total_monthly_wage }}</td>
+          <td>{{ item.calculate_gd_avs_item }}</td>
         </tr>
-        <tr>
+        {% endfor %}
+        <!--<tr>
           <th scope="row">2</th>
           <td>Jacob</td>
           <td>Thornton</td>
@@ -31,7 +43,7 @@
           <th scope="row">3</th>
           <td colspan="2">Larry the Bird</td>
           <td>@twitter</td>
-        </tr>
+        </tr>-->
       </tbody>
     </table>
   </div>

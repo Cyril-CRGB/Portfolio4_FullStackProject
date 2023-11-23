@@ -120,36 +120,47 @@ class GeneratorData(models.Model):
     gd_title = models.CharField(max_length=255)
     gd_first_name = models.CharField(max_length=255)
     gd_last_name = models.CharField(max_length=255)
-    gd_base_monthly_salary = models.IntegerField()
-    gd_child_allocation_1 = models.IntegerField()
-    gd_child_allocation_2 = models.IntegerField()
-    gd_total_monthly_wage = models.IntegerField()
-    gd_total_monthly_wage_for_social_insurance = models.IntegerField()
-    gd_total_monthly_wage_for_social_taxes = models.IntegerField()
-    gd_avs_item = models.DecimalField(max_digits=10, decimal_places=2)
-    gd_ac_item = models.DecimalField(max_digits=10, decimal_places=2)
+    gd_base_monthly_salary = models.IntegerField(default=0)
+    gd_child_allocation_1 = models.IntegerField(default=0)
+    gd_child_allocation_2 = models.IntegerField(default=0)
+    gd_total_monthly_wage = models.IntegerField(default=0)
+    gd_total_monthly_wage_for_social_insurance = models.IntegerField(
+        default=0)
+    gd_total_monthly_wage_for_social_taxes = models.IntegerField(
+        default=0)
+    gd_avs_item = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    gd_ac_item = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
     gd_ac2_item = models.DecimalField(
-        max_digits=10, decimal_places=2)
+        max_digits=10, decimal_places=2, default=0)
     gd_laap_item = models.DecimalField(
-        max_digits=4, decimal_places=2)
-    gd_laanp_item = models.DecimalField(max_digits=10, decimal_places=2)
-    gd_laac_item = models.DecimalField(max_digits=10, decimal_places=2)
-    gd_laace_item = models.DecimalField(max_digits=10, decimal_places=2)
-    gd_amat_item = models.DecimalField(max_digits=10, decimal_places=2)
-    gd_alfa_item = models.DecimalField(max_digits=10, decimal_places=2)
-    gd_apgmal_item = models.DecimalField(max_digits=10, decimal_places=2)
+        max_digits=4, decimal_places=2, default=0)
+    gd_laanp_item = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    gd_laac_item = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    gd_laace_item = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    gd_amat_item = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    gd_alfa_item = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    gd_apgmal_item = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
     gd_alpetiteenfance_item = models.DecimalField(
-        max_digits=10, decimal_places=2)
+        max_digits=10, decimal_places=2, default=0)
     gd_total_social_deduction = models.DecimalField(
-        max_digits=10, decimal_places=2)
-    gd_employees_phone_allocation = models.PositiveSmallIntegerField()
-    gd_employees_representation_allocation = models.PositiveSmallIntegerField()
+        max_digits=10, decimal_places=2, default=0)
+    gd_employees_phone_allocation = models.PositiveSmallIntegerField(default=0)
+    gd_employees_representation_allocation = models.PositiveSmallIntegerField(
+        default=0)
     gd_expense_report = models.DecimalField(
-        max_digits=10, decimal_places=2)
+        max_digits=10, decimal_places=2, default=0)
     gd_public_transportation_fees = models.DecimalField(
-        max_digits=10, decimal_places=2)
+        max_digits=10, decimal_places=2, default=0)
     gd_paid_salary = models.DecimalField(
-        max_digits=10, decimal_places=2)
+        max_digits=10, decimal_places=2, default=0)
 
     # def calculate_gd_child_allocation_1(self):
     # figure to be replaced by a new item in salary_item
@@ -172,7 +183,12 @@ class GeneratorData(models.Model):
         # self.gd_base_monthly_salary + self.gd_public_transportation_fees +
         # self.gd_child_allocation_1 + self.gd_child_allocation_2
         # pass
-        
+
     def calculate_gd_avs_item(self):
-        return self.calculate_gd_total_monthly_wage * -salary_items.avs_item
-        pass 
+        if self.gd_total_monthly_wage is not None and self.gd_avs_item is not None:
+            return self.gd_total_monthly_wage * self.gd_avs_item
+
+    def save(self, *args, **kwargs):
+        self.gd_total_monthly_wage = self.calculate_gd_total_monthly_wage()
+        self.gd_avs_item = self.calculate_gd_avs_item()
+        super().save(*args, **kwargs)

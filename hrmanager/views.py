@@ -2,8 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from .models import Employees, salary_items, GeneratorData
 from django.views import View
-from django.urls import reverse_lazy
-from .forms import NewEmployeeForm, ModifyEmployeeForm, NewYearForm, ModifyYearForm
+from django.urls import reverse_lazy, reverse
+from .forms import NewEmployeeForm, ModifyEmployeeForm, NewYearForm, ModifyYearForm, GeneratorYearForm
+from django.http import HttpResponseRedirect
 
 
 class HomeView(View):
@@ -142,11 +143,27 @@ class ModifyYearView(generic.edit.UpdateView):
 
 class GeneratorYearView(View):
     template_name = 'generator_year.html'
+    form_class = GeneratorYearForm
 
     def get(self, request, *args, **kwargs):
-        years = set(salary_items.objects.values_list(
-            'validity_year', flat=True))
-        return render(request, self.template_name, {'years': years})
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            selected_year = form.cleaned_data['selected_year']
+            salary_item = get_object_or_404(
+                salary_items, validity_year=selected_year)
+            return HttpResponseRedirect(reverse('generator_month', args=[selected_year]))
+        else:
+            print("GeneratorYearForm is invalid!")
+            print(form.errors)
+            return render(request, self.template_name, {'form': form})
+    # def get(self, request, *args, **kwargs):
+    #    years = set(salary_items.objects.values_list(
+    #        'validity_year', flat=True))
+    #    return render(request, self.template_name, {'years': years})
 
 
 class GeneratorMonthView(View):
@@ -155,12 +172,22 @@ class GeneratorMonthView(View):
     def get(self, request, year, *args, **kwargs):
         months = ['January', 'February', 'March', 'April', 'May', 'June',
                   'July', 'August', 'September', 'October', 'November', 'December']
-        return render(request, self.template_name, {'year': year, 'months': months})
+        context = {'year': year, 'months': months, 'selected_year': year}
+        return render(request, self.template_name, context)
 
 
 class GeneratorMonthlyTableView(View):
+    model = GeneratorData
     template_name = 'generator_monthly_table.html'
 
     def get(self, request, year, month, *args, **kwargs):
-        context = {}
+        # generator_data, created = GeneratorData.objects.get_or_create(
+        #    gd_year=year, gd_month=month)
+        generator_data_instance = get_object_or_404(
+            GeneratorData, gd_year=year, gd_month=month)
+        salary_item = get_object_or_404(salary_items, validity_year=year)
+        generator_data_instance.gd_avs_item = -salary_item.avs_item
+        generator_data_instance.save()
+        # 'generator_data': generator_data,
+        context = {'generator_data_instance': generator_data_instance, }
         return render(request, self.template_name, context)
