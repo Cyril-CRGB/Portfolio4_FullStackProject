@@ -68,11 +68,24 @@ class Employees(models.Model):
     employees_bankaccount = models.CharField(max_length=21)
     # basic salary information
     start_date = models.DateField()
-    end_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True, default=None)
     employees_holiday_rights = models.IntegerField()
     base_monthly_salary = models.IntegerField()
-    employees_phone_allocation = models.PositiveSmallIntegerField()
-    employees_representation_allocation = models.PositiveSmallIntegerField()
+    LPP_deduction_employee = models.IntegerField(
+        blank=True, null=True, default=0)
+    LPP_deduction_employer = models.IntegerField(
+        blank=True, null=True, default=0)
+    employees_phone_allocation = models.PositiveSmallIntegerField(
+        blank=True, null=True, default=0)
+    employees_representation_allocation = models.PositiveSmallIntegerField(
+        blank=True, null=True, default=0)
+    # temporary variables for manual entries --> should be in Employees model
+    expense_report = models.DecimalField(
+        max_digits=5, decimal_places=2, default=0, blank=True, null=True)
+    public_transportation_fees = models.DecimalField(
+        max_digits=6, decimal_places=2, default=0, blank=True, null=True)
+    extraordinary_salary = models.IntegerField(
+        blank=True, null=True, default=0)
     # basic calculated information
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
@@ -102,10 +115,10 @@ class salary_items(models.Model):
     alfa_item = models.DecimalField(max_digits=4, decimal_places=2)
     apgmal_item = models.DecimalField(max_digits=4, decimal_places=2)
     alpetiteenfance_item = models.DecimalField(max_digits=4, decimal_places=2)
-    # temporary variables for manual entries --> should be in Employees model
-    expense_report = models.DecimalField(max_digits=5, decimal_places=2)
-    public_transportation_fees = models.DecimalField(
-        max_digits=6, decimal_places=2)
+    child_alloc_1_item = models.DecimalField(
+        max_digits=5, decimal_places=2, default=0, blank=True, null=True)
+    child_alloc_2_item = models.DecimalField(
+        max_digits=5, decimal_places=2, default=0, blank=True, null=True)
 
     class Meta:
         ordering = ['validity_year']
@@ -120,7 +133,14 @@ class GeneratorData(models.Model):
     gd_title = models.CharField(max_length=255)
     gd_first_name = models.CharField(max_length=255)
     gd_last_name = models.CharField(max_length=255)
+    gd_start_date = models.DateField(blank=True, null=True)
+    gd_end_date = models.DateField(blank=True, null=True, default=None)
+    gd_first_day_of_the_month_date = models.DateField(blank=True, null=True)
+    gd_last_day_of_the_month_date = models.DateField(blank=True, null=True)
+    gd_worked_days = models.IntegerField(default=0)
     gd_base_monthly_salary = models.IntegerField(default=0)
+    gd_calculated_monthly_salary = models.IntegerField(default=0)
+
     gd_child_allocation_1 = models.IntegerField(default=0)
     gd_child_allocation_2 = models.IntegerField(default=0)
     gd_total_monthly_wage = models.IntegerField(default=0)

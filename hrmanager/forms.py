@@ -10,7 +10,9 @@ class NewEmployeeForm(forms.ModelForm):
                   'birth_date', 'employees_age', 'email_adress', 'phone_number', 'emergency_contact', 'emergency_phonenumber',
                   'employee_picture', 'social_security_number', 'employees_bankaccount', 'start_date', 'end_date',
                   'employees_holiday_rights', 'base_monthly_salary', 'employees_phone_allocation',
-                  'employees_representation_allocation', 'seniority', 'employees_status']
+                  'employees_representation_allocation', 'seniority', 'employees_status', 'expense_report',
+                  'public_transportation_fees', 'LPP_deduction_employee', 'LPP_deduction_employer',
+                  'extraordinary_salary']
 
 
 class ModifyEmployeeForm(forms.ModelForm):
@@ -21,7 +23,9 @@ class ModifyEmployeeForm(forms.ModelForm):
                   'birth_date', 'employees_age', 'email_adress', 'phone_number', 'emergency_contact', 'emergency_phonenumber',
                   'employee_picture', 'social_security_number', 'employees_bankaccount', 'start_date', 'end_date',
                   'employees_holiday_rights', 'base_monthly_salary', 'employees_phone_allocation',
-                  'employees_representation_allocation', 'seniority', 'employees_status']
+                  'employees_representation_allocation', 'seniority', 'employees_status', 'expense_report',
+                  'public_transportation_fees', 'LPP_deduction_employee', 'LPP_deduction_employer',
+                  'extraordinary_salary']
 
 
 class NewYearForm(forms.ModelForm):
@@ -30,7 +34,7 @@ class NewYearForm(forms.ModelForm):
         fields = ['validity_year', 'avs_item', 'ac_item', 'ac2_item', 'laap_item',
                   'laanp_item', 'laac_item', 'laace_item',
                   'amat_item', 'alfa_item', 'apgmal_item', 'alpetiteenfance_item',
-                  'expense_report', 'public_transportation_fees']
+                  'child_alloc_1_item', 'child_alloc_2_item']
 
 
 class ModifyYearForm(forms.ModelForm):
@@ -39,9 +43,4 @@ class ModifyYearForm(forms.ModelForm):
         fields = ['validity_year', 'avs_item', 'ac_item', 'ac2_item', 'laap_item',
                   'laanp_item', 'laac_item', 'laace_item',
                   'amat_item', 'alfa_item', 'apgmal_item', 'alpetiteenfance_item',
-                  'expense_report', 'public_transportation_fees']
-
-
-class GeneratorYearForm(forms.Form):
-    selected_year = forms.ModelChoiceField(queryset=salary_items.objects.all(
-    ), empty_label=None, label='Select Year', widget=forms.Select(attrs={'class': 'form-control'}))
+                  'child_alloc_1_item', 'child_alloc_2_item']

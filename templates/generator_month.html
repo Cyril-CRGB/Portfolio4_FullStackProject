@@ -1,8 +1,15 @@
 {% extends "base.html" %} {% block content %}
-<h2>Select Month for {{ year }}:</h2>
-<ul>
-  {% for month in months %}
-  <li><a href="{% url 'generator_monthly_table' year month %}">{{ month }}</a></li>
-  {% endfor %}
-</ul>
+
+<div class="container text-center">
+  <h2>Select a Month for {{ year }}:</h2>
+  <ul>
+    {% for month in months %}
+    <li>
+      <a href="{% url 'generator_employees' year=year month=forloop.counter %}"
+        >{{ month }}</a
+      >
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}

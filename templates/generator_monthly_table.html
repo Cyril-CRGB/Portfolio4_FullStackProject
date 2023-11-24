@@ -1,52 +1,71 @@
 {% extends "base.html" %} {% block content %}
 
-<div class="container-fluid">
-  <div class="container-fluid">
-    <h2>
-      Selected salary periode:
-      <span>{{generator_data_instance.gd_month}}</span>
-      <span>{{generator_data_instance.gd_year}}</span>
-    </h2>
-  </div>
-  <div class="container-fluid">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Year</th>
-          <th scope="col">Month</th>
-          <th scope="col">Title</th>
-          <th scope="col">First name</th>
-          <th scope="col">Last name</th>
-          <th scope="col">Base monthly salary</th>
-          <th scope="col">Total monthly wage</th>
-          <th scope="col">AVS Item</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in data %}
-        <tr>
-          <th scope="row">{{ item.gd_title }}</th>
-          <td>{{ item.gd_first_name }}</td>
-          <td>{{ item.gd_last_name }}</td>
-          <td>{{ item.gd_base_monthly_salary }}</td>
-          <td>{{ item.calculate_gd_total_monthly_wage }}</td>
-          <td>{{ item.calculate_gd_avs_item }}</td>
-        </tr>
-        {% endfor %}
-        <!--<tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>-->
-      </tbody>
-    </table>
-  </div>
+<div class="container text-center">
+  <h2>{{ month }}.{{ year }}</h2>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>SSN</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Worked days</th>
+        <th>Base</th>
+        <th>Salary for this month</th>
+        <th>Chidren alloc. below 18</th>
+        <th>Chidren alloc. below 25</th>
+        <th>Non financial wage</th>
+        <th>Bonus</th>
+        <th>Base deduction</th>
+        <th>Base taxes</th>
+        <th>AVS/AI</th>
+        <th>AC</th>
+        <th>AC2</th>
+        <th>LAANP</th>
+        <th>AMAT</th>
+        <th>APGMAL</th>
+        <th>LPP</th>
+        <th>TOTAL</th>
+        <th>Phone</th>
+        <th>Representation</th>
+        <th>Expenses</th>
+        <th>Correction non financial wage</th>
+        <th>PAID</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in employees %}
+      <tr>
+        <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+        <td>{{ employee.social_security_number }}</td>
+        <td>{{ employee.start_date }}</td>
+        <td>{{ employee.end_date }}</td>
+        <td>{{ employee.worked_days }}</td>
+        <td>{{ employee.base_monthly_salary }}</td>
+        <td>{{ employee.calculated_monthly_salary }}</td>
+        <td>{{ employee.calculated_child_allocation_1 }}</td>
+        <td>{{ employee.calculated_child_allocation_2 }}</td>
+        <td>{{ employee.public_transportation_fees }}</td>
+        <td>{{ employee.extraordinary_salary }}</td>
+        <td>{{ employee.salary_for_social_deduction }}</td>
+        <td>{{ employee.salary_for_taxes }}</td>
+        <td>{{ employee.calculated_avs_employee }}</td>
+        <td>{{ employee.calculated_ac_employee }}</td>
+        <td>{{ employee.calculated_ac2_employee }}</td>
+        <td>{{ employee.calculated_laanp_employee }}</td>
+        <td>{{ employee.calculated_amat_employee }}</td>
+        <td>{{ employee.calculated_apgmal_employee }}</td>
+        <td>{{ employee.LPP_deduction_employee }}</td>
+        <td>{{ employee.calculated_total_deduction_employee }}</td>
+        <td>{{ employee.employees_phone_allocation }}</td>
+        <td>{{ employee.employees_representation_allocation }}</td>
+        <td>{{ employee.expense_report }}</td>
+        <td>{{ employee.calculated_correction_non_financial_wage }}</td>
+        <td>{{ employee.calculated_paid_salary }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 {% endblock %}

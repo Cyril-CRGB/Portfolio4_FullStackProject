@@ -24,6 +24,9 @@ urlpatterns = [
     path('generator/', views.GeneratorYearView.as_view(), name='generator_year'),
     path('generator/<int:year>/',
          views.GeneratorMonthView.as_view(), name='generator_month'),
-    path('generator/<int:year>/<str:month>/',
+    path('generator/<int:year>/<int:month>/employees/',
+         views.GeneratorEmployeesView.as_view(), name='generator_employees'),
+    path('generator/<int:year>/<int:month>/monthly-table/',
          views.GeneratorMonthlyTableView.as_view(), name='generator_monthly_table'),
+
 ]
