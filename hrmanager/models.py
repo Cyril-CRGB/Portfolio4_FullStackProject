@@ -139,15 +139,17 @@ class GeneratorData(models.Model):
     gd_last_day_of_the_month_date = models.DateField(blank=True, null=True)
     gd_worked_days = models.IntegerField(default=0)
     gd_base_monthly_salary = models.IntegerField(default=0)
-    gd_calculated_monthly_salary = models.IntegerField(default=0)
+    gd_calculated_monthly_salary = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
 
     gd_child_allocation_1 = models.IntegerField(default=0)
     gd_child_allocation_2 = models.IntegerField(default=0)
-    gd_total_monthly_wage = models.IntegerField(default=0)
-    gd_total_monthly_wage_for_social_insurance = models.IntegerField(
-        default=0)
-    gd_total_monthly_wage_for_social_taxes = models.IntegerField(
-        default=0)
+    gd_total_monthly_wage = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    gd_total_monthly_wage_for_social_insurance = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    gd_total_monthly_wage_for_social_taxes = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
     gd_avs_item = models.DecimalField(
         max_digits=10, decimal_places=2, default=0)
     gd_ac_item = models.DecimalField(
@@ -181,34 +183,6 @@ class GeneratorData(models.Model):
         max_digits=10, decimal_places=2, default=0)
     gd_paid_salary = models.DecimalField(
         max_digits=10, decimal_places=2, default=0)
-
-    # def calculate_gd_child_allocation_1(self):
-    # figure to be replaced by a new item in salary_item
-    # Employees.children_for_allocations_type_1 * 311
-    # pass
-
-    # def calculate_gd_child_allocation_1(self):
-    # figure to be replaced by a new item in salary_item
-    # Employees.children_for_allocations_type_2 * 411
-    # pass
-
-    def calculate_gd_total_monthly_wage(self):
-        return self.gd_base_monthly_salary
-
-    # def calculate_gd_total_monthly_wage_for_social_insurance(self):
-        # self.gd_base_monthly_salary + self.gd_public_transportation_fees
-        # pass
-
-    # def calculate_gd_total_monthly_wage_for_social_taxes(self):
-        # self.gd_base_monthly_salary + self.gd_public_transportation_fees +
-        # self.gd_child_allocation_1 + self.gd_child_allocation_2
-        # pass
-
-    def calculate_gd_avs_item(self):
-        if self.gd_total_monthly_wage is not None and self.gd_avs_item is not None:
-            return self.gd_total_monthly_wage * self.gd_avs_item
-
-    def save(self, *args, **kwargs):
-        self.gd_total_monthly_wage = self.calculate_gd_total_monthly_wage()
-        self.gd_avs_item = self.calculate_gd_avs_item()
-        super().save(*args, **kwargs)
+    gd_monthly_table_saved = models.DateTimeField(auto_now_add=True)
+    gd_monthly_table_paid = models.DateTimeField(
+        blank=True, null=True, default=None)

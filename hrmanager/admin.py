@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Employees, salary_items
+from .models import Employees, salary_items, GeneratorData
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -28,3 +28,12 @@ class EmployeesAdmin(SummernoteModelAdmin):
 @admin.register(salary_items)
 class YearAdmin(SummernoteModelAdmin):
     search_fields = ['validity_year']
+
+
+@admin.register(GeneratorData)
+class DataAdmin(SummernoteModelAdmin):
+    search_fields = ['validity_year']
+    list_filter = ('gd_year', 'gd_month')
+    list_display = ('gd_year', 'gd_month',
+                    'gd_monthly_table_saved', 'gd_monthly_table_paid')
+    search_fields = ['last_name', 'first_name']
