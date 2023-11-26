@@ -1,10 +1,42 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %} 
 <div class="container-fluid">
-  <div class="container text-center">
-    <h2>{{ month }}.{{ year }}</h2>
+    <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0"
+        aria-valuemax="100">
+        <div class="progress-bar" style="width: 100%">100%</div>
+    </div>
+    <hr />
+    {% if existing_data %}
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var existingDataAlert = document.getElementById("existingDataAlert");
+        existingDataAlert.classList.add("show");
+    });
+    </script>
+    <div
+    id="existingDataAlert"
+    class="alert alert-danger alert-dismissible fade show"
+    role="alert"
+    >
+    <div>
+        Data already exists for the selected month and year! return to month
+        selection
+        <a href="{% url 'generator_month' year=year %}" class="alert-link"
+        >month selection</a
+        >
+
+    </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <!--<span aria-hidden="true">&times;</span>-->
+        </button>
+    </div>
+    {% endif %}
+    <div class="container-fluid text-center"><span>
+        <h2>{{ month }}.{{ year }}</h2><span><a href="{% url 'generator_save_monthly_table' year=year month=month%}"
+                class="btn btn-outline-primary">Save Monthly Data</a></span></div>
+  <div class="container-fluid">
     <div class="table-responsive container mt-5">
       <table
-        class="table table-striped align-middle table-sm caption-top text-center"
+        class="table table-striped align-middle text-center"
       >
         <thead>
           <tr>
@@ -69,16 +101,6 @@
           {% endfor %}
         </tbody>
       </table>
-    </div>
-  </div>
-  <div class="container text-center">
-    <div class="mb-3">
-      <a
-        href="{% url 'generator_save_monthly_table' year=year month=month%}"
-        class="btn btn-outline-primary"
-      >
-        Save Monthly Data
-      </a>
     </div>
   </div>
 </div>

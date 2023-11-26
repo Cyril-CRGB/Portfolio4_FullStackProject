@@ -1,11 +1,24 @@
 {% extends "base.html" %} {% block content %}
-<div class="container text-center">
-  <h2>Select valid Year:</h2>
-  <ul>
-    {% for year in validity_years %}
-    <!--link to next page-->
-    <li><a href="{% url 'generator_month' year=year %}">{{ year }}</a></li>
-    {% endfor %}
-  </ul>
+<div class="container-fluid">
+  <div
+    class="progress"
+    role="progressbar"
+    aria-label="Example with label"
+    aria-valuenow="25"
+    aria-valuemin="0"
+    aria-valuemax="100"
+  >
+    <div class="progress-bar" style="width: 25%">25%</div>
+  </div>
+  <hr />
+  <div class="container text-center">
+    <h2>Select valid Year:</h2>
+    <ul>
+      {% for year in validity_years %}
+      <!--link to next page-->
+      <li><a href="{% url 'generator_month' year=year %}">{{ year }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
 </div>
 {% endblock %}
