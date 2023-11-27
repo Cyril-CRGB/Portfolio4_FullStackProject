@@ -168,7 +168,14 @@ class GeneratorMonthView(View):
             'September', 'October', 'November', 'December'
         ]
 
-        context = {'year': year, 'months': months}
+        generator_check_data_exist = {
+            month_num: GeneratorData.objects.filter(
+                gd_year=year, gd_month=month_num).exists()
+            for month_num, month in enumerate(range(1, 13), start=1)
+        }
+
+        context = {'year': year, 'months': months,
+                   'generator_check_data_exist': generator_check_data_exist, }
         return render(request, self.template_name, context)
 
 
@@ -439,3 +446,15 @@ class GeneratorSaveMonthlyTableView(View):
                 )
 
             return redirect('generator_month', year=year)
+
+
+class GeneratorDeleteMonthlyDataView(View):
+    template_name = 'generator_monthly_table.html'
+
+    def post(self, request, year, month, *args, **kwargs):
+        GeneratorData.objects.filter(gd_year=year, gd_month=month).delete()
+        message = "Data has been deleted successfully."
+        context = {'year': year, 'month': month,
+                   'employees': [], 'delete_message': message}
+        return render(request, self.template_name, context)
+        # return redirect('generator_month', year=year)

@@ -30,5 +30,7 @@ urlpatterns = [
          views.GeneratorMonthlyTableView.as_view(), name='generator_monthly_table'),
     path('generator/<int:year>/<str:month>/monthly-table/save/',
          views.GeneratorSaveMonthlyTableView.as_view(), name='generator_save_monthly_table'),
+    path('generator/<int:year>/<str:month>/monthly-table/delete/',
+         views.GeneratorDeleteMonthlyDataView.as_view(), name='generator_delete_monthly_data'),
 
 ]
