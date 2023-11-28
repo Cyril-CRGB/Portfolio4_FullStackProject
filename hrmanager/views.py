@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views import generic
+from django.views import generic, View
 from .models import Employees, salary_items, GeneratorData
-from django.views import View
 from django.urls import reverse_lazy, reverse
 from .forms import NewEmployeeForm, ModifyEmployeeForm, NewYearForm, ModifyYearForm
 from django.http import HttpResponseRedirect, HttpResponse
@@ -9,6 +8,8 @@ from calendar import month_name, monthrange
 from datetime import datetime, timedelta
 from decimal import Decimal, ROUND_HALF_UP
 from django.template.loader import render_to_string
+from django.contrib import messages
+from django.utils import timezone
 
 
 class HomeView(View):
@@ -426,7 +427,7 @@ class GeneratorSaveMonthlyTableView(View):
                     gd_last_day_of_the_month_date=last_day,
                     gd_worked_days=worked_days,
                     gd_base_monthly_salary=employee['base_monthly_salary'],
-                    gd_calculated_monthly_salary=calculated_monthly_salary,
+                    gd_monthly_salary=calculated_monthly_salary,
                     gd_child_allocation_1=children_allowance_type_1,
                     gd_child_allocation_2=children_allowance_type_2,
                     gd_total_monthly_wage=salary_for_social_deduction,  # Watch out
@@ -443,6 +444,10 @@ class GeneratorSaveMonthlyTableView(View):
                     gd_expense_report=expense_report,
                     gd_public_transportation_fees=public_transportation_fees,
                     gd_paid_salary=calculated_paid_salary,
+                    gd_extraordinary_salary=extraordinary_salary,
+                    gd_LPP_deduction_employee=LPP_deduction_employee,
+                    gd_total_deduction_employee=calculated_total_deduction_employee,
+                    gd_correction_non_financial_wage=calculated_correction_non_financial_wage
                 )
 
             return redirect('generator_month', year=year)
@@ -458,3 +463,46 @@ class GeneratorDeleteMonthlyDataView(View):
                    'employees': [], 'delete_message': message}
         return render(request, self.template_name, context)
         # return redirect('generator_month.html', year=year)
+
+
+class GeneratorSeeView(View):
+    template_name = 'generator_see.html'
+
+    def get(self, request, year, month, *args, **kwargs):
+
+        generator_data = GeneratorData.objects.filter(
+            gd_year=year, gd_month=month).values(
+            'gd_year', 'gd_month', 'gd_title', 'gd_first_name', 'gd_last_name', 'gd_start_date', 'gd_end_date',
+            'gd_first_day_of_the_month_date', 'gd_last_day_of_the_month_date', 'gd_worked_days',
+            'gd_base_monthly_salary', 'gd_monthly_salary', 'gd_child_allocation_1', 'gd_child_allocation_2',
+            'gd_total_monthly_wage', 'gd_total_monthly_wage_for_social_insurance', 'gd_total_monthly_wage_for_social_taxes',
+            'gd_avs_item', 'gd_ac_item', 'gd_ac2_item', 'gd_laap_item', 'gd_laanp_item', 'gd_laac_item',
+            'gd_laace_item', 'gd_amat_item', 'gd_alfa_item', 'gd_apgmal_item', 'gd_alpetiteenfance_item',
+            'gd_total_social_deduction', 'gd_employees_phone_allocation', 'gd_employees_representation_allocation',
+            'gd_expense_report', 'gd_public_transportation_fees', 'gd_paid_salary', 'gd_monthly_table_saved',
+            'gd_monthly_table_paid', 'gd_extraordinary_salary', 'gd_LPP_deduction_employee', 'gd_total_deduction_employee',
+            'gd_correction_non_financial_wage')
+
+        context = {'generator_data': generator_data}
+        return render(request, self.template_name, context)
+
+
+class GeneratorPayView(View):
+    def post(self, request, year, month, *args, **kwargs):
+        generator_data_list = GeneratorData.objects.filter(
+            gd_year=year, gd_month=month)
+
+        if generator_data_list.exists():
+            for generator_data in generator_data_list:
+                if not generator_data.gd_monthly_table_paid:
+                    generator_data.gd_monthly_table_paid = timezone.now()
+                    generator_data.save()
+                    messages.success(request, 'Payment successful.')
+                else:
+                    messages.warning(
+                        request, 'Payment has already been made for this record.')
+        else:
+            messages.error(
+                request, 'No records found for the specified year and month.')
+
+        return redirect('generator_month', year=year)

@@ -139,7 +139,7 @@ class GeneratorData(models.Model):
     gd_last_day_of_the_month_date = models.DateField(blank=True, null=True)
     gd_worked_days = models.IntegerField(default=0)
     gd_base_monthly_salary = models.IntegerField(default=0)
-    gd_calculated_monthly_salary = models.DecimalField(
+    gd_monthly_salary = models.DecimalField(
         max_digits=10, decimal_places=2, default=0)
 
     gd_child_allocation_1 = models.IntegerField(default=0)
@@ -183,6 +183,15 @@ class GeneratorData(models.Model):
         max_digits=10, decimal_places=2, default=0)
     gd_paid_salary = models.DecimalField(
         max_digits=10, decimal_places=2, default=0)
-    gd_monthly_table_saved = models.DateTimeField(auto_now_add=True)
+    gd_monthly_table_saved = models.DateTimeField(
+        auto_now_add=True)
     gd_monthly_table_paid = models.DateTimeField(
-        blank=True, null=True, default=None)
+        blank=True, null=True, default=None, editable=False)
+    gd_extraordinary_salary = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    gd_LPP_deduction_employee = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    gd_total_deduction_employee = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    gd_correction_non_financial_wage = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)

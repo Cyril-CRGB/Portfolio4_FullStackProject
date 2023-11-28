@@ -49,14 +49,18 @@
             >
               {% csrf_token %}
               <button type="submit" class="btn btn-outline-primary">
-                Calculate
+                Save
               </button>
             </form> </span
           ><span>
-            <form method="post" action="#" style="display: inline">
+            <form
+              method="get"
+              action="{% url 'generator_see' year=year month=forloop.counter %}"
+              style="display: inline"
+            >
               {% csrf_token %}
               <button type="submit" class="btn btn-outline-secondary">
-                View
+                See
               </button>
             </form></span
           ><span>
@@ -72,7 +76,12 @@
             </form></span
           >
           <span
-            ><form method="post" action="#" style="display: inline">
+            ><form
+              method="post"
+              action="{% url 'generator_pay' year=year month=forloop.counter %}"
+              style="display: inline"
+              onsubmit="return confirm('Are you sure you want to make the payment?')"
+            >
               {% csrf_token %}
               <button type="submit" class="btn btn-outline-success">Pay</button>
             </form></span
