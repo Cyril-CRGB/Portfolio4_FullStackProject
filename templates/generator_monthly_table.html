@@ -41,7 +41,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <span><h1>{{ month }}.{{ year }}</h1></span> <!-- class="mx-auto mb-0"-->
             <span><a href="{% url 'generator_save_monthly_table' year=year month=month%}"
-                class="btn btn-outline-warning">Save Monthly Data</a>
+                class="btn btn-outline-primary">Save Monthly Data</a>
             <form method="post" action="{% url 'generator_delete_monthly_data' year=year month=month %}" style="display:inline;">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-outline-danger">Delete Monthly Data</button>

@@ -457,4 +457,4 @@ class GeneratorDeleteMonthlyDataView(View):
         context = {'year': year, 'month': month,
                    'employees': [], 'delete_message': message}
         return render(request, self.template_name, context)
-        # return redirect('generator_month', year=year)
+        # return redirect('generator_month.html', year=year)

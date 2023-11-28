@@ -20,7 +20,7 @@
       <div class="col list-group">
         <a href="#" class="list-group-item list-group-item-action"
           >{{ month_num }} {% if has_data %}
-          <span class="badge rounded-pill bg-warning">Saved</span>
+          <span class="badge rounded-pill bg-primary">Saved</span>
           {% else %}
           <span class="badge rounded-pill bg-secondary">Not Saved</span>
           {% endif %}
@@ -35,20 +35,47 @@
 
       <div class="col list-group">
         <div class="btn-group" role="group" aria-label="Basic example">
-          <span
+          <!--<span
             ><a
               href="{% url 'generator_employees' year=year month=forloop.counter %}"
               class="list-group-item list-group-item-action"
               >Calculate</a
             ></span
-          ><span
-            ><a href="#" class="list-group-item list-group-item-action"
-              >View</a
-            ></span
-          ><span
-            ><a href="#" class="list-group-item list-group-item-action"
-              >Delete</a
-            ></span
+          >--><span>
+            <form
+              method="get"
+              action="{% url 'generator_employees' year=year month=forloop.counter %}"
+              style="display: inline"
+            >
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline-primary">
+                Calculate
+              </button>
+            </form> </span
+          ><span>
+            <form method="post" action="#" style="display: inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline-secondary">
+                View
+              </button>
+            </form></span
+          ><span>
+            <form
+              method="post"
+              action="{% url 'generator_delete_monthly_data' year=year month=forloop.counter %}"
+              style="display: inline"
+            >
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline-danger">
+                Delete
+              </button>
+            </form></span
+          >
+          <span
+            ><form method="post" action="#" style="display: inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline-success">Pay</button>
+            </form></span
           >
         </div>
       </div>
