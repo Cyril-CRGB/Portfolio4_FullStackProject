@@ -14,40 +14,46 @@
 
   <div class="container text-center">
     <h2>Select a Month for {{ year }}:</h2>
+
+    {% for month_num, has_data in generator_check_data_exist.items %}
     <div class="row align-items-start">
-      <div class="col"></div>
       <div class="col list-group">
-        {% for month_num, has_data in generator_check_data_exist.items %}
-        <a
-          href="{% url 'generator_employees' year=year month=month_num %}"
-          class="list-group-item list-group-item-action"
-        >
-          {{ month_num }} {% if has_data %}
-          <span class="badge bg-warning">Saved</span>
+        <a href="#" class="list-group-item list-group-item-action"
+          >{{ month_num }} {% if has_data %}
+          <span class="badge rounded-pill bg-warning">Saved</span>
+          {% else %}
+          <span class="badge rounded-pill bg-secondary">Not Saved</span>
           {% endif %}
         </a>
-
-        {% endfor %}
-
-        <!--<ul class="list-group">-->
-        <!--{% for month in months %}-->
-        <!--<li class="list-group-item">-->
-        <!--<a
-          href="{% url 'generator_employees' year=year month=forloop.counter %}"
-          class="list-group-item list-group-item-action"
-        >
-          <span>{{ month }}</span>
-          {% if generator_check_data_exist %}<span
-            class="badge bg-success"
-            >{{ generator_check_data_exist }}</span
-          >{% endif %}
-        </a>-->
-        <!--</li>-->
-        <!--{% endfor %}-->
-        <!--</ul>-->
       </div>
-      <div class="col"></div>
+
+      <div class="col list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+          {{ months|slice:month_num|last }}
+        </a>
+      </div>
+
+      <div class="col list-group">
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <span
+            ><a
+              href="{% url 'generator_employees' year=year month=forloop.counter %}"
+              class="list-group-item list-group-item-action"
+              >Calculate</a
+            ></span
+          ><span
+            ><a href="#" class="list-group-item list-group-item-action"
+              >View</a
+            ></span
+          ><span
+            ><a href="#" class="list-group-item list-group-item-action"
+              >Delete</a
+            ></span
+          >
+        </div>
+      </div>
     </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
