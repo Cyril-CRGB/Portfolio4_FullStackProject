@@ -13,12 +13,12 @@
   <hr />
 
   <div class="container text-center">
-    <!--{% for message in messages %}-->
+    {% for message in messages %}
     <div
       class="alert alert-{{ message.tags }} alert-dismissible fade show"
       role="alert"
     >
-      {{ message}}
+      {{ message }}
       <button
         type="button"
         class="btn-close"
@@ -26,60 +26,91 @@
         aria-label="Close"
       ></button>
     </div>
-    <!--{% endfor %}-->
+    {% endfor %}
     <h2>Months for {{ year }}:</h2>
-
-    {% for month_num, has_data in generator_check_data_exist.items %}
+    {% for month_num, data_dict in generator_check_combined.items %}
     <div class="row align-items-start">
-      <div class="col list-group"></div>
+      <div class="col list-group">
+        {{ data_dict.has_data }} / {{data_dict.is_paid}} / {{month_num}} /
+        {{generator_check_combined|length }} /
+      </div>
       <div class="col list-group">
         <a href="#" class="list-group-item d-flex justify-content-between">
-            {% if has_data %}
-          <span class="position-absolute top-0 start-100 translate-middle p-2 bg-primary border border-dark rounded-circle"></span>
+          {% if data_dict.is_paid %}
+          <span
+            class="position-absolute top-0 start-0 translate-middle p-2 bg-success border border-dark rounded-circle"
+          ></span>
+          {% elif data_dict.has_data %}
+          <span
+            class="position-absolute top-0 start-0 translate-middle p-2 bg-primary border border-dark rounded-circle"
+          ></span>
           {% else %}
-          <span class="position-absolute top-0 start-100 translate-middle p-2 bg-light border border-dark rounded-circle"></span>
+          <span
+            class="position-absolute top-0 start-0 translate-middle p-2 bg-light border border-dark rounded-circle"
+          ></span>
           {% endif %} {{ months|slice:month_num|last }}
-        
-        <div class="btn-group" role="group" aria-label="Basic example">
+
+          <div class="btn-group" role="group" aria-label="Basic example">
             <span>
-                <form method="get" action="{% url 'generator_employees' year=year month=forloop.counter %}" style="display: inline">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-primary btn-sm">
-                        Save
-                    </button>
-                </form>
-            </span><span>
-                <form method="get" action="{% url 'generator_see' year=year month=forloop.counter %}" style="display: inline">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-secondary btn-sm">
-                        See
-                    </button>
-                </form>
-            </span><span>
-                <form method="post" action="{% url 'generator_delete_monthly_data' year=year month=forloop.counter %}"
-                    style="display: inline">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-danger btn-sm">
-                        Delete
-                    </button>
-                </form>
+              {% if data_dict.has_data %} {% else %}
+              <form
+                method="get"
+                action="{% url 'generator_employees' year=year month=forloop.counter %}"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-primary btn-sm">
+                  Save
+                </button>
+              </form>
+              {% endif %} </span
+            ><span>
+              {% if data_dict.is_paid %} {% else %}
+              <form
+                method="post"
+                action="{% url 'generator_delete_monthly_data' year=year month=forloop.counter %}"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger btn-sm">
+                  Delete
+                </button>
+              </form>
+              {% endif %}
             </span>
             <span>
-                <form method="post" action="{% url 'generator_pay' year=year month=forloop.counter %}" style="display: inline"
-                    onsubmit="return confirm('Are you sure you want to make the payment?')">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-success btn-sm">
-                        Pay
-                    </button>
-                </form>
+              {% if data_dict.is_paid %} {% else %}
+              <form
+                method="post"
+                action="{% url 'generator_pay' year=year month=forloop.counter %}"
+                style="display: inline"
+                onsubmit="return confirm('Are you sure you want to make the payment?')"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-success btn-sm">
+                  Pay
+                </button>
+              </form>
+              {% endif %} </span
+            ><span>
+              <form
+                method="get"
+                action="{% url 'generator_see' year=year month=forloop.counter %}"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-secondary btn-sm">
+                  See
+                </button>
+              </form>
             </span>
-        </div>
+          </div>
         </a>
       </div>
       <div class="col list-group"></div>
-      </div>
-    {% endfor %}
     </div>
+    {% endfor %}
   </div>
 </div>
+
 {% endblock %}

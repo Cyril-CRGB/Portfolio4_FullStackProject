@@ -175,8 +175,22 @@ class GeneratorMonthView(View):
             for month_num, month in enumerate(range(1, 13), start=1)
         }
 
+        generator_check_is_paid = {
+            month_num: GeneratorData.objects.filter(
+                gd_year=year, gd_month=month_num, gd_monthly_table_paid__isnull=False).exists()
+            for month_num, month in enumerate(range(1, 13), start=1)
+        }
+
+        generator_check_combined = {
+            month_num: {
+                'has_data': generator_check_data_exist[month_num],
+                'is_paid': generator_check_is_paid[month_num]
+            }
+            for month_num, month in enumerate(range(1, 13), start=1)
+        }
+
         context = {'year': year, 'months': months,
-                   'generator_check_data_exist': generator_check_data_exist, }
+                   'generator_check_combined': generator_check_combined}
         return render(request, self.template_name, context)
 
 
@@ -454,15 +468,12 @@ class GeneratorSaveMonthlyTableView(View):
 
 
 class GeneratorDeleteMonthlyDataView(View):
-    template_name = 'generator_monthly_table.html'
 
     def post(self, request, year, month, *args, **kwargs):
         GeneratorData.objects.filter(gd_year=year, gd_month=month).delete()
         message = "Data has been deleted successfully."
-        context = {'year': year, 'month': month,
-                   'employees': [], 'delete_message': message}
-        return render(request, self.template_name, context)
-        # return redirect('generator_month.html', year=year)
+        messages.success(request, message)
+        return redirect('generator_month', year=year)
 
 
 class GeneratorSeeView(View):
@@ -486,28 +497,6 @@ class GeneratorSeeView(View):
         context = {'generator_data': generator_data}
         return render(request, self.template_name, context)
 
-
-# class GeneratorPayView(View):
-#     def post(self, request, year, month, *args, **kwargs):
-#         generator_data_list = GeneratorData.objects.filter(
-#             gd_year=year, gd_month=month)
-
-#         if generator_data_list.exists():
-#             for generator_data in generator_data_list:
-#                 if not generator_data.gd_monthly_table_paid:
-#                     generator_data.gd_monthly_table_paid = timezone.now()
-#                     generator_data.save()
-#                     messages.success(request, 'Payment successful.')
-
-#                 else:
-#                     messages.warning(
-#                         request, 'Payment has already been made for this record.')
-
-#         else:
-#             messages.error(
-#                 request, 'No records found for the specified year and month.')
-
-#         return redirect('generator_month', year=year)
 
 class GeneratorPayView(View):
     def post(self, request, year, month, *args, **kwargs):
