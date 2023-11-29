@@ -487,20 +487,42 @@ class GeneratorSeeView(View):
         return render(request, self.template_name, context)
 
 
+# class GeneratorPayView(View):
+#     def post(self, request, year, month, *args, **kwargs):
+#         generator_data_list = GeneratorData.objects.filter(
+#             gd_year=year, gd_month=month)
+
+#         if generator_data_list.exists():
+#             for generator_data in generator_data_list:
+#                 if not generator_data.gd_monthly_table_paid:
+#                     generator_data.gd_monthly_table_paid = timezone.now()
+#                     generator_data.save()
+#                     messages.success(request, 'Payment successful.')
+
+#                 else:
+#                     messages.warning(
+#                         request, 'Payment has already been made for this record.')
+
+#         else:
+#             messages.error(
+#                 request, 'No records found for the specified year and month.')
+
+#         return redirect('generator_month', year=year)
+
 class GeneratorPayView(View):
     def post(self, request, year, month, *args, **kwargs):
         generator_data_list = GeneratorData.objects.filter(
             gd_year=year, gd_month=month)
 
         if generator_data_list.exists():
-            for generator_data in generator_data_list:
-                if not generator_data.gd_monthly_table_paid:
+            if not any(generator_data.gd_monthly_table_paid for generator_data in generator_data_list):
+                for generator_data in generator_data_list:
                     generator_data.gd_monthly_table_paid = timezone.now()
                     generator_data.save()
-                    messages.success(request, 'Payment successful.')
-                else:
-                    messages.warning(
-                        request, 'Payment has already been made for this record.')
+                messages.success(request, 'Payment successful.')
+            else:
+                messages.warning(
+                    request, 'Payment has already been made for this record.')
         else:
             messages.error(
                 request, 'No records found for the specified year and month.')

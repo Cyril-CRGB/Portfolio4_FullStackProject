@@ -13,83 +13,73 @@
   <hr />
 
   <div class="container text-center">
-    <h2>Select a Month for {{ year }}:</h2>
+    <!--{% for message in messages %}-->
+    <div
+      class="alert alert-{{ message.tags }} alert-dismissible fade show"
+      role="alert"
+    >
+      {{ message}}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    <!--{% endfor %}-->
+    <h2>Months for {{ year }}:</h2>
 
     {% for month_num, has_data in generator_check_data_exist.items %}
     <div class="row align-items-start">
+      <div class="col list-group"></div>
       <div class="col list-group">
-        <a href="#" class="list-group-item list-group-item-action"
-          >{{ month_num }} {% if has_data %}
-          <span class="badge rounded-pill bg-primary">Saved</span>
+        <a href="#" class="list-group-item d-flex justify-content-between">
+            {% if has_data %}
+          <span class="position-absolute top-0 start-100 translate-middle p-2 bg-primary border border-dark rounded-circle"></span>
           {% else %}
-          <span class="badge rounded-pill bg-secondary">Not Saved</span>
-          {% endif %}
-        </a>
-      </div>
-
-      <div class="col list-group">
-        <a href="#" class="list-group-item list-group-item-action">
-          {{ months|slice:month_num|last }}
-        </a>
-      </div>
-
-      <div class="col list-group">
+          <span class="position-absolute top-0 start-100 translate-middle p-2 bg-light border border-dark rounded-circle"></span>
+          {% endif %} {{ months|slice:month_num|last }}
+        
         <div class="btn-group" role="group" aria-label="Basic example">
-          <!--<span
-            ><a
-              href="{% url 'generator_employees' year=year month=forloop.counter %}"
-              class="list-group-item list-group-item-action"
-              >Calculate</a
-            ></span
-          >--><span>
-            <form
-              method="get"
-              action="{% url 'generator_employees' year=year month=forloop.counter %}"
-              style="display: inline"
-            >
-              {% csrf_token %}
-              <button type="submit" class="btn btn-outline-primary">
-                Save
-              </button>
-            </form> </span
-          ><span>
-            <form
-              method="get"
-              action="{% url 'generator_see' year=year month=forloop.counter %}"
-              style="display: inline"
-            >
-              {% csrf_token %}
-              <button type="submit" class="btn btn-outline-secondary">
-                See
-              </button>
-            </form></span
-          ><span>
-            <form
-              method="post"
-              action="{% url 'generator_delete_monthly_data' year=year month=forloop.counter %}"
-              style="display: inline"
-            >
-              {% csrf_token %}
-              <button type="submit" class="btn btn-outline-danger">
-                Delete
-              </button>
-            </form></span
-          >
-          <span
-            ><form
-              method="post"
-              action="{% url 'generator_pay' year=year month=forloop.counter %}"
-              style="display: inline"
-              onsubmit="return confirm('Are you sure you want to make the payment?')"
-            >
-              {% csrf_token %}
-              <button type="submit" class="btn btn-outline-success">Pay</button>
-            </form></span
-          >
+            <span>
+                <form method="get" action="{% url 'generator_employees' year=year month=forloop.counter %}" style="display: inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary btn-sm">
+                        Save
+                    </button>
+                </form>
+            </span><span>
+                <form method="get" action="{% url 'generator_see' year=year month=forloop.counter %}" style="display: inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary btn-sm">
+                        See
+                    </button>
+                </form>
+            </span><span>
+                <form method="post" action="{% url 'generator_delete_monthly_data' year=year month=forloop.counter %}"
+                    style="display: inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                        Delete
+                    </button>
+                </form>
+            </span>
+            <span>
+                <form method="post" action="{% url 'generator_pay' year=year month=forloop.counter %}" style="display: inline"
+                    onsubmit="return confirm('Are you sure you want to make the payment?')">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-success btn-sm">
+                        Pay
+                    </button>
+                </form>
+            </span>
         </div>
+        </a>
       </div>
-    </div>
+      <div class="col list-group"></div>
+      </div>
     {% endfor %}
+    </div>
   </div>
 </div>
 {% endblock %}
