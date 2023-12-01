@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic, View
 from .models import Employees, salary_items, GeneratorData
 from django.urls import reverse_lazy, reverse
-from .forms import NewEmployeeForm, ModifyEmployeeForm, NewYearForm, ModifyYearForm
+from .forms import NewEmployeeForm, ModifyEmployeeForm, NewYearForm, ModifyYearForm, OverviewForm
 from django.http import HttpResponseRedirect, HttpResponse
 from calendar import month_name, monthrange
 from datetime import datetime, timedelta
@@ -531,18 +531,89 @@ class GeneratorPayView(View):
 
 class OverviewYearView(View):
     template_name = 'overview.html'
+    # invisible_table_template = 'overview_invisible_table.html'
 
     def get(self, request, *args, **kwargs):
+        
         # Retrieve all unique valides years from the salary_items model
-        validity_years = salary_items.objects.values_list(
-            'validity_year', flat=True).distinct()
+        validity_years = GeneratorData.objects.values_list(
+            'gd_year', flat=True).distinct()
         # Retrieve all unique valides months from the GeneratorData model
         validity_months = GeneratorData.objects.values_list(
             'gd_month', flat=True).distinct()
         # Retrieve all unique valides employees from the Employees model
-        validity_employees = Employees.objects.values_list(
-            'last_name', flat=True).distinct()
+        validity_employees = GeneratorData.objects.values_list(
+            'gd_last_name', flat=True).distinct()
         # Pass the validity years to the template
         context = {'validity_years': validity_years,
-                   'validity_months': validity_months, 'validity_employees': validity_employees}
+                   'validity_months': validity_months,
+                   'validity_employees': validity_employees}
+        return render(request, self.template_name, context)
+
+class OverviewExportView(View):
+    template_name = 'overview_export.html'
+    def post(self, request, *args, **kwargs):
+        form = OverviewForm(request.POST)
+        year = request.POST.get('year')
+        month = request.POST.get('month')
+        employee = request.POST.get('employee')
+
+        # Specifing the fields for which I want to calculate the sum
+        sum_fields = [
+            'gd_base_monthly_salary',
+            'gd_monthly_salary',
+            'gd_child_allocation_1',
+            'gd_child_allocation_2',
+            'gd_total_monthly_wage',
+            'gd_total_monthly_wage_for_social_insurance',
+            'gd_total_monthly_wage_for_social_taxes',
+            'gd_avs_item',
+            'gd_ac_item',
+            'gd_ac2_item',
+            'gd_laap_item',
+            'gd_laanp_item',
+            'gd_laac_item',
+            'gd_laace_item',
+            'gd_amat_item',
+            'gd_alfa_item',
+            'gd_apgmal_item',
+            'gd_alpetiteenfance_item',
+            'gd_total_social_deduction',
+            'gd_employees_phone_allocation',
+            'gd_employees_representation_allocation',
+            'gd_expense_report',
+            'gd_public_transportation_fees',
+            'gd_paid_salary',
+            'gd_extraordinary_salary',
+            'gd_LPP_deduction_employee',
+            'gd_total_deduction_employee',
+            'gd_correction_non_financial_wage',
+        ]
+
+        # Initializing an empty filter dictionary
+        filter_kwargs = {}
+
+        # Check and add filters for year, month, and employee
+        if year and year.isdigit():
+            filter_kwargs['gd_year'] = year
+        if month:
+            filter_kwargs['gd_month'] = month
+        if employee:
+            filter_kwargs['gd_last_name'] = employee
+
+        # Filter the queryset based on the provided filters
+        queryset = GeneratorData.objects.filter(**filter_kwargs)
+
+        # Calculate sum for each category
+        category_sums = {}
+        for field_name in sum_fields:
+            category_sums[field_name] = sum(
+                getattr(obj, field_name, 0) for obj in queryset)
+
+        # Convert the sums into a list of dictionaries
+        category_values = [{'category': field_name, 'value': value}
+                           for field_name, value in category_sums.items()]
+
+        # Pass the category values to the invisible table template
+        context = {'form': form,'fields': category_values}
         return render(request, self.template_name, context)

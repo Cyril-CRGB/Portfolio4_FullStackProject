@@ -1,84 +1,86 @@
 {% extends "base.html" %} {% block content %}
 
 <div class="container-fluid">
-  <div class="container">
-    <div
-      class="btn-toolbar"
-      role="toolbar"
-      aria-label="Toolbar with button groups"
-    >
-      <div class="btn-group me-2 btn-group-sm" role="group" aria-label="Title">
-        <div class="btn-group btn-group-sm" role="group">
-          <button type="button" class="btn btn-light btn-sm" disabled>
-            <h2>Overview</h2>
-          </button>
+  <div class="text-center">
+    <h2>Overview</h2>
+  </div>
+  <div><p></p></div>
+  <div class="container-small mb-3">
+    <div class="text-center">
+      <form method="post" action="{% url 'overview_export' %}">
+        {% csrf_token %}
+        <!--{{ form.as_p }}-->
+        <div class="row">
+          <div class="col">
+            <div class="input-group mb-3 flex-nowrap">
+              <label class="input-group-text" for="inputGroupSelectYear"
+                >Year</label
+              >
+              <select class="form-select" id="inputGroupSelectYear" name="year">
+                <option selected></option>
+                {% for year in validity_years %}
+                <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col">
+            <div class="input-group mb-3 flex-nowrap">
+              <label class="input-group-text" for="inputGroupSelectMonth"
+                >Month</label
+              >
+              <select
+                class="form-select"
+                id="inputGroupSelectMonth"
+                name="month"
+              >
+                <option selected></option>
+                {% for month in validity_months %}
+                <option value="{{ month }}">{{ month }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col">
+            <div class="input-group mb-3 flex-nowrap">
+              <label class="input-group-text" for="inputGroupSelectEmployee"
+                >Employee</label
+              >
+              <select
+                class="form-select"
+                id="inputGroupSelectEmployee"
+                name="employee"
+              >
+                <option selected></option>
+                {% for employee in validity_employees %}
+                <option value="{{ employee }}">{{ employee }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col">
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              id="export-excel"
+            >
+              Export to Excel
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              id="export-pdf"
+            >
+              Export to PDF
+            </button>
+          </div>
         </div>
-      </div>
-      <div
-        class="btn-group me-2 btn-group-sm"
-        role="group"
-        aria-label="First group"
-      >
-        <div class="btn-group btn-group-sm" role="group">
-          <button
-            type="button"
-            class="btn btn-light dropdown-toggle btn-sm"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Years
-          </button>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            {% for year in validity_years %}
-            <li><a class="dropdown-item" href="#">{{ year }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-      <div
-        class="btn-group me-2 btn-group-sm"
-        role="group"
-        aria-label="Second group"
-      >
-        <div class="btn-group btn-group-sm" role="group">
-          <button
-            type="button"
-            class="btn btn-light dropdown-toggle btn-sm"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Months
-          </button>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            {% for month in validity_months %}
-            <li><a class="dropdown-item" href="#">{{ month }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-      <div
-        class="btn-group me-2 btn-group-sm"
-        role="group"
-        aria-label="Third group"
-      >
-        <div class="btn-group btn-group-sm" role="group">
-          <button
-            type="button"
-            class="btn btn-light dropdown-toggle btn-sm"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Employees
-          </button>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            {% for employee in validity_employees %}
-            <li><a class="dropdown-item" href="#">{{ employee }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
+      </form>
     </div>
   </div>
 </div>
 <hr />
+<span
+  ></span
+>
 {% endblock %}

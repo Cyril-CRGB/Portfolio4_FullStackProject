@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block content %}
+<div class="table-responsive container mt-5 overflow-scroll">
+    <table id="data-table" class="table table-striped align-middle text-center">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Values</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for field in fields %}
+        <tr>
+          <td>{{ field.category }}</td>
+          <td>{{ field.value }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock %}

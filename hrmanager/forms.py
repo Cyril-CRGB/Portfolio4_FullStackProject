@@ -44,3 +44,9 @@ class ModifyYearForm(forms.ModelForm):
                   'laanp_item', 'laac_item', 'laace_item',
                   'amat_item', 'alfa_item', 'apgmal_item', 'alpetiteenfance_item',
                   'child_alloc_1_item', 'child_alloc_2_item']
+
+
+class OverviewForm(forms.Form):
+    year = forms.CharField()
+    month = forms.CharField()
+    employee = forms.CharField()
