@@ -38,4 +38,5 @@ urlpatterns = [
          views.GeneratorPayView.as_view(), name='generator_pay'),
     path('overview/', views.OverviewYearView.as_view(), name='overview'),
     path('overview/export/', views.OverviewExportView.as_view(), name='overview_export'),
+    path('overview/chartdata/', views.ChartDataView.as_view(), name='chart_data'),
 ]

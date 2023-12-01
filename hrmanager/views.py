@@ -3,7 +3,7 @@ from django.views import generic, View
 from .models import Employees, salary_items, GeneratorData
 from django.urls import reverse_lazy, reverse
 from .forms import NewEmployeeForm, ModifyEmployeeForm, NewYearForm, ModifyYearForm, OverviewForm
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from calendar import month_name, monthrange
 from datetime import datetime, timedelta
 from decimal import Decimal, ROUND_HALF_UP
@@ -617,3 +617,14 @@ class OverviewExportView(View):
         # Pass the category values to the invisible table template
         context = {'form': form,'fields': category_values}
         return render(request, self.template_name, context)
+
+
+class ChartDataView(View):
+    def get(self, request, *args, **kwargs):
+        # Fetch the data I need for the chart from GeneratorData model
+        chart_data = GeneratorData.objects.values('gd_year', 'gd_month', 'gd_paid_salary')
+
+        # Convert the queryset to a list of dictionaries
+        chart_data_list = list(chart_data)
+
+        return JsonResponse(chart_data_list, safe=False)

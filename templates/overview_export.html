@@ -1,4 +1,18 @@
 {% extends "base.html" %} {% block content %}
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              id="export-excel"
+            >
+              Excel
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              id="export-pdf"
+            >
+              PDF
+            </button>
 <div class="table-responsive container mt-5 overflow-scroll">
     <table id="data-table" class="table table-striped align-middle text-center">
       <thead>
@@ -17,4 +31,5 @@
       </tbody>
     </table>
 </div>
+
 {% endblock %}
