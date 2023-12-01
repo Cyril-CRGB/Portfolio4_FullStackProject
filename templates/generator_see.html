@@ -1,73 +1,95 @@
 {% extends "base.html" %} {% block content %}
 <div class="container-fluid">
-  <h2>
-    Data for {{ generator_data.0.gd_month }} - {{ generator_data.0.gd_year }}
-  </h2>
-  <div class="table-responsive container mt-5">
-    <table class="table table-striped align-middle text-center">
-      <thead>
-        <tr>
-          <th>Employee</th>
-          <th>SSN</th>
-          <th>Start</th>
-          <th>End</th>
-          <th>Worked days</th>
-          <th>Base</th>
-          <th>Salary for this month</th>
-          <th>Chidren alloc. below 18</th>
-          <th>Chidren alloc. below 25</th>
-          <th>Non financial wage</th>
-          <th>Bonus</th>
-          <th>Base deduction</th>
-          <th>Base taxes</th>
-          <th>AVS/AI</th>
-          <th>AC</th>
-          <th>AC2</th>
-          <th>LAANP</th>
-          <th>AMAT</th>
-          <th>APGMAL</th>
-          <th>LPP</th>
-          <th>TOTAL</th>
-          <th>Phone</th>
-          <th>Representation</th>
-          <th>Expenses</th>
-          <th>Correction non financial wage</th>
-          <th>PAID</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for data in generator_data %}
-        <tr>
-          <td>{{ data.gd_first_name }} {{ data.gd_last_name }}</td>
-          <td>{{ data.gd_social_security_number }}</td>
-          <td>{{ data.gd_start_date }}</td>
-          <td>{{ data.gd_end_date }}</td>
-          <td>{{ data.gd_worked_days }}</td>
-          <td>{{ data.gd_base_monthly_salary }}</td>
-          <td>{{ data.gd_monthly_salary }}</td>
-          <td>{{ data.gd_child_allocation_1 }}</td>
-          <td>{{ data.gd_child_allocation_2 }}</td>
-          <td>{{ data.gd_public_transportation_fees }}</td>
-          <td>{{ data.gd_extraordinary_salary }}</td>
-          <td>{{ data.gd_total_monthly_wage_for_social_insurance }}</td>
-          <td>{{ data.gd_total_monthly_wage_for_social_taxes }}</td>
-          <td>{{ data.gd_avs_item }}</td>
-          <td>{{ data.gd_ac_item }}</td>
-          <td>{{ data.gd_ac2_item }}</td>
-          <td>{{ data.gd_laanp_item }}</td>
-          <td>{{ data.gd_amat_item }}</td>
-          <td>{{ data.gd_apgmal_item }}</td>
-          <td>{{ data.gd_LPP_deduction_employee }}</td>
-          <td>{{ data.gd_total_deduction_employee }}</td>
-          <td>{{ data.gd_employees_phone_allocation }}</td>
-          <td>{{ data.gd_employees_representation_allocation }}</td>
-          <td>{{ data.gd_expense_report }}</td>
-          <td>{{ data.gd_correction_non_financial_wage }}</td>
-          <td>{{ data.gd_paid_salary }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" aria-current="page" href="{% url 'generator_year' %}"
+        >Year</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        aria-current="page"
+        href="{% url 'generator_month' year=generator_data.0.gd_year %}"
+        >Months</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="#">See</a>
+    </li>
+  </ul>
+  <div class="container-fluid">
+    <div class="row text-center">
+      <p><h2>
+        Data for {{ generator_data.0.gd_month }} - {{ generator_data.0.gd_year }}
+    </h2></p>
+    </div>
+    <div class="table-responsive container mt-5">
+      <table class="table table-striped align-middle text-center">
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>SSN</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Worked days</th>
+            <th>Base</th>
+            <th>Salary for this month</th>
+            <th>Chidren alloc. below 18</th>
+            <th>Chidren alloc. below 25</th>
+            <th>Non financial wage</th>
+            <th>Bonus</th>
+            <th>Base deduction</th>
+            <th>Base taxes</th>
+            <th>AVS/AI</th>
+            <th>AC</th>
+            <th>AC2</th>
+            <th>LAANP</th>
+            <th>AMAT</th>
+            <th>APGMAL</th>
+            <th>LPP</th>
+            <th>TOTAL</th>
+            <th>Phone</th>
+            <th>Representation</th>
+            <th>Expenses</th>
+            <th>Correction non financial wage</th>
+            <th>PAID</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in generator_data %}
+          <tr>
+            <td>{{ data.gd_first_name }} {{ data.gd_last_name }}</td>
+            <td>{{ data.gd_social_security_number }}</td>
+            <td>{{ data.gd_start_date }}</td>
+            <td>{{ data.gd_end_date }}</td>
+            <td>{{ data.gd_worked_days }}</td>
+            <td>{{ data.gd_base_monthly_salary }}</td>
+            <td>{{ data.gd_monthly_salary }}</td>
+            <td>{{ data.gd_child_allocation_1 }}</td>
+            <td>{{ data.gd_child_allocation_2 }}</td>
+            <td>{{ data.gd_public_transportation_fees }}</td>
+            <td>{{ data.gd_extraordinary_salary }}</td>
+            <td>{{ data.gd_total_monthly_wage_for_social_insurance }}</td>
+            <td>{{ data.gd_total_monthly_wage_for_social_taxes }}</td>
+            <td>{{ data.gd_avs_item }}</td>
+            <td>{{ data.gd_ac_item }}</td>
+            <td>{{ data.gd_ac2_item }}</td>
+            <td>{{ data.gd_laanp_item }}</td>
+            <td>{{ data.gd_amat_item }}</td>
+            <td>{{ data.gd_apgmal_item }}</td>
+            <td>{{ data.gd_LPP_deduction_employee }}</td>
+            <td>{{ data.gd_total_deduction_employee }}</td>
+            <td>{{ data.gd_employees_phone_allocation }}</td>
+            <td>{{ data.gd_employees_representation_allocation }}</td>
+            <td>{{ data.gd_expense_report }}</td>
+            <td>{{ data.gd_correction_non_financial_wage }}</td>
+            <td>{{ data.gd_paid_salary }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 {% endblock %}

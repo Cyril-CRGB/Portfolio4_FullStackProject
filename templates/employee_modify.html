@@ -1,273 +1,460 @@
 {% extends "base.html" %} {% block content %}
-<form method="POST" action="{% url 'modify_employee' pk=current_pk %}">
-  {% csrf_token %}
-  <!--<div class="col">
-    <div class="mb-3">{{current_pk}}</div>
-  </div>-->
-  <!--<div class="col">
-    <div class="mb-3">{{ form.as_p }}</div>
-  </div>
-  <div class="col">
-    <div class="mb-3">
-      <button type="submit" class="btn btn-outline-primary" id="button-addon2">
-        Modify this employee
-      </button>
-    </div>
-  </div>
-</form>-->
-<div class="row">
-    <div class="col">
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Title</span>
-            <input type="text" class="form-control" value="{{ form.title.value }}" name="title"
-                aria-describedby="basic-addon1" />
 
-        </div>
+<div class="container-fluid">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'Listofemployees' %}"
+        >List of employees</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'Addanemployees' %}"
+        >Add a new employee</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="#"
+        >Modify employee</a
+      >
+    </li>
+  </ul>
+  <div class="container-fluid">
+    <div class="row">
+      <p></p>
     </div>
-    <div class="col">
-        <div class="mb-3">
-            <button type="submit" class="btn btn-outline-primary" id="button-addon2">Modify this employee</button>
-        </div>
-    </div>
-    <div class="col">
-        <div class="mb-3">
-        </div>
-    </div>
-</div>
-<!-- row 2 -->
-<div class="row">
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">First name</span>
-            <input type="text" class="form-control" value="{{ form.first_name.value }}" aria-describedby="basic-addon1"
-                name="first_name" />
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Last Name</span>
-            <input type="text" class="form-control" value="{{ form.last_name.value }}" aria-describedby="basic-addon1"
-                name="last_name" />
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">Bank account</span>
-            <input type="text" class="form-control" value="{{ form.employees_bankaccount.value }}" aria-describedby="basic-addon1"
-                name="employees_bankaccount" />
-        </div>
-    </div>
-</div>
-<!-- row 3 -->
-<div class="row">
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <label class="input-group-text" for="inputGroupSelectMaritalStatus">Marital status</label>
-            <select class="form-select" id="inputGroupSelectMaritalStatus" name="employees_marital_status" value="{{ form.employees_marital_status.value }}">
-                <option selected></option>
-                <option value="M">Married</option>
-                <option value="D">Divorced</option>
-                <option value="S">Single</option>
-                <option value="P">Partnership</option>
-                <option value="O">Other</option>
-            </select>
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <label class="input-group-text" for="inputGroupSelectGender">Gender</label>
-            <select class="form-select" id="inputGroupSelectGender" name="employees_gender" value="{{ form.employees_gender.value }}">
-                <option selected></option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-                <option value="O">Other</option>
-            </select>
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">Monthly salary</span>
-            <span class="input-group-text">$</span>
-            <input type="text" class="form-control" value="{{ form.base_monthly_salary.value }}" aria-describedby="basic-addon1"
-                name="base_monthly_salary" />
-            <span class="input-group-text">.00</span>
-        </div>
-    </div>
-</div>
-<!-- row 4 -->
-<div class="row">
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Birth date</span>
-            <input type="text" class="form-control" value="{{ form.birth_date.value }}" aria-describedby="basic-addon1"
-                name="birth_date" />
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Age</span>
-            <input type="text" class="form-control" value="{{ form.employees_age.value }}" aria-describedby="basic-addon1"
-                name="employees_age" />
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">Phone allocation</span>
-            <span class="input-group-text">$</span>
-            <input type="text" class="form-control" value="{{ form.employees_phone_allocation.value }}" aria-describedby="basic-addon1"
-                name="employees_phone_allocation" />
-            <span class="input-group-text">.00</span>
-        </div>
-    </div>
-</div>
-<!-- row 5 -->
-<div class="row">
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Phone number</span>
-            <input type="text" class="form-control" value="{{ form.phone_number.value }}" aria-describedby="basic-addon1"
-                name="phone_number" />
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Email address</span>
-            <input type="email" class="form-control" value="{{ form.email_adress.value }}"
-                aria-describedby="basic-addon1" name="email_adress" />
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">Representation allocation</span>
-            <span class="input-group-text">$</span>
-            <input type="text" class="form-control" value="{{ form.employees_representation_allocation.value }}" aria-describedby="basic-addon1"
-                name="employees_representation_allocation" />
-            <span class="input-group-text">.00</span>
-        </div>
-    </div>
-</div>
-<!-- row 6 -->
-<div class="row">
-    <div class="col">
-        <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupFilePicture">Employee's picture</label>
-            <input type="file" class="form-control" id="inputGroupFilePicture" name="employee_picture" value="{{ form.employee_picture.value }}">
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Social Security number</span>
-            <input type="text" class="form-control" value="{{ form.social_security_number.value }}" aria-describedby="basic-addon1"
-                name="social_security_number" />
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">Holiday right</span>
-            <input type="text" class="form-control" value="{{ form.employees_holiday_rights.value }}" aria-describedby="basic-addon1"
-                name="employees_holiday_rights" />
-        </div>
-    </div>
-</div>
-<!-- row 7 -->
-<div class="row">
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <label class="input-group-text" for="inputGroupSelectChildrenBelow18">Children below 18</label>
-            <select class="form-select" id="inputGroupSelectChildrenBelow18" name="children_for_allocations_type_1" value="{{ form.children_for_allocations_type_1.value }}">
-                <option selected></option>
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select>
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <label class="input-group-text" for="inputGroupSelectChildrenBelow25">Children below 25</label>
-            <select class="form-select" id="inputGroupSelectChildrenBelow25" name="children_for_allocations_type_2" value="{{ form.children_for_allocations_type_2.value }}">
-                <option selected></option>
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select>
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">Start date</span>
-            <input type="text" class="form-control" value="{{ form.start_date.value }}" aria-describedby="basic-addon1"
-                name="start_date" />
-        </div>
-    </div>
-</div>
-<!-- row 8 -->
-<div class="row">
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Emergency contact</span>
-            <input type="text" class="form-control" value="{{ form.emergency_contact.value }}"
-                aria-describedby="basic-addon1" name="emergency_contact" />
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Emergency phone number</span>
-            <input type="text" class="form-control" value="{{ form.emergency_phonenumber.value }}" aria-describedby="basic-addon1"
-                name="emergency_phonenumber" />
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">End date</span>
-            <input type="text" class="form-control" value="{{ form.end_date.value }}" aria-describedby="basic-addon1"
-                name="end_date" />
-        </div>
-    </div>
-</div>
-<!-- row 9 -->
-<div class="row">
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Seniority</span>
-            <input type="text" class="form-control" value="{{ form.seniority.value }}" aria-describedby="basic-addon1" name="seniority" />
-        </div>
-    </div>
-    <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Is the employee active</span>
-            <input type="text" class="form-control" value="{{ form.employees_status.value }}" aria-describedby="basic-addon1"
-                name="employees_status" />
-        </div>
-    </div>
-    <div class="col">
-        <!--<div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckStatus" name="employees_status">
-                <label class="form-check-label" for="flexSwitchCheckStatus">Is the employee inactive?</label>
+    <form method="POST" action="{% url 'modify_employee' pk=current_pk %}">
+      {% csrf_token %}
+      <!--<div class="col">
+                <div class="mb-3">{{current_pk}}</div>
             </div>-->
-    </div>
-    <!--{{ form.as_p }}
-        <button type="submit" class="btn btn-outline-primary" id="button-addon2">Add this employee</button>-->
+      <!--<div class="col">
+                <div class="mb-3">{{ form.as_p }}</div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                <button type="submit" class="btn btn-outline-primary" id="button-addon2">
+                    Modify this employee
+                </button>
+                </div>
+            </div>
+            </form>-->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Title</span>
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.title.value }}"
+              name="title"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <button
+              type="submit"
+              class="btn btn-outline-primary"
+              id="button-addon2"
+            >
+              Modify this employee
+            </button>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3"></div>
+        </div>
+      </div>
+      <!-- row 2 -->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">First name</span>
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.first_name.value }}"
+              aria-describedby="basic-addon1"
+              name="first_name"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Last Name</span>
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.last_name.value }}"
+              aria-describedby="basic-addon1"
+              name="last_name"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text financial-color" id="basic-addon1"
+              >Bank account</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.employees_bankaccount.value }}"
+              aria-describedby="basic-addon1"
+              name="employees_bankaccount"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- row 3 -->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <label class="input-group-text" for="inputGroupSelectMaritalStatus"
+              >Marital status</label
+            >
+            <select
+              class="form-select"
+              id="inputGroupSelectMaritalStatus"
+              name="employees_marital_status"
+              value="{{ form.employees_marital_status.value }}"
+            >
+              <option selected></option>
+              <option value="M">Married</option>
+              <option value="D">Divorced</option>
+              <option value="S">Single</option>
+              <option value="P">Partnership</option>
+              <option value="O">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <label class="input-group-text" for="inputGroupSelectGender"
+              >Gender</label
+            >
+            <select
+              class="form-select"
+              id="inputGroupSelectGender"
+              name="employees_gender"
+              value="{{ form.employees_gender.value }}"
+            >
+              <option selected></option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="O">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text financial-color" id="basic-addon1"
+              >Monthly salary</span
+            >
+            <span class="input-group-text">$</span>
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.base_monthly_salary.value }}"
+              aria-describedby="basic-addon1"
+              name="base_monthly_salary"
+            />
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>
+      </div>
+      <!-- row 4 -->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Birth date</span>
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.birth_date.value }}"
+              aria-describedby="basic-addon1"
+              name="birth_date"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Age</span>
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.employees_age.value }}"
+              aria-describedby="basic-addon1"
+              name="employees_age"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text financial-color" id="basic-addon1"
+              >Phone allocation</span
+            >
+            <span class="input-group-text">$</span>
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.employees_phone_allocation.value }}"
+              aria-describedby="basic-addon1"
+              name="employees_phone_allocation"
+            />
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>
+      </div>
+      <!-- row 5 -->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Phone number</span>
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.phone_number.value }}"
+              aria-describedby="basic-addon1"
+              name="phone_number"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1"
+              >Email address</span
+            >
+            <input
+              type="email"
+              class="form-control"
+              value="{{ form.email_adress.value }}"
+              aria-describedby="basic-addon1"
+              name="email_adress"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text financial-color" id="basic-addon1"
+              >Representation allocation</span
+            >
+            <span class="input-group-text">$</span>
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.employees_representation_allocation.value }}"
+              aria-describedby="basic-addon1"
+              name="employees_representation_allocation"
+            />
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>
+      </div>
+      <!-- row 6 -->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFilePicture"
+              >Employee's picture</label
+            >
+            <input
+              type="file"
+              class="form-control"
+              id="inputGroupFilePicture"
+              name="employee_picture"
+              value="{{ form.employee_picture.value }}"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1"
+              >Social Security number</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.social_security_number.value }}"
+              aria-describedby="basic-addon1"
+              name="social_security_number"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text financial-color" id="basic-addon1"
+              >Holiday right</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.employees_holiday_rights.value }}"
+              aria-describedby="basic-addon1"
+              name="employees_holiday_rights"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- row 7 -->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <label
+              class="input-group-text"
+              for="inputGroupSelectChildrenBelow18"
+              >Children below 18</label
+            >
+            <select
+              class="form-select"
+              id="inputGroupSelectChildrenBelow18"
+              name="children_for_allocations_type_1"
+              value="{{ form.children_for_allocations_type_1.value }}"
+            >
+              <option selected></option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <label
+              class="input-group-text"
+              for="inputGroupSelectChildrenBelow25"
+              >Children below 25</label
+            >
+            <select
+              class="form-select"
+              id="inputGroupSelectChildrenBelow25"
+              name="children_for_allocations_type_2"
+              value="{{ form.children_for_allocations_type_2.value }}"
+            >
+              <option selected></option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text financial-color" id="basic-addon1"
+              >Start date</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.start_date.value }}"
+              aria-describedby="basic-addon1"
+              name="start_date"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- row 8 -->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1"
+              >Emergency contact</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.emergency_contact.value }}"
+              aria-describedby="basic-addon1"
+              name="emergency_contact"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1"
+              >Emergency phone number</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.emergency_phonenumber.value }}"
+              aria-describedby="basic-addon1"
+              name="emergency_phonenumber"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text financial-color" id="basic-addon1"
+              >End date</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.end_date.value }}"
+              aria-describedby="basic-addon1"
+              name="end_date"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- row 9 -->
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1">Seniority</span>
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.seniority.value }}"
+              aria-describedby="basic-addon1"
+              name="seniority"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3 flex-nowrap">
+            <span class="input-group-text" id="basic-addon1"
+              >Is the employee active</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              value="{{ form.employees_status.value }}"
+              aria-describedby="basic-addon1"
+              name="employees_status"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <!--<div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckStatus" name="employees_status">
+                            <label class="form-check-label" for="flexSwitchCheckStatus">Is the employee inactive?</label>
+                        </div>-->
+        </div>
+        <!--{{ form.as_p }}
+                    <button type="submit" class="btn btn-outline-primary" id="button-addon2">Add this employee</button>-->
+      </div>
+    </form>
+  </div>
 </div>
-</div>
-</form>
-
 {% endblock %}
 
 <!--<form method="POST" action="{% url 'modify_employee' pk=employee.pk %}">

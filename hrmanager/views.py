@@ -184,7 +184,17 @@ class GeneratorMonthView(View):
         generator_check_combined = {
             month_num: {
                 'has_data': generator_check_data_exist[month_num],
-                'is_paid': generator_check_is_paid[month_num]
+                'is_paid': generator_check_is_paid[month_num],
+                'has_data_truebefore_falseafter': (
+                    not generator_check_data_exist[month_num]
+                    and generator_check_data_exist.get(month_num - 1, True)
+                    and not generator_check_data_exist.get(month_num + 1, False)
+                ),
+                'is_paid_truebefore_falseafter': (
+                    not generator_check_is_paid[month_num]
+                    and generator_check_is_paid.get(month_num - 1, True)
+                    and not generator_check_is_paid.get(month_num + 1, False)
+                ),
             }
             for month_num, month in enumerate(range(1, 13), start=1)
         }
@@ -517,3 +527,22 @@ class GeneratorPayView(View):
                 request, 'No records found for the specified year and month.')
 
         return redirect('generator_month', year=year)
+
+
+class OverviewYearView(View):
+    template_name = 'overview.html'
+
+    def get(self, request, *args, **kwargs):
+        # Retrieve all unique valides years from the salary_items model
+        validity_years = salary_items.objects.values_list(
+            'validity_year', flat=True).distinct()
+        # Retrieve all unique valides months from the GeneratorData model
+        validity_months = GeneratorData.objects.values_list(
+            'gd_month', flat=True).distinct()
+        # Retrieve all unique valides employees from the Employees model
+        validity_employees = Employees.objects.values_list(
+            'last_name', flat=True).distinct()
+        # Pass the validity years to the template
+        context = {'validity_years': validity_years,
+                   'validity_months': validity_months, 'validity_employees': validity_employees}
+        return render(request, self.template_name, context)
