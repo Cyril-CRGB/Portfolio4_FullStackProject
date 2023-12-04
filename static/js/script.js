@@ -5,48 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let generateButtonExcel = document.getElementById('export-excel');
     // Add click event listener to the button
     generateButtonExcel.addEventListener('click', generateExcel);
-
-    //CHARTJS
-    // Fetch the chart data from the Django view
-    fetch("{% url 'chart_data' %}")
-        .then(response => response.json())
-        .then(chartData => {
-            // Extract data for Chart.js, unique years
-            const uniqueYears = [...newnew Set(chartData.map(item => item.gd_year))];
-
-            // Prepare datasets for Chart.js based on unique years
-            const datasets = uniqueYears.map(year => {
-                const dataByYear = chartData.filter(item => item.gd_year === year);
-                const data = dataByYear.map(item => parseFloat(item.gd_paid_salary));
-                return {
-                    label: `Year ${year}`,
-                    data: data,
-                    borderColor: getRandomColor(), // Implement getRandomColor function
-                    fill: false,
-                };
-            });
-
-            // Extract unique months from chartData
-            const uniqueMonths = [...new Set(chartData.map(item => item.gd_month))];
-
-            // Render the chart
-            var ctx = document.getElementById('myChart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: uniqueMonths,
-                    datasets: datasets,    
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                        },
-                    },
-                },
-            });
-        })
-        .catch(error => console.error('Error fetching chart data:', error));
 });
 
 
@@ -91,14 +49,3 @@ function generateExcel() {
 }
 
 
-/**
- * Function to generate a random color for chart datasets
- */
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}

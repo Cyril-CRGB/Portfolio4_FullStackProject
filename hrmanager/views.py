@@ -10,6 +10,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.utils import timezone
+from django.db import models
 
 
 class HomeView(View):
@@ -534,7 +535,7 @@ class OverviewYearView(View):
     # invisible_table_template = 'overview_invisible_table.html'
 
     def get(self, request, *args, **kwargs):
-        
+
         # Retrieve all unique valides years from the salary_items model
         validity_years = GeneratorData.objects.values_list(
             'gd_year', flat=True).distinct()
@@ -550,8 +551,10 @@ class OverviewYearView(View):
                    'validity_employees': validity_employees}
         return render(request, self.template_name, context)
 
+
 class OverviewExportView(View):
     template_name = 'overview_export.html'
+
     def post(self, request, *args, **kwargs):
         form = OverviewForm(request.POST)
         year = request.POST.get('year')
@@ -615,16 +618,52 @@ class OverviewExportView(View):
                            for field_name, value in category_sums.items()]
 
         # Pass the category values to the invisible table template
-        context = {'form': form,'fields': category_values}
+        context = {'form': form, 'fields': category_values}
         return render(request, self.template_name, context)
 
 
 class ChartDataView(View):
     def get(self, request, *args, **kwargs):
-        # Fetch the data I need for the chart from GeneratorData model
-        chart_data = GeneratorData.objects.values('gd_year', 'gd_month', 'gd_paid_salary')
+        chart_data = GeneratorData.objects.all()
 
-        # Convert the queryset to a list of dictionaries
-        chart_data_list = list(chart_data)
+        unique_years = set()
+        unique_months = set()
+        aggregated_data = {}
 
-        return JsonResponse(chart_data_list, safe=False)
+        # find the maximum year in GeneratorData
+        current_year = chart_data.aggregate(
+            max_year=models.Max('gd_year'))['max_year']
+
+        previous_year = int(current_year) - 1
+
+        for entry in chart_data:
+            year = entry.gd_year
+            month = int(entry.gd_month)
+            paid_salary = entry.gd_paid_salary
+
+            unique_years.add(year)
+            unique_months.add(month)
+
+        # Aggregate sum of gd_paid_salary for each month and year
+        for item in chart_data:
+            key = f"{item.gd_year}-{item.gd_month}"
+            if key not in aggregated_data:
+                aggregated_data[key] = 0
+            aggregated_data[key] += float(item.gd_paid_salary)
+
+        # Separate aggregated data for the current year and previous year
+        aggregated_data_current_year = {}
+        aggregated_data_previous_year = {}
+
+        for key, value in aggregated_data.items():
+            year, month = map(int, key.split('-'))
+            if year == current_year:
+                aggregated_data_current_year[month] = value
+            elif year == current_year - 1:
+                aggregated_data_previous_year[month] = value
+
+        context = {'current_year': current_year, 'previous_year': previous_year,
+                   'unique_years': sorted(unique_years), 'unique_months': sorted(
+                       unique_months), 'aggregated_data_current_year': aggregated_data_current_year, 'aggregated_data_previous_year': aggregated_data_previous_year}
+
+        return render(request, 'overview_chartdata.html', context)
