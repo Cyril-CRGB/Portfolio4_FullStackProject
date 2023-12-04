@@ -73,9 +73,55 @@
   </div>
 </div>
 <hr />
-<a href="{% url 'chart_data' %}"> go to chart</a>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="container-fluid">
+    <div class="container text-center">
+        <div class="row align-items-center">
+            <div class="col col-lg-2"></div>
+            <div class="col align-self-center">
+                <canvas id="myChartx"></canvas>
+            </div>
+            <div class="col col-lg-2"></div>
+        </div>
+    </div>
+</div>
+<script>
+  const ctx = document.getElementById("myChartx");
 
+  // Extract data from Django context
+  const uniqueMonths = {{ unique_months|safe }};
+  const currentYearData = Object.values({{ aggregated_data_current_year|safe }});
+  const previousYearData = Object.values({{ aggregated_data_previous_year|safe }});
 
-
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: uniqueMonths,
+        datasets: [
+              {
+                  label: "{{ current_year }}",
+                  data: currentYearData,
+                  backgroundColor: 'rgba(255, 99, 132, 0.5)', // Customize the color
+                  borderColor: 'rgba(255, 99, 132, 1)', // Customize the border color
+                  borderWidth: 1,
+              },
+              {
+                  label: "{{ previous_year }}",
+                  data: previousYearData,
+                  backgroundColor: 'rgba(54, 162, 235, 0.5)', // Customize the color
+                  borderColor: 'rgba(54, 162, 235, 1)', // Customize the border color
+                  borderWidth: 1,
+              },
+          ],
+      },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+</script>
 {% endblock %}

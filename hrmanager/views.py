@@ -13,6 +13,7 @@ from django.utils import timezone
 from django.db import models
 
 
+
 class HomeView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'index.html')
@@ -154,8 +155,28 @@ class GeneratorYearView(View):
         # Retrieve all unique validity years from the SalaryItems model
         validity_years = salary_items.objects.values_list(
             'validity_year', flat=True).distinct()
+        # List to store year statuses
+        year_statuses = []
+
+        for year in validity_years:
+            # Check if the previous year is completed    
+            previous_year = int(year) -1
+            is_previous_year_completed = GeneratorData.objects.filter(gd_year=previous_year , gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
+            # Check if the current year is completed
+            is_current_year_completed = GeneratorData.objects.filter(gd_year=year, gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
+            if is_current_year_completed is not 0:
+                status = "Completed"
+            elif is_previous_year_completed is not 0 and is_current_year_completed == 0:
+                status = "Current"
+            else:
+                # If previous year is not completed, set status to not available
+                status = "not_available" 
+            
+            # Append year and status to the list
+            year_statuses.append((year, status, is_previous_year_completed, is_current_year_completed))
+        
         # Pass the validity years to the template
-        context = {'validity_years': validity_years}
+        context = {'validity_years': validity_years, 'year_statuses': year_statuses, 'is_previous_year_completed': is_previous_year_completed, 'is_current_year_completed': is_current_year_completed}
         return render(request, self.template_name, context)
 
 
@@ -545,10 +566,55 @@ class OverviewYearView(View):
         # Retrieve all unique valides employees from the Employees model
         validity_employees = GeneratorData.objects.values_list(
             'gd_last_name', flat=True).distinct()
-        # Pass the validity years to the template
+
+        chart_data = GeneratorData.objects.all()
+
+        unique_years = set()
+        unique_months = set()
+        aggregated_data = {}
+
+        # find the maximum year in GeneratorData
+        current_year = chart_data.aggregate(
+            max_year=models.Max('gd_year'))['max_year']
+
+        previous_year = int(current_year) - 1
+
+        for entry in chart_data:
+            year = entry.gd_year
+            month = int(entry.gd_month)
+            paid_salary = entry.gd_paid_salary
+
+            unique_years.add(year)
+            unique_months.add(month)
+
+        # Aggregate sum of gd_paid_salary for each month and year
+        for item in chart_data:
+            key = f"{item.gd_year}-{item.gd_month}"
+            if key not in aggregated_data:
+                aggregated_data[key] = 0
+            aggregated_data[key] += float(item.gd_paid_salary)
+
+        # Separate aggregated data for the current year and previous year
+        aggregated_data_current_year = {}
+        aggregated_data_previous_year = {}
+
+        for key, value in aggregated_data.items():
+            year, month = map(int, key.split('-'))
+            if year == current_year:
+                aggregated_data_current_year[month] = value
+            elif year == current_year - 1:
+                aggregated_data_previous_year[month] = value
+
         context = {'validity_years': validity_years,
                    'validity_months': validity_months,
-                   'validity_employees': validity_employees}
+                   'validity_employees': validity_employees, 
+                   'current_year': current_year, 
+                   'previous_year': previous_year,
+                   'unique_years': sorted(unique_years), 
+                   'unique_months': sorted(unique_months),
+                   'aggregated_data_current_year': aggregated_data_current_year, 
+                   'aggregated_data_previous_year': aggregated_data_previous_year}
+
         return render(request, self.template_name, context)
 
 
@@ -622,48 +688,3 @@ class OverviewExportView(View):
         return render(request, self.template_name, context)
 
 
-class ChartDataView(View):
-    def get(self, request, *args, **kwargs):
-        chart_data = GeneratorData.objects.all()
-
-        unique_years = set()
-        unique_months = set()
-        aggregated_data = {}
-
-        # find the maximum year in GeneratorData
-        current_year = chart_data.aggregate(
-            max_year=models.Max('gd_year'))['max_year']
-
-        previous_year = int(current_year) - 1
-
-        for entry in chart_data:
-            year = entry.gd_year
-            month = int(entry.gd_month)
-            paid_salary = entry.gd_paid_salary
-
-            unique_years.add(year)
-            unique_months.add(month)
-
-        # Aggregate sum of gd_paid_salary for each month and year
-        for item in chart_data:
-            key = f"{item.gd_year}-{item.gd_month}"
-            if key not in aggregated_data:
-                aggregated_data[key] = 0
-            aggregated_data[key] += float(item.gd_paid_salary)
-
-        # Separate aggregated data for the current year and previous year
-        aggregated_data_current_year = {}
-        aggregated_data_previous_year = {}
-
-        for key, value in aggregated_data.items():
-            year, month = map(int, key.split('-'))
-            if year == current_year:
-                aggregated_data_current_year[month] = value
-            elif year == current_year - 1:
-                aggregated_data_previous_year[month] = value
-
-        context = {'current_year': current_year, 'previous_year': previous_year,
-                   'unique_years': sorted(unique_years), 'unique_months': sorted(
-                       unique_months), 'aggregated_data_current_year': aggregated_data_current_year, 'aggregated_data_previous_year': aggregated_data_previous_year}
-
-        return render(request, 'overview_chartdata.html', context)
