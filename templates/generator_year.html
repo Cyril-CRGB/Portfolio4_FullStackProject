@@ -14,7 +14,7 @@
       {% for year , status, is_previous_year_completed, is_current_year_completed in year_statuses %}
       <!--link to next page-->
       <div class="row align-items-start">
-        <div class="col list-group">{{year}}-{{status}}-{{is_previous_year_completed}}-{{is_current_year_completed}}</div>
+        <div class="col list-group"></div>
         {% if status == "Completed" %}
         <div class="col list-group">
           <!-- Display a green badge for completed years -->

@@ -157,6 +157,9 @@ class GeneratorYearView(View):
         # List to store year statuses
         year_statuses = []
 
+        # Find the minimum year
+        min_year = min(validity_years, default=None)
+
 
         for year in validity_years:
             # Check if the previous year is completed and not None
@@ -165,9 +168,13 @@ class GeneratorYearView(View):
             # Check if the current year is completed
             is_current_year_completed = GeneratorData.objects.filter(
                 gd_year=year, gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
-            if is_current_year_completed is not 0:
+            
+            if is_current_year_completed != 0:
                 status = "Completed"
-            elif is_previous_year_completed is not 0 and is_current_year_completed == 0:
+            elif is_previous_year_completed != 0 and is_current_year_completed == 0:
+                status = "Current"
+            elif year == min_year:
+                # If it's the minimum year, set status to 'Current'
                 status = "Current"
             else:
                 # If previous year is not completed, set status to not available
