@@ -157,11 +157,11 @@ class GeneratorYearView(View):
         # List to store year statuses
         year_statuses = []
 
+
         for year in validity_years:
-            # Check if the previous year is completed
+            # Check if the previous year is completed and not None
             previous_year = int(year) - 1
-            is_previous_year_completed = GeneratorData.objects.filter(
-                gd_year=previous_year, gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
+            is_previous_year_completed = GeneratorData.objects.filter(gd_year=previous_year, gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
             # Check if the current year is completed
             is_current_year_completed = GeneratorData.objects.filter(
                 gd_year=year, gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
@@ -179,7 +179,7 @@ class GeneratorYearView(View):
 
         # Pass the validity years to the template
         context = {'validity_years': validity_years, 'year_statuses': year_statuses,
-                   'is_previous_year_completed': is_previous_year_completed, 'is_current_year_completed': is_current_year_completed}
+                'is_previous_year_completed': is_previous_year_completed, 'is_current_year_completed': is_current_year_completed}
         return render(request, self.template_name, context)
 
 
@@ -580,7 +580,10 @@ class OverviewYearView(View):
         current_year = chart_data.aggregate(
             max_year=models.Max('gd_year'))['max_year']
 
-        previous_year = int(current_year) - 1
+        if current_year:
+            previous_year = int(current_year) - 1
+        else:
+            previous_year = None
 
         for entry in chart_data:
             year = entry.gd_year
