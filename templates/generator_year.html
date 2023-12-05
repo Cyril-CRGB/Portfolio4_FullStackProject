@@ -16,36 +16,51 @@
       <div class="row align-items-start">
         <div class="col list-group"></div>
         {% if status == "Completed" %}
-            <div class="col list-group">
-                <!-- Display a green badge for completed years -->
-                <span class="badge bg-success">Completed</span>
-            <a
-                href="{% url 'generator_month' year=year %}"
-                class="list-group-item"
-                >{{ year }}</a
-            >
-            </div>
+        <div class="col list-group">
+          <!-- Display a green badge for completed years -->
+
+          <a
+            href="{% url 'generator_month' year=year %}"
+            class="list-group-item"
+            >{{ year }}
+            <span
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
+              style="display: inline"
+              disabled
+              >Completed</span
+            ></a
+          >
+        </div>
         {% elif status == "Current" %}
-            <div class="col list-group">
-                <!-- Display a yellow badge for completed years -->
-                <span class="badge bg-warning">Current</span>
-            <a
-                href="{% url 'generator_month' year=year %}"
-                class="list-group-item"
-                >{{ year }}</a
-            >
-            </div>
+        <div class="col list-group">
+          <!-- Display a yellow badge for completed years -->
+
+          <a
+            href="{% url 'generator_month' year=year %}"
+            class="list-group-item"
+            >{{ year }}
+            <span
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning"
+              style="display: inline"
+              disabled
+              >Current</span
+            ></a
+          >
+        </div>
         {% elif status == "not_available" %}
-            <div class="col list-group">
-                <!-- Display a yellow badge for completed years -->
-                <span class="badge bg-secondary">Not available</span>
-            <a
-                href=""
-                class="list-group-item"
-                disabled
-                >{{ year }}</a
-            >
-            </div>
+        <div class="col list-group">
+          <!-- Display a gray badge for not available years -->
+
+          <a href="" class="list-group-item" disabled>
+            {{ year }}
+            <span
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"
+              style="display: inline"
+              disabled
+              >Not available
+            </span>
+          </a>
+        </div>
         {% endif %}
         <div class="col list-group"></div>
       </div>

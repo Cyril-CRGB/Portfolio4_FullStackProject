@@ -11,3 +11,7 @@
 .italic-button {
     font-style: italic;
 }
+
+.text-gray {
+    color:rgb(102, 104, 105);
+}

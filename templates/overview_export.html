@@ -1,35 +1,40 @@
 {% extends "base.html" %} {% block content %}
-            <button
-              type="button"
-              class="btn btn-outline-primary"
-              id="export-excel"
-            >
-              Excel
-            </button>
-            <button
-              type="button"
-              class="btn btn-outline-primary"
-              id="export-pdf"
-            >
-              PDF
-            </button>
+
+<div class="container-fluid text-center">
+  <div class="row">
+    <p></p>
+  </div>
+  <div class="d-flex justify-content-evenly align-items-center mb-3">
+    <span>
+      <button type="button" class="btn btn-outline-primary" id="export-excel">
+        Export to Excel
+      </button>
+    </span>
+    <span
+      ><a href="{% url 'overview' %}" class="btn btn-outline-primary"
+        >Return to Overview</a
+      >
+    </span>
+  </div>
+</div>
+
 <div class="table-responsive container mt-5 overflow-scroll">
-    <table id="data-table" class="table table-striped align-middle text-center">
-      <thead>
-        <tr>
-          <th>Category</th>
-          <th>Values</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for field in fields %}
-        <tr>
-          <td>{{ field.category }}</td>
-          <td>{{ field.value }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <table id="data-table" class="table table-striped align-middle text-center">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Values</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for field in fields %}
+      <tr>
+        <td>{{ field.category }}</td>
+        <td>{{ field.value }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 {% endblock %}

@@ -13,7 +13,6 @@ from django.utils import timezone
 from django.db import models
 
 
-
 class HomeView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'index.html')
@@ -159,24 +158,28 @@ class GeneratorYearView(View):
         year_statuses = []
 
         for year in validity_years:
-            # Check if the previous year is completed    
-            previous_year = int(year) -1
-            is_previous_year_completed = GeneratorData.objects.filter(gd_year=previous_year , gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
+            # Check if the previous year is completed
+            previous_year = int(year) - 1
+            is_previous_year_completed = GeneratorData.objects.filter(
+                gd_year=previous_year, gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
             # Check if the current year is completed
-            is_current_year_completed = GeneratorData.objects.filter(gd_year=year, gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
+            is_current_year_completed = GeneratorData.objects.filter(
+                gd_year=year, gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
             if is_current_year_completed is not 0:
                 status = "Completed"
             elif is_previous_year_completed is not 0 and is_current_year_completed == 0:
                 status = "Current"
             else:
                 # If previous year is not completed, set status to not available
-                status = "not_available" 
-            
+                status = "not_available"
+
             # Append year and status to the list
-            year_statuses.append((year, status, is_previous_year_completed, is_current_year_completed))
-        
+            year_statuses.append(
+                (year, status, is_previous_year_completed, is_current_year_completed))
+
         # Pass the validity years to the template
-        context = {'validity_years': validity_years, 'year_statuses': year_statuses, 'is_previous_year_completed': is_previous_year_completed, 'is_current_year_completed': is_current_year_completed}
+        context = {'validity_years': validity_years, 'year_statuses': year_statuses,
+                   'is_previous_year_completed': is_previous_year_completed, 'is_current_year_completed': is_current_year_completed}
         return render(request, self.template_name, context)
 
 
@@ -607,12 +610,12 @@ class OverviewYearView(View):
 
         context = {'validity_years': validity_years,
                    'validity_months': validity_months,
-                   'validity_employees': validity_employees, 
-                   'current_year': current_year, 
+                   'validity_employees': validity_employees,
+                   'current_year': current_year,
                    'previous_year': previous_year,
-                   'unique_years': sorted(unique_years), 
+                   'unique_years': sorted(unique_years),
                    'unique_months': sorted(unique_months),
-                   'aggregated_data_current_year': aggregated_data_current_year, 
+                   'aggregated_data_current_year': aggregated_data_current_year,
                    'aggregated_data_previous_year': aggregated_data_previous_year}
 
         return render(request, self.template_name, context)
@@ -686,5 +689,3 @@ class OverviewExportView(View):
         # Pass the category values to the invisible table template
         context = {'form': form, 'fields': category_values}
         return render(request, self.template_name, context)
-
-
