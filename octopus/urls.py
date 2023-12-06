@@ -25,4 +25,5 @@ urlpatterns = [
     # path('employee_list/', views.EmployeesList.as_view(), name='listofemployees'),
     path('', include('hrmanager.urls'), name='hrmanager-urls'),
     path('summernote/', include('django_summernote.urls')),
+    path('accounts/', include('allauth.urls'),)
 ]
