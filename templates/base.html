@@ -41,7 +41,10 @@
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+                        <a class="nav-link active" href="{% url 'account_logout' %}">Logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'account_signup' %}">Users</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'Listofemployees' %}">Employees</a>
@@ -55,10 +58,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'overview' %}">Overview</a>
                     </li>
+
                     {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_login' %}">Login</a>
                     </li>
@@ -75,7 +76,21 @@
     </nav>
     <hr />
 
+
+
     <main class="flex-shrink-0 main-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8.offset-md-2">
+                    {% for message in messages %}
+                    <div class="alert {{ message.tags}} alert-dismissible fade show" id="msg" role="alert">
+                        {{ message|safe }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
         
         {% block content %}
         <!-- Content Goes here -->
@@ -94,6 +109,13 @@
     </footer>-->
     
     <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        setTimeout(function(){
+            let messages = document.getElementById("msg");
+            let alert = new bootstrap.Alert(messages);
+            alert.close();
+        }, 3000);
+    </script>
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
