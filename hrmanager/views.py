@@ -160,15 +160,15 @@ class GeneratorYearView(View):
         # Find the minimum year
         min_year = min(validity_years, default=None)
 
-
         for year in validity_years:
             # Check if the previous year is completed and not None
             previous_year = int(year) - 1
-            is_previous_year_completed = GeneratorData.objects.filter(gd_year=previous_year, gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
+            is_previous_year_completed = GeneratorData.objects.filter(
+                gd_year=previous_year, gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
             # Check if the current year is completed
             is_current_year_completed = GeneratorData.objects.filter(
                 gd_year=year, gd_month=12, gd_monthly_table_paid__isnull=False).distinct().count()
-            
+
             if is_current_year_completed != 0:
                 status = "Completed"
             elif is_previous_year_completed != 0 and is_current_year_completed == 0:
@@ -186,7 +186,7 @@ class GeneratorYearView(View):
 
         # Pass the validity years to the template
         context = {'validity_years': validity_years, 'year_statuses': year_statuses,
-                'is_previous_year_completed': is_previous_year_completed, 'is_current_year_completed': is_current_year_completed}
+                   'is_previous_year_completed': is_previous_year_completed, 'is_current_year_completed': is_current_year_completed}
         return render(request, self.template_name, context)
 
 
@@ -506,15 +506,29 @@ class GeneratorSaveMonthlyTableView(View):
                     gd_correction_non_financial_wage=calculated_correction_non_financial_wage
                 )
 
+            message = "Data has been created and saved successfully!"
+            messages.success(request, message)
+
             return redirect('generator_month', year=year)
 
 
 class GeneratorDeleteMonthlyDataView(View):
 
     def post(self, request, year, month, *args, **kwargs):
-        GeneratorData.objects.filter(gd_year=year, gd_month=month).delete()
-        message = "Data has been deleted successfully."
-        messages.success(request, message)
+        # Check if there is data to delete
+        data_to_delete = GeneratorData.objects.filter(
+            gd_year=year, gd_month=month)
+
+        if data_to_delete.exists():
+            # Data found and deleted
+            data_to_delete.delete()
+            message = "Data has been deleted successfully."
+            messages.success(request, message)
+        else:
+            # No data found
+            message = "No data found. Please save the data first."
+            messages.warning(request, message)
+
         return redirect('generator_month', year=year)
 
 
@@ -523,18 +537,29 @@ class GeneratorSeeView(View):
 
     def get(self, request, year, month, *args, **kwargs):
 
+        # Check if data exists
         generator_data = GeneratorData.objects.filter(
-            gd_year=year, gd_month=month).values(
-            'gd_year', 'gd_month', 'gd_title', 'gd_first_name', 'gd_last_name', 'gd_start_date', 'gd_end_date',
-            'gd_first_day_of_the_month_date', 'gd_last_day_of_the_month_date', 'gd_worked_days',
-            'gd_base_monthly_salary', 'gd_monthly_salary', 'gd_child_allocation_1', 'gd_child_allocation_2',
-            'gd_total_monthly_wage', 'gd_total_monthly_wage_for_social_insurance', 'gd_total_monthly_wage_for_social_taxes',
-            'gd_avs_item', 'gd_ac_item', 'gd_ac2_item', 'gd_laap_item', 'gd_laanp_item', 'gd_laac_item',
-            'gd_laace_item', 'gd_amat_item', 'gd_alfa_item', 'gd_apgmal_item', 'gd_alpetiteenfance_item',
-            'gd_total_social_deduction', 'gd_employees_phone_allocation', 'gd_employees_representation_allocation',
-            'gd_expense_report', 'gd_public_transportation_fees', 'gd_paid_salary', 'gd_monthly_table_saved',
-            'gd_monthly_table_paid', 'gd_extraordinary_salary', 'gd_LPP_deduction_employee', 'gd_total_deduction_employee',
-            'gd_correction_non_financial_wage')
+            gd_year=year, gd_month=month)
+
+        if not generator_data.exists():
+            # No data found, redirect with a warning message
+            message = "No data to visualize. Please save it first."
+            messages.warning(request, message)
+            return redirect('generator_month', year=year)
+        else:
+            # Data exist, proceed with rendering the template
+            generator_data = GeneratorData.objects.filter(
+                gd_year=year, gd_month=month).values(
+                'gd_year', 'gd_month', 'gd_title', 'gd_first_name', 'gd_last_name', 'gd_start_date', 'gd_end_date',
+                'gd_first_day_of_the_month_date', 'gd_last_day_of_the_month_date', 'gd_worked_days',
+                'gd_base_monthly_salary', 'gd_monthly_salary', 'gd_child_allocation_1', 'gd_child_allocation_2',
+                'gd_total_monthly_wage', 'gd_total_monthly_wage_for_social_insurance', 'gd_total_monthly_wage_for_social_taxes',
+                'gd_avs_item', 'gd_ac_item', 'gd_ac2_item', 'gd_laap_item', 'gd_laanp_item', 'gd_laac_item',
+                'gd_laace_item', 'gd_amat_item', 'gd_alfa_item', 'gd_apgmal_item', 'gd_alpetiteenfance_item',
+                'gd_total_social_deduction', 'gd_employees_phone_allocation', 'gd_employees_representation_allocation',
+                'gd_expense_report', 'gd_public_transportation_fees', 'gd_paid_salary', 'gd_monthly_table_saved',
+                'gd_monthly_table_paid', 'gd_extraordinary_salary', 'gd_LPP_deduction_employee', 'gd_total_deduction_employee',
+                'gd_correction_non_financial_wage')
 
         context = {'generator_data': generator_data}
         return render(request, self.template_name, context)
@@ -556,7 +581,7 @@ class GeneratorPayView(View):
                     request, 'Payment has already been made for this record.')
         else:
             messages.error(
-                request, 'No records found for the specified year and month.')
+                request, 'No records found for the specified year and month. You need to save it first!')
 
         return redirect('generator_month', year=year)
 
@@ -676,11 +701,11 @@ class OverviewExportView(View):
         filter_kwargs = {}
 
         # Check and add filters for year, month, and employee
-        if year and year.isdigit():
+        if year and year.isdigit() and year != 'all':
             filter_kwargs['gd_year'] = year
-        if month:
+        if month and month != 'all':
             filter_kwargs['gd_month'] = month
-        if employee:
+        if employee and employee != 'all':
             filter_kwargs['gd_last_name'] = employee
 
         # Filter the queryset based on the provided filters
