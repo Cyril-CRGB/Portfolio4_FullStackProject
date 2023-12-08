@@ -1,3 +1,4 @@
+# Importing the necessary modules or classes
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic, View
 from .models import Employees, salary_items, GeneratorData
@@ -12,9 +13,11 @@ from django.contrib import messages
 from django.utils import timezone
 from django.db import models
 
-
+# Defining a class named HomeView that inherits from the View class
 class HomeView(View):
+    # Handling HTTP GET requests
     def get(self, request, *args, **kwargs):
+        # Rendering the 'index.html' template and returning the result
         return render(request, 'index.html')
 
 
