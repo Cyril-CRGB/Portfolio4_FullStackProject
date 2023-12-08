@@ -14,6 +14,8 @@ from django.utils import timezone
 from django.db import models
 
 # Defining a class named HomeView that inherits from the View class
+
+
 class HomeView(View):
     # Handling HTTP GET requests
     def get(self, request, *args, **kwargs):
@@ -46,31 +48,11 @@ class EnployeeAddView(generic.edit.CreateView):
     form_class = NewEmployeeForm
     success_url = reverse_lazy('Listofemployees')
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        print("NewEmployeeForm is valid!")
-        return response
-
-    def form_invalid(self, form):
-        print("NewEmployeeForm is invalid!")
-        print(form.errors)
-        return super().form_invalid(form)
-
 
 class ModifyEmployeeView(generic.edit.UpdateView):
     model = Employees
     form_class = ModifyEmployeeForm
     template_name = 'employee_modify.html'
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        print("ModifyEmployeeForm is valid!")
-        return redirect('Detailofemployees', pk=self.kwargs['pk'])
-
-    def form_invalid(self, form):
-        print("ModifyEmployeeForm is invalid!")
-        print(form.errors)
-        return super().form_invalid(form)
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')

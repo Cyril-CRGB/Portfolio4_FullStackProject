@@ -1,14 +1,19 @@
+# Importing the necessary modules or classes
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 
-
+# Status choices for employees
 STATUS = ((0, "Active"), (1, "Inactive"))
+
+# Choices for gender
 EMPLOYEES_GENDER = [
     ("F", "Female"),
     ("M", "Male"),
     ("O", "Other"),
 ]
+
+# Choices for marital status
 EMPLOYEES_MARITAL_STATUS = [
     ("M", "Married"),
     ("D", "Divorced"),
@@ -16,6 +21,8 @@ EMPLOYEES_MARITAL_STATUS = [
     ("P", "Partnership"),
     ("O", "Other"),
 ]
+
+# Choice for the number of children below 18
 CHILDREN_BELOW_18 = [
     ("0", "0"),
     ("1", "1"),
@@ -27,8 +34,10 @@ CHILDREN_BELOW_18 = [
     ("7", "7"),
     ("8", "8"),
     ("9", "9"),
-    ("10", "10"),  # to be corrected
+    ("10", "10"),
 ]
+
+# Choice for the number of children below 25
 CHILDREN_BELOW_25 = [
     ("0", "0"),
     ("1", "1"),
@@ -40,7 +49,7 @@ CHILDREN_BELOW_25 = [
     ("7", "7"),
     ("8", "8"),
     ("9", "9"),
-    ("10", "10"),  # to be corrected
+    ("10", "10"),
 ]
 
 
@@ -56,21 +65,25 @@ class Employees(models.Model):
         choices=CHILDREN_BELOW_18, blank=True, max_length=2)
     children_for_allocations_type_2 = models.CharField(
         choices=CHILDREN_BELOW_25, blank=True, max_length=2)
-    birth_date = models.DateField()
-    employees_age = models.PositiveSmallIntegerField()
-    email_adress = models.EmailField()
-    phone_number = models.IntegerField()
-    emergency_contact = models.CharField(max_length=30)
-    emergency_phonenumber = models.IntegerField()
+    birth_date = models.DateField(blank=True, null=True)
+    employees_age = models.PositiveSmallIntegerField(blank=True, null=True)
+    email_adress = models.EmailField(blank=True, null=True)
+    phone_number = models.IntegerField(blank=True, null=True)
+    emergency_contact = models.CharField(
+        max_length=30, blank=True, null=True)
+    emergency_phonenumber = models.IntegerField(
+        blank=True, null=True)
     employee_picture = CloudinaryField('image', default='placeholder')
     social_security_number = models.CharField(
         max_length=13, unique=True)
-    employees_bankaccount = models.CharField(max_length=21)
+    employees_bankaccount = models.CharField(
+        max_length=21, blank=True, null=True)
     # basic salary information
-    start_date = models.DateField()
-    end_date = models.DateField(blank=True, null=True, default=None)
-    employees_holiday_rights = models.IntegerField()
-    base_monthly_salary = models.IntegerField()
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    employees_holiday_rights = models.IntegerField(
+        blank=True, null=True, default=0)
+    base_monthly_salary = models.IntegerField(blank=True, null=True, default=0)
     LPP_deduction_employee = models.IntegerField(
         blank=True, null=True, default=0)
     LPP_deduction_employer = models.IntegerField(
@@ -89,7 +102,7 @@ class Employees(models.Model):
     # basic calculated information
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
-    seniority = models.DurationField()
+    seniority = models.DurationField(blank=True, null=True)
     # status
     employees_status = models.IntegerField(choices=STATUS, default=0)
 
@@ -141,7 +154,6 @@ class GeneratorData(models.Model):
     gd_base_monthly_salary = models.IntegerField(default=0)
     gd_monthly_salary = models.DecimalField(
         max_digits=10, decimal_places=2, default=0)
-
     gd_child_allocation_1 = models.IntegerField(default=0)
     gd_child_allocation_2 = models.IntegerField(default=0)
     gd_total_monthly_wage = models.DecimalField(
