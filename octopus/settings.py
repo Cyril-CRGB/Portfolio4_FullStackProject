@@ -17,11 +17,11 @@ import os
 if os.path.isfile('env.py'):
     import env
 
-development = os.environ.get('DEVELOPMENT', True)
+# development = os.environ.get('DEVELOPMENT', True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -30,17 +30,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = development
+DEBUG = False
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
-if development:
-    ALLOWED_HOSTS = [
-        '8000-cyril-crgb-portfolio4-fu-5iyjbxlegt.us2.codeanyapp.com']
-else:
-    ALLOWED_HOSTS = [
-        'portfolio4-fullstackproject-67b0ea26bc65.herokuapp.com']
+# if development:
+#    ALLOWED_HOSTS = [
+#        '8000-cyril-crgb-portfolio4-fu-5iyjbxlegt.us2.codeanyapp.com']
+# else:
+#    ALLOWED_HOSTS = [
+#        'portfolio4-fullstackproject-67b0ea26bc65.herokuapp.com']
 
+ALLOWED_HOSTS = ['portfolio4-fullstackproject-67b0ea26bc65.herokuapp.com']
 
 # Application definition
 
@@ -86,40 +87,55 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'octopus.urls'
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
-if development:
-    TEMPLATES = [
-        {
-            'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [TEMPLATES_DIR],
-            'APP_DIRS': True,
-            'OPTIONS': {
-                'context_processors': [
-                    'django.template.context_processors.debug',
-                    'django.template.context_processors.request',
-                    'django.contrib.auth.context_processors.auth',
-                    'django.contrib.messages.context_processors.messages',
-                ],
-            },
-        },
-    ]
-else:
 
-    TEMPLATES = [
-        {
-            'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [TEMPLATES_DIR],
-            'APP_DIRS': True,
-            'OPTIONS': {
-                'context_processors': [
-                    'django.template.context_processors.debug',
-                    'django.template.context_processors.request',
-                    'django.contrib.auth.context_processors.auth',
-                    'django.contrib.messages.context_processors.messages',
-                ],
-            },
+# if development:
+#     TEMPLATES = [
+#         {
+#             'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#             'DIRS': [TEMPLATES_DIR],
+#             'APP_DIRS': True,
+#             'OPTIONS': {
+#                 'context_processors': [
+#                     'django.template.context_processors.debug',
+#                     'django.template.context_processors.request',
+#                     'django.contrib.auth.context_processors.auth',
+#                     'django.contrib.messages.context_processors.messages',
+#                 ],
+#             },
+#         },
+#     ]
+# else:
+#     TEMPLATES = [
+#         {
+#             'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#             'DIRS': [TEMPLATES_DIR],
+#             'APP_DIRS': True,
+#             'OPTIONS': {
+#                 'context_processors': [
+#                     'django.template.context_processors.debug',
+#                     'django.template.context_processors.request',
+#                     'django.contrib.auth.context_processors.auth',
+#                     'django.contrib.messages.context_processors.messages',
+#                 ],
+#             },
+#         },
+#     ]
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [TEMPLATES_DIR],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
         },
-    ]
+    },
+]
 
 WSGI_APPLICATION = 'octopus.wsgi.application'
 
@@ -127,17 +143,20 @@ WSGI_APPLICATION = 'octopus.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-if development:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
-    DATABASES = {
-        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-    }
+# if development:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
+# else:
+#     DATABASES = {
+#         'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+#     }
+DATABASES = {
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
 
 
 # Password validation
@@ -176,17 +195,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-if development:
-    STATIC_URL = '/static/'
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-else:
-    STATIC_URL = '/static/'
-    STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# if development:
+#     STATIC_URL = '/static/'
+#     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# else:
+#     STATIC_URL = '/static/'
+#     STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+#     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+#     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#     MEDIA_URL = '/media/'
+#     DEFAULT_FILE_STORAGE = 'couldinary_storage.storage.MediaCloudinaryStorage'
 
-    MEDIA_URL = '/media/'
-    DEFAULT_FILE_STORAGE = 'couldinary_storage.storage.MediaCloudinaryStorage'
+STATIC_URL = '/static/'
+STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
