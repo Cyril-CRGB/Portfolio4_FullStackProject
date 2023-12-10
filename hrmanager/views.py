@@ -24,111 +24,145 @@ class HomeView(View):
 
 
 class EmployeesList(generic.ListView):
+    # Specify the model to be used for this view
     model = Employees
+    # Defin a custom queryset, filtering employees with status 0 and ordering by last name
     queryset = Employees.objects.filter(
         employees_status=0).order_by('last_name')
+    # Set the template name to be used for rendering this view
     template_name = 'employee_list.html'
+    # Specify the number of items to display per page, enabling pagination
     paginate_by = 6
 
 
 class EnployeeDetailView(generic.DetailView):
+    # Speciy the model to be used for this view
     model = Employees
+    # Set the template name to be used for rendering this view
     template_name = 'employee_detail.html'
+    # Define the name to be used for the context variable in the template
     context_object_name = 'selected_employee'
 
+    # Override the get_context_data method to add additional context data
     def get_context_data(self, **kwargs):
+        # Call the superclass method to get the default context
         context = super().get_context_data(**kwargs)
+        # Add the primary key of the selected employee to the context
         context['selected_employee_pk'] = self.object.pk
+        # Return the update context
         return context
 
 
 class EnployeeAddView(generic.edit.CreateView):
+    # Specify the model to be used for this view
     model = Employees
+    # Set the template name to be used for rendering this view
     template_name = 'employee_add.html'
+    # Specify the form class to be used for adding a new employee
     form_class = NewEmployeeForm
+    # Set the URL to redirect to after a successful addition of a new employee
     success_url = reverse_lazy('Listofemployees')
 
 
 class ModifyEmployeeView(generic.edit.UpdateView):
+    # Specify the model to be used for this view
     model = Employees
+    # Specify the form class to be used for updating employee information
     form_class = ModifyEmployeeForm
+    # Set the template name to be used for rendering this view
     template_name = 'employee_modify.html'
 
+    # Override the get_object method to retrieve the employee object to be updated
     def get_object(self, queryset=None):
+        # Retrieve the primary key from the URL parameters
         pk = self.kwargs.get('pk')
+        # Get the employee object or return a 404 response if not found
         return get_object_or_404(Employees, pk=pk)
 
+    # Override the get_context_data method to add additional context data
     def get_context_data(self, **kwargs):
+        # Call the superclass method to get the default context
         context = super().get_context_data(**kwargs)
+        # Add the current primary key and the form for the current employee to the context
         context['current_pk'] = self.object.pk
         context['form'] = ModifyEmployeeForm(instance=self.object)
+        # Return the updated context
         return context
 
+    # Override the get_succes_url method to define the URL to redirect to after a successful update
     def get_success_url(self):
+        # Return the URL for displaying the details of the updated employee
         return reverse_lazy('Detailofemployees', kwargs={'pk': self.kwargs['pk']})
 
 
 class YearList(generic.ListView):
+    # Specify the model to be used for this view
     model = salary_items
+    # Define a custom queryset, ordering salary items by validity year
     queryset = salary_items.objects.order_by('validity_year')
+    # Set the template name to be used for rendering this view
     template_name = 'year_list.html'
+    # Specify the number of items to display per page, enabling pagination
     paginate_by = 6
 
 
 class YearDetailView(generic.DetailView):
+    # Specifying the model to be used by the view
     model = salary_items
+    # Specifying the template to be rendered
     template_name = 'year_detail.html'
+    # Specifying the context variable name to use in the template
     context_object_name = 'selected_year'
 
+    # Overriding the get_context_data method to provide additional context data
     def get_context_data(self, **kwargs):
+        # Calling the get_context_data method of the superclass
         context = super().get_context_data(**kwargs)
+        # Adding a custom context variable 'selected_year_pk' with the primary key of the object
         context['selected_year_pk'] = self.object.pk
+        # Returning the updated context
         return context
 
 
 class YearAddView(generic.edit.CreateView):
+    # Specify the model to be used for this view
     model = salary_items
+    # Set the template name to be used for rendering this view
     template_name = 'year_add.html'
+    # Specify the form class to be used for adding a new salary year
     form_class = NewYearForm
+    # Set the URL to redirect to after a successful addition of a new salary year
     success_url = reverse_lazy('Yearview')
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        print("NewItemForm is valid!")
-        return response
-
-    def form_invalid(self, form):
-        print("NewItemForm is invalid!")
-        print(form.errors)
-        return super().form_invalid(form)
 
 
 class ModifyYearView(generic.edit.UpdateView):
+    # Specify the model to be used for this view
     model = salary_items
+    # Specify the form class to be used for updating salary year information
     form_class = ModifyYearForm
+    # Set the template name to be used for rendering this view
     template_name = 'year_modify.html'
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        print("AddYearForm is valid!")
-        return redirect('Detailofyears', pk=self.kwargs['pk'])
-
-    def form_invalid(self, form):
-        print("AddYearForm is invalid!")
-        print(form.errors)
-        return super().form_invalid(form)
-
+    # Override the get_object method to retrieve the salary year object to be updated
     def get_object(self, queryset=None):
+        # Retrieve the primary key from the URL parameters
         pk = self.kwargs.get('pk')
+        # Get the salary year object or return a 404 response if not found
         return get_object_or_404(salary_items, pk=pk)
 
+    # Override the get_context_data method to add additional context data
     def get_context_data(self, **kwargs):
+        # Call the superclass method to get the default context
         context = super().get_context_data(**kwargs)
+        # Add the current primary key and the form for the current salary year to the context
         context['current_pk'] = self.object.pk
         context['form'] = ModifyYearForm(instance=self.object)
+        # Return the updated context
         return context
 
+    # Override the get_success_url method to define the URL to redirect to after a successful update
     def get_success_url(self):
+        # Return the URL for displaying the details of the updated salary year
         return reverse_lazy('Detailofyears', kwargs={'pk': self.kwargs['pk']})
 
 
