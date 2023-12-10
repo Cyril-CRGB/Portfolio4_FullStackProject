@@ -41,7 +41,7 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 #    ALLOWED_HOSTS = [
 #        'portfolio4-fullstackproject-67b0ea26bc65.herokuapp.com']
 
-ALLOWED_HOSTS = ['portfolio4-fullstackproject-67b0ea26bc65.herokuapp.com']
+ALLOWED_HOSTS = ['8000-cyril-crgb-portfolio4-fu-5iyjbxlegt.us2.codeanyapp.com']
 
 # Application definition
 
