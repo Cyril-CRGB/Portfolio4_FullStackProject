@@ -1,18 +1,22 @@
 {% extends 'base.html' %} {% block content %}
-
+<!--Main container for the employee details page -->
 <div class="masthead">
+  <!-- Navigation tabs -->
   <div>
     <ul class="nav nav-tabs">
+      <!-- Link to the list of employees -->
       <li class="nav-item">
         <a class="nav-link" href="{% url 'Listofemployees' %}"
           >List of employees</a
         >
       </li>
+      <!-- Link to add a new employee -->
       <li class="nav-item">
         <a class="nav-link" href="{% url 'Addanemployees' %}"
           >Add a new employee</a
         >
       </li>
+      <!-- Link to the current employee being viewed -->
       <li class="nav-item">
         <a class="nav-link active" aria-current="page" href="#"
           >{{ selected_employee.first_name }}</a
@@ -20,8 +24,8 @@
       </li>
     </ul>
   </div>
+  <!-- Table 1: Personal information of the selected employee -->
   <div class="table-responsive container mt-5">
-    <!--table 1-->
     <table
       class="table table-striped table-sm align-middle caption-top text-center"
     >
@@ -35,6 +39,7 @@
         </tr>
       </thead>
       <tbody>
+        <!-- Display various personal details of the employee -->
         <tr>
           <th scope="row">Title:</th>
           <td>{{ selected_employee.title }}</td>
@@ -98,8 +103,8 @@
       </tbody>
     </table>
   </div>
+  <!--table 2: Salary and payment information of the selected employee -->
   <div class="table-responsive container mt-5">
-    <!--table 2-->
     <table
       class="table table-striped align-middle table-sm caption-top text-center"
     >
@@ -113,6 +118,7 @@
         </tr>
       </thead>
       <tbody>
+        <!-- Display salary and payment details of the employee -->
         <tr>
           <th scope="row">Bank account, IBAN:</th>
           <td>{{ selected_employee.employees_bankaccount }}</td>
@@ -144,8 +150,8 @@
       </tbody>
     </table>
   </div>
+  <!--table 3: Profile information of the selected employee -->
   <div class="table-responsive container mt-5">
-    <!--table 3-->
     <table
       class="table table-striped table-sm align-middle caption-top text-center"
     >
@@ -159,6 +165,7 @@
         </tr>
       </thead>
       <tbody>
+        <!-- Display additional profile information of the employee -->
         <tr>
           <th scope="row">Seniority:</th>
           <td>{{ selected_employee.seniority }}</td>

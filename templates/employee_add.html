@@ -1,27 +1,33 @@
 {% extends "base.html" %} {% block content %}
 
+<!-- Container for the main content of the page -->
 <div class="container-fluid">
+  <!-- Navigation tabs -->
   <ul class="nav nav-tabs">
     <li class="nav-item">
+      <!-- Link to the list of employees page -->
       <a class="nav-link" href="{% url 'Listofemployees' %}"
         >List of employees</a
       >
     </li>
     <li class="nav-item">
+      <!-- Current active page for adding a new employee -->
       <a class="nav-link active" aria-current="page" href="#"
         >New employee</a
       >
     </li>
   </ul>
+  <!-- Form to add a new employee -->
   <div class="container-fluid">
     <div class="row">
-      <p></p>
+      <p></p> <!-- Empty paragraph for spacing -->
     </div>
     <form method="POST" action="{% url 'Addanemployees' %}">
-      {% csrf_token %}
-    <!-- row 1 -->
+      {% csrf_token %} <!-- CSRF token for form security -->
+    <!-- row 1: Employee title and submit button -->
     <div class="row">
         <div class="col">
+          <!-- Input field for employee title -->
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Title</span>
             <input
@@ -31,22 +37,24 @@
               name="title"
               aria-describedby="basic-addon1"
             />
-            
           </div>
         </div>
         <div class="col">
+            <!-- Button to submit the form -->
             <div class="mb-3">
                 <button type="submit" class="btn btn-outline-primary" id="button-addon2">Add this employee</button>
             </div>
         </div>
         <div class="col">
+            <!-- Empty column for spacing -->
             <div class="mb-3">
             </div>
         </div>
       </div>
-    <!-- row 2 -->
+    <!-- row 2: Employee's first name, last ame, and bank account -->
       <div class="row">
         <div class="col">
+          <!-- Input field for first name -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">First name</span>
             <input
@@ -59,6 +67,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for last name -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Last Name</span>
             <input
@@ -71,16 +80,18 @@
           </div>
         </div>
         <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">Bank account</span>
-            <input type="text" class="form-control" placeholder="max 21 char" aria-describedby="basic-addon1"
-                name="employees_bankaccount" />
-        </div>
+          <!-- Input field for bank account -->
+          <div class="input-group mb-3 flex-nowrap">
+              <span class="input-group-text financial-color" id="basic-addon1">Bank account</span>
+              <input type="text" class="form-control" placeholder="max 21 char" aria-describedby="basic-addon1"
+                  name="employees_bankaccount" />
+          </div>
         </div>
       </div>
-    <!-- row 3 -->
+    <!-- row 3: Marital status, gender, and monthly salary -->
       <div class="row">
         <div class="col">
+          <!-- Dropdown for marital status -->
           <div class="input-group mb-3 flex-nowrap">
                 <label class="input-group-text" for="inputGroupSelectMaritalStatus">Marital status</label>
                 <select class="form-select" id="inputGroupSelectMaritalStatus" name="employees_marital_status">
@@ -94,6 +105,7 @@
           </div>
         </div>
         <div class="col">
+            <!-- Dropdown fo gender -->
             <div class="input-group mb-3 flex-nowrap">
                 <label class="input-group-text" for="inputGroupSelectGender">Gender</label>
                 <select class="form-select" id="inputGroupSelectGender" name="employees_gender">
@@ -105,18 +117,20 @@
             </div>
         </div>
         <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">Monthly salary</span>
-            <span class="input-group-text">$</span>
-            <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
-                name="base_monthly_salary" />
-            <span class="input-group-text">.00</span>
-        </div>
+          <!-- Input field for monthly salary -->
+          <div class="input-group mb-3 flex-nowrap">
+              <span class="input-group-text financial-color" id="basic-addon1">Monthly salary</span>
+              <span class="input-group-text">$</span>
+              <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
+                  name="base_monthly_salary" />
+              <span class="input-group-text">.00</span>
+          </div>
         </div>
       </div>
-    <!-- row 4 -->
+    <!-- row 4: Birth date, age, and phone allocation -->
       <div class="row">
         <div class="col">
+          <!-- Input field for birth date -->
           <div class="input-group mb-3 flex-nowrap">
                 <span class="input-group-text" id="basic-addon1">Birth date</span>
                 <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1"
@@ -124,24 +138,27 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for age -->
           <div class="input-group mb-3 flex-nowrap">
                 <span class="input-group-text" id="basic-addon1">Age</span>
                 <input type="text" class="form-control" placeholder="Enter the age" aria-describedby="basic-addon1" name="employees_age"/>
           </div>
         </div>
         <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">Phone allocation</span>
-            <span class="input-group-text">$</span>
-            <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
-                name="employees_phone_allocation" />
-            <span class="input-group-text">.00</span>
-        </div>
+          <!-- Input field for phone allocation -->
+          <div class="input-group mb-3 flex-nowrap">
+              <span class="input-group-text financial-color" id="basic-addon1">Phone allocation</span>
+              <span class="input-group-text">$</span>
+              <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
+                  name="employees_phone_allocation" />
+              <span class="input-group-text">.00</span>
+          </div>
         </div>
       </div>
-    <!-- row 5 -->
+    <!-- row 5: Phone number, Email address, and Representation allocation -->
       <div class="row">
         <div class="col">
+          <!-- Input field for Phone number -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Phone number</span>
             <input type="text" class="form-control" placeholder="0799998813" aria-describedby="basic-addon1"
@@ -149,6 +166,7 @@
           </div>
         </div>
         <div class="col">
+            <!-- Input field for Email address -->
             <div class="input-group mb-3 flex-nowrap">
                 <span class="input-group-text" id="basic-addon1">Email address</span>
                 <input type="email" class="form-control" placeholder="Enter a valid email address" aria-describedby="basic-addon1"
@@ -156,24 +174,27 @@
             </div>
         </div>
         <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">Representation allocation</span>
-            <span class="input-group-text">$</span>
-            <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
-                name="employees_representation_allocation" />
-            <span class="input-group-text">.00</span>
-        </div>
+          <!-- Input field for Representation allocation -->
+          <div class="input-group mb-3 flex-nowrap">
+              <span class="input-group-text financial-color" id="basic-addon1">Representation allocation</span>
+              <span class="input-group-text">$</span>
+              <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
+                  name="employees_representation_allocation" />
+              <span class="input-group-text">.00</span>
+          </div>
         </div>
       </div>
-    <!-- row 6 -->
+    <!-- row 6: picture, Social Security number, and Holiday right -->
       <div class="row">
         <div class="col">
+          <!-- Input field for Employee's picture -->
           <div class="input-group mb-3">
             <label class="input-group-text" for="inputGroupFilePicture">Employee's picture</label>
             <input type="file" class="form-control" id="inputGroupFilePicture" name="employee_picture">
           </div>
         </div>
         <div class="col">
+          <!-- Input field for Social Security number -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Social Security number</span>
             <input type="text" class="form-control" placeholder="max 13 char" aria-describedby="basic-addon1"
@@ -181,16 +202,18 @@
           </div>
         </div>
         <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">Holiday right</span>
-            <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
-                name="employees_holiday_rights" />
-        </div>
+          <!-- Input field for Holiday right -->
+          <div class="input-group mb-3 flex-nowrap">
+              <span class="input-group-text financial-color" id="basic-addon1">Holiday right</span>
+              <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
+                  name="employees_holiday_rights" />
+          </div>
         </div>
       </div>
-    <!-- row 7 -->
+    <!-- row 7: Children below 18, Children below 25, and Start date -->
       <div class="row">
         <div class="col">
+            <!-- Input field for Children below 18 -->
             <div class="input-group mb-3 flex-nowrap">
                 <label class="input-group-text" for="inputGroupSelectChildrenBelow18">Children below 18</label>
                 <select class="form-select" id="inputGroupSelectChildrenBelow18" name="children_for_allocations_type_1">
@@ -210,6 +233,7 @@
             </div>
         </div>
         <div class="col">
+            <!-- Input field for Children below 25 -->
             <div class="input-group mb-3 flex-nowrap">
                 <label class="input-group-text" for="inputGroupSelectChildrenBelow25">Children below 25</label>
                 <select class="form-select" id="inputGroupSelectChildrenBelow25" name="children_for_allocations_type_2">
@@ -229,16 +253,18 @@
             </div>
         </div>
         <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">Start date</span>
-            <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1"
-                name="start_date" />
-        </div>
+          <!-- Input field for Start date -->
+          <div class="input-group mb-3 flex-nowrap">
+              <span class="input-group-text financial-color" id="basic-addon1">Start date</span>
+              <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1"
+                  name="start_date" />
+          </div>
         </div>
       </div>
-    <!-- row 8 -->
+    <!-- row 8: Emergency contact, Emergency phone number, and End date -->
       <div class="row">
         <div class="col">
+          <!-- Input field for Emergency contact -->
             <div class="input-group mb-3 flex-nowrap">
                 <span class="input-group-text" id="basic-addon1">Emergency contact</span>
                 <input type="text" class="form-control" placeholder="Enter the name of contact in case of an emergency"
@@ -246,6 +272,7 @@
             </div>
         </div>
         <div class="col">
+          <!-- Input field for Emergency phone number -->
             <div class="input-group mb-3 flex-nowrap">
                 <span class="input-group-text" id="basic-addon1">Emergency phone number</span>
                 <input type="text" class="form-control" placeholder="0799998813" aria-describedby="basic-addon1"
@@ -253,15 +280,17 @@
             </div>
         </div>
         <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1">End date</span>
-            <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1" name="end_date" />
-        </div>
+          <!-- Input field for End date -->
+          <div class="input-group mb-3 flex-nowrap">
+              <span class="input-group-text financial-color" id="basic-addon1">End date</span>
+              <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1" name="end_date" />
+          </div>
         </div>
       </div>
-    <!-- row 9 -->
+    <!-- row 9: Seniority, Is the employee active -->
     <div class="row">
         <div class="col">
+            <!-- Input field for Seniority -->
             <div class="input-group mb-3 flex-nowrap">
                 <span class="input-group-text" id="basic-addon1">Seniority</span>
                 <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1"
@@ -269,6 +298,7 @@
             </div>
         </div>
         <div class="col">
+            <!-- Input field for Is the employee active -->
             <div class="input-group mb-3 flex-nowrap">
                 <span class="input-group-text" id="basic-addon1">Is the employee active</span>
                 <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1" name="employees_status" />
