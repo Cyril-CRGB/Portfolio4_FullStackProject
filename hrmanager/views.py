@@ -14,15 +14,13 @@ from django.utils import timezone
 from django.db import models
 
 # Defining a class named HomeView that inherits from the View class
-
-
 class HomeView(View):
     # Handling HTTP GET requests
     def get(self, request, *args, **kwargs):
         # Rendering the 'index.html' template and returning the result
         return render(request, 'index.html')
 
-
+# A view to list all active employees
 class EmployeesList(generic.ListView):
     # Specify the model to be used for this view
     model = Employees
@@ -34,7 +32,7 @@ class EmployeesList(generic.ListView):
     # Specify the number of items to display per page, enabling pagination
     paginate_by = 6
 
-
+# A view to display details of an employee
 class EnployeeDetailView(generic.DetailView):
     # Speciy the model to be used for this view
     model = Employees
@@ -52,7 +50,7 @@ class EnployeeDetailView(generic.DetailView):
         # Return the update context
         return context
 
-
+# A view to add a new employee
 class EnployeeAddView(generic.edit.CreateView):
     # Specify the model to be used for this view
     model = Employees
@@ -63,7 +61,7 @@ class EnployeeAddView(generic.edit.CreateView):
     # Set the URL to redirect to after a successful addition of a new employee
     success_url = reverse_lazy('Listofemployees')
 
-
+# A view to modify an existing employee
 class ModifyEmployeeView(generic.edit.UpdateView):
     # Specify the model to be used for this view
     model = Employees
@@ -94,7 +92,7 @@ class ModifyEmployeeView(generic.edit.UpdateView):
         # Return the URL for displaying the details of the updated employee
         return reverse_lazy('Detailofemployees', kwargs={'pk': self.kwargs['pk']})
 
-
+# A view to list all available salary years
 class YearList(generic.ListView):
     # Specify the model to be used for this view
     model = salary_items
@@ -105,7 +103,7 @@ class YearList(generic.ListView):
     # Specify the number of items to display per page, enabling pagination
     paginate_by = 6
 
-
+# A view to display details of a salary year
 class YearDetailView(generic.DetailView):
     # Specifying the model to be used by the view
     model = salary_items
@@ -123,7 +121,7 @@ class YearDetailView(generic.DetailView):
         # Returning the updated context
         return context
 
-
+# A view to add a new salary year
 class YearAddView(generic.edit.CreateView):
     # Specify the model to be used for this view
     model = salary_items
@@ -134,7 +132,7 @@ class YearAddView(generic.edit.CreateView):
     # Set the URL to redirect to after a successful addition of a new salary year
     success_url = reverse_lazy('Yearview')
 
-
+# A view to modify an existing salary year
 class ModifyYearView(generic.edit.UpdateView):
     # Specify the model to be used for this view
     model = salary_items

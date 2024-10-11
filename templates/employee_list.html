@@ -1,31 +1,38 @@
 {% extends "base.html" %} {% block content %}
-
+<!-- Container for the main content -->
 <div class="container-fluid">
+  <!-- Navigation tabs -->
   <ul class="nav nav-tabs">
+    <!-- Link to the list of employees (current active tab) -->
     <li class="nav-item">
       <a class="nav-link active" aria-current="page" href="#"
         >List of employees</a
       >
     </li>
+    <!-- Link to add a new employee -->
     <li class="nav-item">
       <a class="nav-link" href="{% url 'Addanemployees' %}"
         >Add a new employee</a
       >
     </li>
   </ul>
-
+  <!-- Row containing employee cards -->
   <div class="row">
     <!-- Blog Entries Column -->
     <div class="col-12 mt-3 left">
       <div class="row">
+        <!-- Loop through the list of employees -->
         {% for employee in employees_list %}
         <div class="col-md-4">
+          <!-- Employee card -->
           <div class="card mb-4 text-center border-dark">
             <div class="card-header financial-color">
+              <!-- Display employee's last and first name -->
               {{ employee.last_name }} {{ employee.first_name }}
             </div>
             <div class="card-body">
               <div class="image-container">
+                <!-- Display employee's image, fallback to default image if placeholder -->
                 {% if "placeholder" in employee.featured_image.url %}
                 <img
                   class="card-img-top"
@@ -42,12 +49,13 @@
                 </div> -->
               </div>
               <div>
+                <!-- Link to see detailed information of the employee -->
                 <a
                   href="{% url 'Detailofemployees' employee.pk %}"
                   class="btn btn-outline-primary btn-sm"
                   >See detail</a
                 >
-
+                <!-- Link to modify employee details -->
                 <a
                   href="{% url 'modify_employee' employee.pk %}"
                   class="btn btn-outline-primary btn-sm"
@@ -55,6 +63,7 @@
                 >
               </div>
               <hr />
+              <!-- Display employee gender and start date -->
               <p class="card-text text-muted h6">
                 {{ employee.employees_gender}}
                 <!--<i class=""></i>-->
@@ -63,27 +72,29 @@
             </div>
           </div>
         </div>
+        <!-- Create a new row after every 3 employee cards -->
         {% if forloop.counter|divisibleby:3 %}
       </div>
       <div class="row">{% endif %} {% endfor %}</div>
     </div>
   </div>
+  <!-- Pagination controls if the list is paginated -->
   {% if is_paginated %}
   <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
+      <!-- Link to the previous page if it exists -->
       {% if page_obj.has_previous %}
       <li>
         <a href="?page={{ page_obj.previous_page_number }}" class="page-link"
           >&laquo; PREV
         </a>
       </li>
-      {% endif %} {% if page_obj.has_next %}
+      {% endif %} <!-- Link to the next page if it exists --> {% if page_obj.has_next %}
       <li>
         <a href="?page={{ page_obj.next_page_number }}" class="page-link">
           NEXT &raquo;</a
         >
       </li>
-
       {% endif %}
     </ul>
   </nav>

@@ -1,27 +1,32 @@
 {% extends "base.html" %} {% block content %}
-
+<!-- Main container for the page content -->
 <div class="container-fluid">
+  <!-- Navigation tabs for year management -->
   <ul class="nav nav-tabs">
+    <!-- Link to list of years page -->
     <li class="nav-item">
       <a class="nav-link" href="{% url 'Yearview' %}"
         >List of years</a
       >
     </li>
+    <!-- Current active tab for adding a new year -->
     <li class="nav-item">
       <a class="nav-link active" aria-current="page" href="#"
         >New year</a
       >
     </li>
   </ul>
+  <!-- Form to add a new year and relevant details -->
   <div class="container-fluid">
     <div class="row">
-      <p></p>
+      <p></p><!-- Empty paragraph for spacing -->
     </div>
     <form method="POST" action="{% url 'Addayear' %}">
-      {% csrf_token %}
-    <!-- row 1 -->
+      {% csrf_token %}<!-- CSRF token for form security -->
+    <!-- Row 1: Input for year and submit button -->
     <div class="row">
         <div class="col">
+          <!-- Input field for entering the year -->
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Year</span>
             <input
@@ -34,16 +39,18 @@
           </div>
         </div>
         <div class="col">
+            <!-- Button to submit the new year -->
             <div class="mb-3">
                 <button type="submit" class="btn btn-outline-primary" id="button-addon2">Add this year</button>
             </div>
         </div>
         <div class="col">
+            <!-- Empty column for spacing -->
             <div class="mb-3">
             </div>
         </div>
       </div>
-    <!-- row 2 -->
+    <!-- Row 2: Input fiels for AVS/AI, AC, and AC2 rates -->
       <div class="row">
         <div class="col">
           <div class="input-group mb-3 flex-nowrap">
@@ -80,7 +87,7 @@
             </div>
         </div>
       </div>
-    <!-- row 3 -->
+    <!-- Row 3: Input fields for LAA professional, LAA non professional, and LAA complementary rates -->
       <div class="row">
         <div class="col">
             <div class="input-group mb-3 flex-nowrap">
@@ -107,7 +114,7 @@
         </div>
         </div>
       </div>
-    <!-- row 4 -->
+    <!-- Row 4: Input fields for LAA complementary exceeding, AMAT, and ALFA rates -->
       <div class="row">
         <div class="col">
           <div class="input-group mb-3 flex-nowrap">
@@ -133,7 +140,7 @@
         </div>
         </div>
       </div>
-    <!-- row 5 -->
+    <!-- Row 5: Input fields for APG Sickness, Children care, and Expense report rates -->
       <div class="row">
         <div class="col">
           <div class="input-group mb-3 flex-nowrap">
@@ -160,7 +167,7 @@
         </div>
         </div>
       </div>
-    <!-- row 6 -->
+    <!-- Row 6: Input field for Public transportation fees -->
       <div class="row">
         <div class="col">
           <div class="input-group mb-3 flex-nowrap">
@@ -169,12 +176,12 @@
             <span class="input-group-text">%</span>
           </div>
         </div>
-        <div class="col">
+        <div class="col"><!-- Empty column for futur field -->
         </div>
-        <div class="col">
+        <div class="col"><!-- Empty column for futur field -->
         </div>
       </div>
-    <!-- row 7 -->
+    <!-- Row 7: Empty rows for futur fields -->
       <div class="row">
         <div class="col">
         </div>
@@ -183,7 +190,7 @@
         <div class="col">
         </div>
       </div>
-    <!-- row 8 -->
+    <!-- Row 8: Empty rows for futur fields -->
       <div class="row">
         <div class="col">
         </div>
@@ -192,7 +199,7 @@
         <div class="col">
         </div>
       </div>
-    <!-- row 9 -->
+    <!-- Row 9: Empty rows for futur fields -->
     <div class="row">
         <div class="col">
         </div>
@@ -200,8 +207,6 @@
         </div>
         <div class="col">
         </div>
-        <!--{{ form.as_p }}
-        <button type="submit" class="btn btn-outline-primary" id="button-addon2">Add this employee</button>-->
     </div>
       </div>
     </form>

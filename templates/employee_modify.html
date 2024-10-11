@@ -1,45 +1,38 @@
 {% extends "base.html" %} {% block content %}
-
+<!-- Container for the main content of the page -->
 <div class="container-fluid">
+  <!-- Navigation tabs -->
   <ul class="nav nav-tabs">
+    <!-- Link to the list of employees page -->
     <li class="nav-item">
       <a class="nav-link" href="{% url 'Listofemployees' %}"
         >List of employees</a
       >
     </li>
+    <!-- Link to add a new employee -->
     <li class="nav-item">
       <a class="nav-link" href="{% url 'Addanemployees' %}"
         >Add a new employee</a
       >
     </li>
+    <!-- Current active tab for modifying an employee -->
     <li class="nav-item">
       <a class="nav-link active" aria-current="page" href="#"
         >Modify employee</a
       >
     </li>
   </ul>
+  <!-- Form to modify an employee's details -->
   <div class="container-fluid">
     <div class="row">
-      <p></p>
+      <p></p> <!-- Empty paragraph for spacing -->
     </div>
     <form method="POST" action="{% url 'modify_employee' pk=current_pk %}">
-      {% csrf_token %}
-      <!--<div class="col">
-                <div class="mb-3">{{current_pk}}</div>
-            </div>-->
-      <!--<div class="col">
-                <div class="mb-3">{{ form.as_p }}</div>
-            </div>
-            <div class="col">
-                <div class="mb-3">
-                <button type="submit" class="btn btn-outline-primary" id="button-addon2">
-                    Modify this employee
-                </button>
-                </div>
-            </div>
-            </form>-->
+      {% csrf_token %} <!-- CSRF token for form security -->
+      <!-- Row 1: Employee title and modify button -->
       <div class="row">
         <div class="col">
+          <!-- Input field for employee title -->
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Title</span>
             <input
@@ -52,6 +45,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Button to submit modifications -->
           <div class="mb-3">
             <button
               type="submit"
@@ -63,12 +57,14 @@
           </div>
         </div>
         <div class="col">
+          <!-- Empty column for spacing -->
           <div class="mb-3"></div>
         </div>
       </div>
-      <!-- row 2 -->
+      <!-- Row 2: First name, last name, and bank account -->
       <div class="row">
         <div class="col">
+          <!-- Input field for first name -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">First name</span>
             <input
@@ -81,6 +77,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for last name -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Last Name</span>
             <input
@@ -93,6 +90,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for bank account -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text financial-color" id="basic-addon1"
               >Bank account</span
@@ -107,9 +105,10 @@
           </div>
         </div>
       </div>
-      <!-- row 3 -->
+      <!-- Row 3: Marital status, Gender, and Monthly salary -->
       <div class="row">
         <div class="col">
+          <!-- Option field for Marital status -->
           <div class="input-group mb-3 flex-nowrap">
             <label class="input-group-text" for="inputGroupSelectMaritalStatus"
               >Marital status</label
@@ -130,6 +129,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Option field for Gender -->
           <div class="input-group mb-3 flex-nowrap">
             <label class="input-group-text" for="inputGroupSelectGender"
               >Gender</label
@@ -148,6 +148,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for Monthly salary -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text financial-color" id="basic-addon1"
               >Monthly salary</span
@@ -164,9 +165,10 @@
           </div>
         </div>
       </div>
-      <!-- row 4 -->
+      <!-- Row 4: Birth date, Age, and Phone allocation -->
       <div class="row">
         <div class="col">
+          <!-- Date field for Birth date -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Birth date</span>
             <input
@@ -179,6 +181,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for Age -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Age</span>
             <input
@@ -191,6 +194,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for Phone allocation -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text financial-color" id="basic-addon1"
               >Phone allocation</span
@@ -207,9 +211,10 @@
           </div>
         </div>
       </div>
-      <!-- row 5 -->
+      <!-- Row 5: Phone number, Email address, and Representation allocation -->
       <div class="row">
         <div class="col">
+          <!-- Input field for Phone number -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Phone number</span>
             <input
@@ -222,6 +227,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for Phone Email address -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1"
               >Email address</span
@@ -236,6 +242,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for Representation allocation -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text financial-color" id="basic-addon1"
               >Representation allocation</span
@@ -252,9 +259,10 @@
           </div>
         </div>
       </div>
-      <!-- row 6 -->
+      <!-- Row 6: Employee's picture, Social Security number, and Holiday right -->
       <div class="row">
         <div class="col">
+          <!-- Upload field for Employee's picture -->
           <div class="input-group mb-3">
             <label class="input-group-text" for="inputGroupFilePicture"
               >Employee's picture</label
@@ -269,6 +277,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for Social Security number -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1"
               >Social Security number</span
@@ -283,6 +292,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for Holiday right -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text financial-color" id="basic-addon1"
               >Holiday right</span
@@ -297,9 +307,10 @@
           </div>
         </div>
       </div>
-      <!-- row 7 -->
+      <!-- Row 7: Children below 18, Children below 25, and Start date -->
       <div class="row">
         <div class="col">
+          <!-- Option field for Children below 18 -->
           <div class="input-group mb-3 flex-nowrap">
             <label
               class="input-group-text"
@@ -328,6 +339,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Option field for Children below 25 -->
           <div class="input-group mb-3 flex-nowrap">
             <label
               class="input-group-text"
@@ -356,6 +368,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for Start date -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text financial-color" id="basic-addon1"
               >Start date</span
@@ -370,9 +383,10 @@
           </div>
         </div>
       </div>
-      <!-- row 8 -->
+      <!-- Row 8: Emergency contact, Emergency phone number, and End date -->
       <div class="row">
         <div class="col">
+          <!-- Input field for Emergency contact -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1"
               >Emergency contact</span
@@ -387,6 +401,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for Emergency phone number -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1"
               >Emergency phone number</span
@@ -401,6 +416,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for End date -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text financial-color" id="basic-addon1"
               >End date</span
@@ -415,9 +431,10 @@
           </div>
         </div>
       </div>
-      <!-- row 9 -->
+      <!-- Row 9: Seniority, Is the employee active, and End date -->
       <div class="row">
         <div class="col">
+          <!-- Input field for Seniority -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Seniority</span>
             <input
@@ -430,6 +447,7 @@
           </div>
         </div>
         <div class="col">
+          <!-- Input field for active/inactive -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1"
               >Is the employee active</span
@@ -444,19 +462,9 @@
           </div>
         </div>
         <div class="col">
-          <!--<div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckStatus" name="employees_status">
-                            <label class="form-check-label" for="flexSwitchCheckStatus">Is the employee inactive?</label>
-                        </div>-->
         </div>
-        <!--{{ form.as_p }}
-                    <button type="submit" class="btn btn-outline-primary" id="button-addon2">Add this employee</button>-->
       </div>
     </form>
   </div>
 </div>
 {% endblock %}
-
-<!--<form method="POST" action="{% url 'modify_employee' pk=employee.pk %}">
-  {% csrf_token %}-->
-<!--</form>-->

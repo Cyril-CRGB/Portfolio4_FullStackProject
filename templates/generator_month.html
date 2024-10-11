@@ -1,38 +1,32 @@
 {% extends "base.html" %} {% block content %}
+<!-- Main container for the page content -->
 <div class="container-fluid">
+    <!-- Navigation tabs for year and months -->
     <ul class="nav nav-tabs">
         <li class="nav-item">
+            <!-- Link to generator year page -->
             <a class="nav-link" aria-current="page" href="{% url 'generator_year' %}">Year</a>
         </li>
         <li class="nav-item">
-                <a class="nav-link active" href="#">Months</a>
-            </li>
+            <!-- Current active tab for months -->
+            <a class="nav-link active" href="#">Months</a>
+        </li>
     </ul>
+    <!-- Container for displaying months and their details -->
     <div class="container-fluid">
         <div class="row">
-            <p></p>
+            <p></p><!-- Empty paragraph for spacing -->
         </div>
         <div class="container text-center">
-            <!--{% for message in messages %}
-            <div
-            class="alert alert-{{ message.tags }} alert-dismissible fade show"
-            role="alert"
-            >
-            {{ message }}
-            <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="alert"
-                aria-label="Close"
-            ></button>
-            </div>
-            {% endfor %}-->
+            <!-- Heading for the list of months for the selected year -->
             <h2>Months for {{ year }}:</h2>
+            <!-- Loop through each month and display relevant information -->
             {% for month_num, data_dict in generator_check_combined.items %}
             <div class="row align-items-start">
             <div class="col list-group"></div>
             <div class="col list-group">
                 <a href="#" class="list-group-item d-flex justify-content-between">
+                <!-- Display status indicators based on the data dictionary -->
                 {% if data_dict.is_paid %}
                 <span
                     class="position-absolute top-0 start-0 translate-middle p-2 bg-success border border-dark rounded-circle"
@@ -45,9 +39,11 @@
                 <span
                     class="position-absolute top-0 start-0 translate-middle p-2 bg-light border border-dark rounded-circle"
                 ></span>
-                {% endif %} {{ months|slice:month_num|last }} 
+                {% endif %} <!-- Display month name --> {{ months|slice:month_num|last }} 
+                <!-- Action buttons based on data availability and payment status -->
                 {%if data_dict.has_data_truebefore_falseafter and data_dict.is_paid_truebefore_falseafter%}
                 <div class="btn-group" role="group" aria-label="Basic example">
+                    <!-- Save button -->
                     <span>
                     <form
                         method="get"
@@ -60,6 +56,7 @@
                         </button>
                     </form>
                     </span>
+                    <!-- Delete button -->
                     <span>
                     <form
                         method="post"
@@ -72,6 +69,7 @@
                         </button>
                     </form>
                     </span>
+                    <!-- Pay button with confirmation -->
                     <span>
                     <form
                         method="post"
@@ -84,7 +82,9 @@
                         Pay
                         </button>
                     </form></span
-                    ><span>
+                    >
+                    <!-- See button -->
+                    <span>
                         <span>
                             <form method="get" action="{% url 'generator_see' year=year month=forloop.counter %}" style="display: inline">
                                 {% csrf_token %}
@@ -97,6 +97,7 @@
                 </div>
                 {% elif data_dict.has_data and data_dict.is_paid_truebefore_falseafter%}
                             <div class="btn-group" role="group" aria-label="Basic example">
+                                <!-- Delete button -->
                                 <span>
                                     <form method="post" action="{% url 'generator_delete_monthly_data' year=year month=forloop.counter %}"
                                         style="display: inline">
@@ -106,6 +107,7 @@
                                         </button>
                                     </form>
                                 </span>
+                                <!-- Pay button with confirmation -->
                                 <span>
                                     <form method="post" action="{% url 'generator_pay' year=year month=forloop.counter %}" style="display: inline"
                                         onsubmit="return confirm('Are you sure you want to make the payment? this would be irreversible!')">
@@ -114,7 +116,9 @@
                                             Pay
                                         </button>
                                     </form>
-                                </span><span>
+                                </span>
+                                <!-- See button  -->
+                                <span>
                                     <form method="get" action="{% url 'generator_see' year=year month=forloop.counter %}" style="display: inline">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-outline-dark btn-sm">
@@ -135,6 +139,7 @@
                                     </span>
                                 </div>
                     {% else %}
+                    <!-- Disabled button for unavailable periods -->
                                 <div class="btn-group" role="group" aria-label="Basic example">
                                     <span>
                                             <button type="submit" class="btn btn-light btn-sm italic-button" disabled>
@@ -152,5 +157,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}

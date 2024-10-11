@@ -1,33 +1,38 @@
 {% extends "base.html" %} {% block content %}
+<!-- Container for the main content of the page -->
 <div class="container-fluid">
+    <!-- Navigation tabs for year, months, and active employees -->
     <ul class="nav nav-tabs">
         <li class="nav-item">
+            <!-- Link to generator year page -->
             <a class="nav-link" aria-current="page" href="{% url 'generator_year' %}">Year</a>
         </li>
         <li class="nav-item">
+            <!-- Link to generator months page for a specific year -->
             <a class="nav-link" aria-current="page"
                 href="{% url 'generator_month' year=year %}">Months</a>
         </li>
         <li class="nav-item">
+            <!-- Current active tab for active employees -->
             <a class="nav-link active" href="#">Active employees</a>
         </li>
     </ul>
+    <!-- Container to display the list of active employees -->
     <div class="container-fluid ">
         <div class="container text-center">
             <div class="row">
-                <p><!--months|slice:month_num|last   {{ "01."|date:"m.Y" }} {{ month|date:"F" }} {{ year }}   {{ month }} - {{ year }}-->
+                <!-- Heading for the list of active employees for the selected period -->
+                <p>
                     <h2>List of active employees for the periode: {{ month }} - {{ year }}</h2>
                 </p>
             </div>
-            <!--<ul>-->
+            <!-- Loop through the list of active employees and display their details -->
             {% for employee in employees %}
-            <!--<li>-->
                 <p><span>{{ employee.first_name }} {{ employee.last_name }}</span>
                 <span>- {{employee.social_security_number }}</span></p>
-            <!--</li>-->
             {% endfor %}
-            <!--</ul>-->
         </div>
+        <!-- Button to calculate salaries for the selected period -->
         <div class="container text-center">
             <div class="mb-3">
             <a class="btn btn-outline-primary" href="{% url 'generator_monthly_table' year=year month=month %}" role="button">

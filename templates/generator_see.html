@@ -1,12 +1,16 @@
 {% extends "base.html" %} {% block content %}
+<!-- Main container for the page content -->
 <div class="container-fluid">
+  <!-- Navigation tabs for year, months, and see data -->
   <ul class="nav nav-tabs">
     <li class="nav-item">
+      <!-- Link to generator year page -->
       <a class="nav-link" aria-current="page" href="{% url 'generator_year' %}"
         >Year</a
       >
     </li>
     <li class="nav-item">
+      <!-- Link to generator months page for the selected year -->
       <a
         class="nav-link"
         aria-current="page"
@@ -15,15 +19,19 @@
       >
     </li>
     <li class="nav-item">
+      <!-- Current active tab to see the data -->
       <a class="nav-link active" href="#">See</a>
     </li>
   </ul>
+  <!-- Container to display data for the selected month and year -->
   <div class="container-fluid">
     <div class="row text-center">
+      <!-- Heading displaying the selected month and year -->
       <p><h2>
         Data for {{ generator_data.0.gd_month }} - {{ generator_data.0.gd_year }}
     </h2></p>
     </div>
+    <!-- Responsive table to display detailed data for each employee -->
     <div class="table-responsive container mt-5">
       <table class="table table-striped align-middle text-center">
         <thead>
@@ -57,6 +65,7 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Loop through each piece of data for the selected period and display details for each employee -->
           {% for data in generator_data %}
           <tr>
             <td>{{ data.gd_first_name }} {{ data.gd_last_name }}</td>

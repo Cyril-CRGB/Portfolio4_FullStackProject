@@ -1,41 +1,47 @@
 {% extends "base.html" %} {% block content %}
-
+<!-- Main container for the page content -->
 <div class="container-fluid">
+  <!-- Navigation tabs for year management -->
   <ul class="nav nav-tabs">
+    <!-- Current active tab for the list of years -->
     <li class="nav-item">
       <a class="nav-link active" aria-current="page" href="#">List of years</a>
     </li>
+    <!-- Link to add a new year page -->
     <li class="nav-item">
       <a class="nav-link" href="{% url 'Addayear' %}">Add a new year</a>
     </li>
   </ul>
-
+  <!-- Row container for displaying list of years -->
   <div class="row">
     <!-- Blog Entries Column -->
     <div class="col-12 mt-3 left">
       <div class="row">
+        <!-- Loop through each year item in salary_items_list -->
         {% for item in salary_items_list %}
         <div class="col-md-4">
           <div class="card mb-4 text-center border-dark">
+            <!-- Header showing the year -->
             <div class="card-header financial-color">
               {{ item.validity_year }}
             </div>
             <div class="card-body">
+              <!-- Image container for each year card -->
               <div class="image-container">
                 {% if "placeholder" in item.featured_image.url %}
+                <!-- Default image if a placeholder is detected -->
                 <img
                   class="card-img-top"
                   src="https://codeinstitute.s3.amazonaws.com/fullstack/blog/default.jpg"
                 />
                 {% else %}
+                <!-- Custom image for each year -->
                 <img
                   class="card-img-top"
                   src=" {{ post.featured_image.url }}"
                 />
                 {% endif %}
-                <!--<div class="image-flash">
-                  <p class="author">Employee :</p>
-                </div> -->
+                <!-- Buttons to see details or modify the year -->
               </div>
               <div>
                 <a
@@ -51,31 +57,34 @@
                 >
               </div>
               <hr />
+              <!-- Placeholder for additional information (currently empty) -->
               <p class="card-text text-muted h6"></p>
             </div>
           </div>
         </div>
+        <!-- Close and reopen the row after every three cards for better layout -->
         {% if forloop.counter|divisibleby:3 %}
       </div>
       <div class="row">{% endif %} {% endfor %}</div>
     </div>
   </div>
+  <!-- Pagination section (if the results are paginated) -->
   {% if is_paginated %}
   <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
+      <!-- Link to the previous page (if available) -->
       {% if page_obj.has_previous %}
       <li>
         <a href="?page={{ page_obj.previous_page_number }}" class="page-link"
           >&laquo; PREV
         </a>
       </li>
-      {% endif %} {% if page_obj.has_next %}
+      {% endif %} <!-- Link to the next page (if available) --> {% if page_obj.has_next %}
       <li>
         <a href="?page={{ page_obj.next_page_number }}" class="page-link">
           NEXT &raquo;</a
         >
       </li>
-
       {% endif %}
     </ul>
   </nav>
