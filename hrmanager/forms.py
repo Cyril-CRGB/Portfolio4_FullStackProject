@@ -1,5 +1,7 @@
 from django import forms
 from .models import Employees, salary_items, GeneratorData
+from django.core.exception import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class NewEmployeeForm(forms.ModelForm):

@@ -60,6 +60,14 @@ class EnployeeAddView(generic.edit.CreateView):
     form_class = NewEmployeeForm
     # Set the URL to redirect to after a successful addition of a new employee
     success_url = reverse_lazy('Listofemployees')
+    # Check if the form is invalide before saving
+    def form_invalid(self, form):
+        messages.error(self.request, 'There was an error in the data you submitted.')
+        return super().form_invalid(form)
+    # Check if the form is valide before saving
+    def form_valid(self, form):
+        message.success(self.request, 'Employee added successfully.')
+        return super().form_valid(form)
 
 # A view to modify an existing employee
 class ModifyEmployeeView(generic.edit.UpdateView):
@@ -91,6 +99,17 @@ class ModifyEmployeeView(generic.edit.UpdateView):
     def get_success_url(self):
         # Return the URL for displaying the details of the updated employee
         return reverse_lazy('Detailofemployees', kwargs={'pk': self.kwargs['pk']})
+
+    # Check if the form is invalide before saving
+    def form_invalid(self, form):
+        messages.error(self.request, 'There was an error updating the employee. Please correct the highlighted fields.')
+        return super().form_invalid(form)
+    # Check if the form is valide before saving
+    def form_valid(self, form):
+        message.success(self.request, 'Employee updated successfully.')
+        return super().form_valid(form)
+
+
 
 # A view to list all available salary years
 class YearList(generic.ListView):

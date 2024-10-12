@@ -2,6 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+from . import validators
 
 # Status choices for employees
 STATUS = ((0, "Active"), (1, "Inactive"))
@@ -56,8 +59,8 @@ CHILDREN_BELOW_25 = [
 class Employees(models.Model):
     # basic personal information
     title = models.CharField(max_length=200, unique=True, default='')
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30, null=False, blank=False, validators=[validate_alphabetics])
+    last_name = models.CharField(max_length=30, null=False, blank=False, validators=[validate_alphabetics])
     employees_gender = models.CharField(max_length=1, choices=EMPLOYEES_GENDER)
     employees_marital_status = models.CharField(
         max_length=1, choices=EMPLOYEES_MARITAL_STATUS)
@@ -67,7 +70,15 @@ class Employees(models.Model):
         choices=CHILDREN_BELOW_25, blank=True, max_length=2)
     birth_date = models.DateField(blank=True, null=True)
     employees_age = models.PositiveSmallIntegerField(blank=True, null=True)
-    email_adress = models.EmailField(blank=True, null=True)
+    email_adress = models.EmailField(
+        blank=True,
+        null=True,
+        validators=[validate_email],
+        unique=True,
+        error_messages={
+            'unique': "An employee with this email address already exists."
+        }
+    )
     phone_number = models.IntegerField(blank=True, null=True)
     emergency_contact = models.CharField(
         max_length=30, blank=True, null=True)
@@ -75,7 +86,13 @@ class Employees(models.Model):
         blank=True, null=True)
     employee_picture = CloudinaryField('image', default='placeholder')
     social_security_number = models.CharField(
-        max_length=13, unique=True)
+        max_length=13, 
+        validators=[validate_social_security_number],
+        unique=True,
+        error_messages={
+            'unique': "An employee with this Social Security Number already exists."
+        }
+    )
     employees_bankaccount = models.CharField(
         max_length=21, blank=True, null=True)
     # basic salary information
@@ -109,6 +126,11 @@ class Employees(models.Model):
     class Meta:
         ordering = ['start_date']
         unique_together = [['first_name', 'last_name']]
+
+    # Method to validate relationships between multiple fields
+    def clean(self):
+        # Testing if End date comes before start date
+        validate_enddate(self.start_date, self.end_date)
 
     def __str__(self):
         return self.title
