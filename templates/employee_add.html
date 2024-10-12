@@ -24,6 +24,11 @@
     </div>
     <form method="POST" action="{% url 'Addanemployees' %}">
       {% csrf_token %} <!-- CSRF token for form security -->
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+          {{ form.non_field_errors|join:", " }}
+        </div>
+      {% endif %}
     <!-- row 1: Employee title and submit button -->
     <div class="row">
         <div class="col">
@@ -38,6 +43,13 @@
               aria-describedby="basic-addon1"
             />
           </div>
+          {% if form.title.errors %}
+            <div class="text-danger">
+              {% for error in form.title.errors %}
+                <p>{{ error }} </p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
             <!-- Button to submit the form -->
@@ -65,6 +77,13 @@
               name="first_name"
             />
           </div>
+          {% if form.first_name.errors %}
+            <div class="text-danger">
+              {% for error in form.first_name.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for last name -->
@@ -78,6 +97,13 @@
               name="last_name"
             />
           </div>
+          {% if form.last_name.errors %}
+            <div class="text-danger">
+              {% for error in form.last_name.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for bank account -->
@@ -86,6 +112,13 @@
               <input type="text" class="form-control" placeholder="max 21 char" aria-describedby="basic-addon1"
                   name="employees_bankaccount" />
           </div>
+          {% if form.employees_bankaccount.errors %}
+            <div class="text-danger">
+              {% for error in form.employees_bankaccount.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
       </div>
     <!-- row 3: Marital status, gender, and monthly salary -->
@@ -103,6 +136,13 @@
                     <option value="O">Other</option>
                 </select>
           </div>
+          {% if form.employees_marital_status.errors %}
+            <div class="text-danger">
+              {% for error in form.employees_marital_status.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
             <!-- Dropdown fo gender -->
@@ -115,6 +155,13 @@
                     <option value="O">Other</option>
                 </select>
             </div>
+            {% if form.employees_gender.errors %}
+            <div class="text-danger">
+              {% for error in form.employees_gender.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for monthly salary -->
@@ -125,6 +172,13 @@
                   name="base_monthly_salary" />
               <span class="input-group-text">.00</span>
           </div>
+          {% if form.base_monthly_salary.errors %}
+          <div class="text-danger">
+            {% for error in form.base_monthly_salary.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
         </div>
       </div>
     <!-- row 4: Birth date, age, and phone allocation -->
@@ -136,6 +190,13 @@
                 <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1"
                     name="birth_date"/>
           </div>
+          {% if form.birth_date.errors %}
+          <div class="text-danger">
+            {% for error in form.birth_date.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
         </div>
         <div class="col">
           <!-- Input field for age -->
@@ -143,6 +204,13 @@
                 <span class="input-group-text" id="basic-addon1">Age</span>
                 <input type="text" class="form-control" placeholder="Enter the age" aria-describedby="basic-addon1" name="employees_age"/>
           </div>
+          {% if form.employees_age.errors %}
+          <div class="text-danger">
+            {% for error in form.employees_age.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
         </div>
         <div class="col">
           <!-- Input field for phone allocation -->
@@ -153,6 +221,13 @@
                   name="employees_phone_allocation" />
               <span class="input-group-text">.00</span>
           </div>
+          {% if form.employees_phone_allocation.errors %}
+          <div class="text-danger">
+            {% for error in form.employees_phone_allocation.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
         </div>
       </div>
     <!-- row 5: Phone number, Email address, and Representation allocation -->
@@ -161,9 +236,16 @@
           <!-- Input field for Phone number -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Phone number</span>
-            <input type="text" class="form-control" placeholder="0799998813" aria-describedby="basic-addon1"
+            <input type="text" class="form-control" placeholder="0041/00.000.00.00" aria-describedby="basic-addon1"
                 name="phone_number"/>
           </div>
+          {% if form.phone_number.errors %}
+          <div class="text-danger">
+            {% for error in form.phone_number.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
         <div class="col">
             <!-- Input field for Email address -->
@@ -172,6 +254,13 @@
                 <input type="email" class="form-control" placeholder="Enter a valid email address" aria-describedby="basic-addon1"
                     name="email_adress" />
             </div>
+            {% if form.email_adress.errors %}
+            <div class="text-danger">
+              {% for error in form.email_adress.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Representation allocation -->
@@ -182,6 +271,13 @@
                   name="employees_representation_allocation" />
               <span class="input-group-text">.00</span>
           </div>
+          {% if form.employees_representation_allocation.errors %}
+          <div class="text-danger">
+            {% for error in form.employees_representation_allocation.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
       </div>
     <!-- row 6: picture, Social Security number, and Holiday right -->
@@ -192,6 +288,13 @@
             <label class="input-group-text" for="inputGroupFilePicture">Employee's picture</label>
             <input type="file" class="form-control" id="inputGroupFilePicture" name="employee_picture">
           </div>
+          {% if form.employee_picture.errors %}
+          <div class="text-danger">
+            {% for error in form.employee_picture.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Social Security number -->
@@ -200,6 +303,13 @@
             <input type="text" class="form-control" placeholder="max 13 char" aria-describedby="basic-addon1"
                 name="social_security_number"/>
           </div>
+          {% if form.social_security_number.errors %}
+          <div class="text-danger">
+            {% for error in form.social_security_number.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Holiday right -->
@@ -208,6 +318,13 @@
               <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
                   name="employees_holiday_rights" />
           </div>
+          {% if form.employees_holiday_rights.errors %}
+          <div class="text-danger">
+            {% for error in form.employees_holiday_rights.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
       </div>
     <!-- row 7: Children below 18, Children below 25, and Start date -->
@@ -231,6 +348,13 @@
                     <option value="10">10</option>
                 </select>
             </div>
+            {% if form.children_for_allocations_type_1.errors %}
+            <div class="text-danger">
+              {% for error in form.children_for_allocations_type_1.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
         </div>
         <div class="col">
             <!-- Input field for Children below 25 -->
@@ -251,6 +375,13 @@
                     <option value="10">10</option>
                 </select>
             </div>
+            {% if form.children_for_allocations_type_2.errors %}
+            <div class="text-danger">
+              {% for error in form.children_for_allocations_type_2.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Start date -->
@@ -259,6 +390,13 @@
               <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1"
                   name="start_date" />
           </div>
+          {% if form.start_date.errors %}
+          <div class="text-danger">
+            {% for error in form.start_date.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
       </div>
     <!-- row 8: Emergency contact, Emergency phone number, and End date -->
@@ -270,14 +408,28 @@
                 <input type="text" class="form-control" placeholder="Enter the name of contact in case of an emergency"
                     aria-describedby="basic-addon1" name="emergency_contact" />
             </div>
+            {% if form.emergency_contact.errors %}
+            <div class="text-danger">
+              {% for error in form.emergency_contact.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Emergency phone number -->
             <div class="input-group mb-3 flex-nowrap">
                 <span class="input-group-text" id="basic-addon1">Emergency phone number</span>
-                <input type="text" class="form-control" placeholder="0799998813" aria-describedby="basic-addon1"
+                <input type="text" class="form-control" placeholder="0041/00.000.00.00" aria-describedby="basic-addon1"
                     name="emergency_phonenumber" />
             </div>
+            {% if form.emergency_phonenumber.errors %}
+            <div class="text-danger">
+              {% for error in form.emergency_phonenumber.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
         </div>
         <div class="col">
           <!-- Input field for End date -->
@@ -285,6 +437,13 @@
               <span class="input-group-text financial-color" id="basic-addon1">End date</span>
               <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1" name="end_date" />
           </div>
+          {% if form.end_date.errors %}
+          <div class="text-danger">
+            {% for error in form.end_date.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
       </div>
     <!-- row 9: Seniority, Is the employee active -->
@@ -296,6 +455,13 @@
                 <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1"
                     name="seniority" />
             </div>
+            {% if form.seniority.errors %}
+            <div class="text-danger">
+              {% for error in form.seniority.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
         </div>
         <div class="col">
             <!-- Input field for Is the employee active -->
@@ -303,6 +469,13 @@
                 <span class="input-group-text" id="basic-addon1">Is the employee active</span>
                 <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1" name="employees_status" />
             </div>
+            {% if form.employees_status.errors %}
+            <div class="text-danger">
+              {% for error in form.employees_status.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
         </div>
         <div class="col">
         </div>

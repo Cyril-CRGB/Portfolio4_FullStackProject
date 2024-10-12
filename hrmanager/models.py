@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from . import validators
+from .validators import validate_alphabetics, validate_social_security_number, validate_enddate, validate_birth_date_in_past, validate_phone_number_format, validate_employees_bankaccount_format, validate_date_format, validate_age_and_date_birth, validate_not_blank_nor_null
+from datetime import timedelta, date
 
 # Status choices for employees
 STATUS = ((0, "Active"), (1, "Inactive"))
@@ -58,45 +59,44 @@ CHILDREN_BELOW_25 = [
 
 class Employees(models.Model):
     # basic personal information
-    title = models.CharField(max_length=200, unique=True, default='')
-    first_name = models.CharField(max_length=30, null=False, blank=False, validators=[validate_alphabetics])
-    last_name = models.CharField(max_length=30, null=False, blank=False, validators=[validate_alphabetics])
+    title = models.CharField(max_length=200, unique=True, default='', error_messages={'unique': "An employee with this title already exists."})
+    first_name = models.CharField(max_length=30, null=False, blank=False, validators=[validate_alphabetics, validate_not_blank_nor_null])
+    last_name = models.CharField(max_length=30, null=False, blank=False, validators=[validate_alphabetics, validate_not_blank_nor_null])
     employees_gender = models.CharField(max_length=1, choices=EMPLOYEES_GENDER)
     employees_marital_status = models.CharField(
         max_length=1, choices=EMPLOYEES_MARITAL_STATUS)
     children_for_allocations_type_1 = models.CharField(
-        choices=CHILDREN_BELOW_18, blank=True, max_length=2)
+        choices=CHILDREN_BELOW_18, blank=True, max_length=2, validators=[validate_not_blank_nor_null])
     children_for_allocations_type_2 = models.CharField(
-        choices=CHILDREN_BELOW_25, blank=True, max_length=2)
-    birth_date = models.DateField(blank=True, null=True)
-    employees_age = models.PositiveSmallIntegerField(blank=True, null=True)
+        choices=CHILDREN_BELOW_25, blank=True, max_length=2, validators=[validate_not_blank_nor_null])
+    birth_date = models.DateField(blank=False, null=False, validators=[validate_birth_date_in_past, validate_date_format, validate_not_blank_nor_null], default=date.today)
+    employees_age = models.PositiveSmallIntegerField(blank=False, null=False, validators=[validate_not_blank_nor_null], default='0')
     email_adress = models.EmailField(
         blank=True,
         null=True,
-        validators=[validate_email],
+        validators=[validate_email, validate_not_blank_nor_null],
         unique=True,
         error_messages={
             'unique': "An employee with this email address already exists."
         }
     )
-    phone_number = models.IntegerField(blank=True, null=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True, validators=[validate_phone_number_format, validate_not_blank_nor_null], help_text="Format: 0041/00.000.00.00")
     emergency_contact = models.CharField(
         max_length=30, blank=True, null=True)
-    emergency_phonenumber = models.IntegerField(
-        blank=True, null=True)
+    emergency_phonenumber = models.CharField(max_length=15, blank=True, null=True, validators=[validate_phone_number_format], help_text="Format: 0041/00.000.00.00")
     employee_picture = CloudinaryField('image', default='placeholder')
     social_security_number = models.CharField(
         max_length=13, 
-        validators=[validate_social_security_number],
+        validators=[validate_social_security_number, validate_not_blank_nor_null],
         unique=True,
         error_messages={
             'unique': "An employee with this Social Security Number already exists."
         }
     )
     employees_bankaccount = models.CharField(
-        max_length=21, blank=True, null=True)
+        max_length=21, blank=True, null=True, validators=[validate_employees_bankaccount_format, validate_not_blank_nor_null], help_text="Format: CH00 0000 0000 0000 0000 0")
     # basic salary information
-    start_date = models.DateField(blank=True, null=True)
+    start_date = models.DateField(blank=False, null=False, validators=[validate_not_blank_nor_null], default=date.today)
     end_date = models.DateField(blank=True, null=True)
     employees_holiday_rights = models.IntegerField(
         blank=True, null=True, default=0)
@@ -129,8 +129,13 @@ class Employees(models.Model):
 
     # Method to validate relationships between multiple fields
     def clean(self):
+        # Call the parent clean method
+        super().clean()
         # Testing if End date comes before start date
         validate_enddate(self.start_date, self.end_date)
+        # Testing if date of birth match age
+        validate_age_and_date_birth(self.employees_age, self.birth_date)
+
 
     def __str__(self):
         return self.title

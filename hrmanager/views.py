@@ -62,11 +62,11 @@ class EnployeeAddView(generic.edit.CreateView):
     success_url = reverse_lazy('Listofemployees')
     # Check if the form is invalide before saving
     def form_invalid(self, form):
-        messages.error(self.request, 'There was an error in the data you submitted.')
+        messages.error(self.request, 'There was an error creating the employee. Please correct the highlighted fields.')
         return super().form_invalid(form)
     # Check if the form is valide before saving
     def form_valid(self, form):
-        message.success(self.request, 'Employee added successfully.')
+        messages.success(self.request, 'Employee added successfully.')
         return super().form_valid(form)
 
 # A view to modify an existing employee

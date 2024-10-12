@@ -12,3 +12,11 @@ Input validation Enhancements summary:
  - Added error messages and validation handling in views using form_invalid() and form_valid() to guide users.
  - Modified templates to properly display error messages to users.
  - Created database constraints and custom signals to prevent inconsistencies even outside of form usage.
+
+
+ buggs.
+
+ i had to delete all migrations made, because i changed it, then received this message: "You are trying to change the nullable field 'start_date' on employees to non-nullable without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:" and gave it a wrong default value
+
+parsing dates + date format
