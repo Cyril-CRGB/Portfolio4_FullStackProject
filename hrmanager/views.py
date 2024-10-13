@@ -102,11 +102,13 @@ class ModifyEmployeeView(generic.edit.UpdateView):
 
     # Check if the form is invalide before saving
     def form_invalid(self, form):
+        print(form.errors) # Debugging line to print form errors in the console
         messages.error(self.request, 'There was an error updating the employee. Please correct the highlighted fields.')
-        return super().form_invalid(form)
+        # return super().form_invalid(form)
+        return self.render_to_response(self.get_context_data(form=form))
     # Check if the form is valide before saving
     def form_valid(self, form):
-        message.success(self.request, 'Employee updated successfully.')
+        messages.success(self.request, 'Employee updated successfully.')
         return super().form_valid(form)
 
 
@@ -193,8 +195,23 @@ class GeneratorYearView(View):
         # List to store year statuses
         year_statuses = []
 
+        # Set default values for variables that will be used in the loop
+        is_previous_year_completed = 0
+        is_current_year_completed = 0
+
         # Find the minimum year
         min_year = min(validity_years, default=None)
+
+        # Display message if no previous year exists
+        if not validity_years:
+            messages.warning(request, "Please create a new year first.")
+            context = {
+                'validity_years': validity_years,
+                'year_statuses': year_statuses,
+                'is_previous_year_completed': is_previous_year_completed,
+                'is_current_year_completed': is_current_year_completed
+            }
+            return render(request, self.template_name, context)
 
         for year in validity_years:
             # Check if the previous year is completed and not None

@@ -72,13 +72,14 @@ class Employees(models.Model):
     birth_date = models.DateField(blank=False, null=False, validators=[validate_birth_date_in_past, validate_date_format, validate_not_blank_nor_null], default=date.today)
     employees_age = models.PositiveSmallIntegerField(blank=False, null=False, validators=[validate_not_blank_nor_null], default='0')
     email_adress = models.EmailField(
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
         validators=[validate_email, validate_not_blank_nor_null],
         unique=True,
         error_messages={
             'unique': "An employee with this email address already exists."
-        }
+        },
+        default='noneemail@noneemail.com'
     )
     phone_number = models.CharField(max_length=15, blank=True, null=True, validators=[validate_phone_number_format, validate_not_blank_nor_null], help_text="Format: 0041/00.000.00.00")
     emergency_contact = models.CharField(
@@ -97,7 +98,7 @@ class Employees(models.Model):
         max_length=21, blank=True, null=True, validators=[validate_employees_bankaccount_format, validate_not_blank_nor_null], help_text="Format: CH00 0000 0000 0000 0000 0")
     # basic salary information
     start_date = models.DateField(blank=False, null=False, validators=[validate_not_blank_nor_null], default=date.today)
-    end_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True, default='None')
     employees_holiday_rights = models.IntegerField(
         blank=True, null=True, default=0)
     base_monthly_salary = models.IntegerField(blank=True, null=True, default=0)

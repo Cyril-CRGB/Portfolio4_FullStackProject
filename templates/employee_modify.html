@@ -29,20 +29,40 @@
     </div>
     <form method="POST" action="{% url 'modify_employee' pk=current_pk %}">
       {% csrf_token %} <!-- CSRF token for form security -->
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+          {{ form.non_field_errors|join:", " }}
+        </div>
+      {% endif %}
+      <!--{% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags}}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}-->
       <!-- Row 1: Employee title and modify button -->
       <div class="row">
         <div class="col">
           <!-- Input field for employee title -->
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Title</span>
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.title.value }}"
               name="title"
               aria-describedby="basic-addon1"
-            />
+            />-->
+            {{ form.title }}
           </div>
+          {% if form.title.errors %}
+          <div class="text-danger">
+            {% for error in form.title.errors %}
+              <p>{{ error }} </p>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Button to submit modifications -->
@@ -67,27 +87,43 @@
           <!-- Input field for first name -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">First name</span>
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.first_name.value }}"
               aria-describedby="basic-addon1"
               name="first_name"
-            />
+            />-->
+            {{ form.first_name }}
           </div>
+          {% if form.first_name.errors %}
+          <div class="text-danger">
+            {% for error in form.first_name.errors %}
+              <p>{{ error }} </p>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for last name -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Last Name</span>
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.last_name.value }}"
               aria-describedby="basic-addon1"
               name="last_name"
-            />
+            />-->
+            {{ form.last_name }}
           </div>
+          {% if form.last_name.errors %}
+            <div class="text-danger">
+              {% for error in form.last_name.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for bank account -->
@@ -95,14 +131,22 @@
             <span class="input-group-text financial-color" id="basic-addon1"
               >Bank account</span
             >
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.employees_bankaccount.value }}"
               aria-describedby="basic-addon1"
               name="employees_bankaccount"
-            />
+            />-->
+            {{ form.employees_bankaccount }}
           </div>
+          {% if form.employees_bankaccount.errors %}
+          <div class="text-danger">
+            {% for error in form.employees_bankaccount.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
       </div>
       <!-- Row 3: Marital status, Gender, and Monthly salary -->
@@ -113,7 +157,7 @@
             <label class="input-group-text" for="inputGroupSelectMaritalStatus"
               >Marital status</label
             >
-            <select
+            <!--<select
               class="form-select"
               id="inputGroupSelectMaritalStatus"
               name="employees_marital_status"
@@ -125,8 +169,17 @@
               <option value="S">Single</option>
               <option value="P">Partnership</option>
               <option value="O">Other</option>
-            </select>
+            </select>-->
+            {{ form.employees_marital_status }}
+            {% if form.employees_marital_status.errors %}
+            <div class="text-danger">
+              {% for error in form.employees_marital_status.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
           </div>
+
         </div>
         <div class="col">
           <!-- Option field for Gender -->
@@ -134,7 +187,7 @@
             <label class="input-group-text" for="inputGroupSelectGender"
               >Gender</label
             >
-            <select
+            <!--<select
               class="form-select"
               id="inputGroupSelectGender"
               name="employees_gender"
@@ -144,8 +197,16 @@
               <option value="M">Male</option>
               <option value="F">Female</option>
               <option value="O">Other</option>
-            </select>
+            </select>-->
+            {{ form.employees_gender }}
           </div>
+          {% if form.employees_gender.errors %}
+            <div class="text-danger">
+              {% for error in form.employees_gender.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Monthly salary -->
@@ -154,15 +215,23 @@
               >Monthly salary</span
             >
             <span class="input-group-text">$</span>
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.base_monthly_salary.value }}"
               aria-describedby="basic-addon1"
               name="base_monthly_salary"
-            />
+            />-->
+            {{ form.base_monthly_salary }}
             <span class="input-group-text">.00</span>
           </div>
+          {% if form.base_monthly_salary.errors %}
+            <div class="text-danger">
+              {% for error in form.base_monthly_salary.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
       </div>
       <!-- Row 4: Birth date, Age, and Phone allocation -->
@@ -171,27 +240,43 @@
           <!-- Date field for Birth date -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Birth date</span>
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.birth_date.value }}"
               aria-describedby="basic-addon1"
               name="birth_date"
-            />
+            />-->
+            {{ form.birth_date }}
           </div>
+          {% if form.birth_date.errors %}
+            <div class="text-danger">
+              {% for error in form.birth_date.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Age -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Age</span>
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.employees_age.value }}"
               aria-describedby="basic-addon1"
               name="employees_age"
-            />
+            />-->
+            {{ form.employees_age }}
           </div>
+          {% if form.employees_age.errors %}
+            <div class="text-danger">
+              {% for error in form.employees_age.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Phone allocation -->
@@ -200,15 +285,23 @@
               >Phone allocation</span
             >
             <span class="input-group-text">$</span>
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.employees_phone_allocation.value }}"
               aria-describedby="basic-addon1"
               name="employees_phone_allocation"
-            />
+            />-->
+            {{ form.employees_phone_allocation }}
             <span class="input-group-text">.00</span>
           </div>
+          {% if form.employees_phone_allocation.errors %}
+            <div class="text-danger">
+              {% for error in form.employees_phone_allocation.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
       </div>
       <!-- Row 5: Phone number, Email address, and Representation allocation -->
@@ -217,14 +310,22 @@
           <!-- Input field for Phone number -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Phone number</span>
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.phone_number.value }}"
               aria-describedby="basic-addon1"
               name="phone_number"
-            />
+            />-->
+            {{ form.phone_number }}
           </div>
+          {% if form.phone_number.errors %}
+            <div class="text-danger">
+              {% for error in form.phone_number.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Phone Email address -->
@@ -232,14 +333,22 @@
             <span class="input-group-text" id="basic-addon1"
               >Email address</span
             >
-            <input
+            <!--<input
               type="email"
               class="form-control"
               value="{{ form.email_adress.value }}"
               aria-describedby="basic-addon1"
               name="email_adress"
-            />
+            />-->
+            {{ form.email_adress }}
           </div>
+          {% if form.email_adress.errors %}
+            <div class="text-danger">
+              {% for error in form.email_adress.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Representation allocation -->
@@ -248,15 +357,23 @@
               >Representation allocation</span
             >
             <span class="input-group-text">$</span>
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.employees_representation_allocation.value }}"
               aria-describedby="basic-addon1"
               name="employees_representation_allocation"
-            />
+            />-->
+            {{ form.employees_representation_allocation }}
             <span class="input-group-text">.00</span>
           </div>
+          {% if form.employees_representation_allocation.errors %}
+            <div class="text-danger">
+              {% for error in form.employees_representation_allocation.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
       </div>
       <!-- Row 6: Employee's picture, Social Security number, and Holiday right -->
@@ -275,6 +392,13 @@
               value="{{ form.employee_picture.value }}"
             />
           </div>
+          {% if form.employee_picture.errors %}
+            <div class="text-danger">
+              {% for error in form.employee_picture.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Social Security number -->
@@ -282,14 +406,22 @@
             <span class="input-group-text" id="basic-addon1"
               >Social Security number</span
             >
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.social_security_number.value }}"
               aria-describedby="basic-addon1"
               name="social_security_number"
-            />
+            />-->
+            {{ form.social_security_number }}
           </div>
+          {% if form.social_security_number.errors %}
+            <div class="text-danger">
+              {% for error in form.social_security_number.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Holiday right -->
@@ -297,14 +429,22 @@
             <span class="input-group-text financial-color" id="basic-addon1"
               >Holiday right</span
             >
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.employees_holiday_rights.value }}"
               aria-describedby="basic-addon1"
               name="employees_holiday_rights"
-            />
+            />-->
+            {{ form.employees_holiday_rights }}
           </div>
+          {% if form.employees_holiday_rights.errors %}
+            <div class="text-danger">
+              {% for error in form.employees_holiday_rights.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
       </div>
       <!-- Row 7: Children below 18, Children below 25, and Start date -->
@@ -317,7 +457,7 @@
               for="inputGroupSelectChildrenBelow18"
               >Children below 18</label
             >
-            <select
+            <!--<select
               class="form-select"
               id="inputGroupSelectChildrenBelow18"
               name="children_for_allocations_type_1"
@@ -335,8 +475,16 @@
               <option value="8">8</option>
               <option value="9">9</option>
               <option value="10">10</option>
-            </select>
+            </select>-->
+            {{ form.children_for_allocations_type_1 }}
           </div>
+          {% if form.children_for_allocations_type_1.errors %}
+            <div class="text-danger">
+              {% for error in form.children_for_allocations_type_1.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Option field for Children below 25 -->
@@ -346,7 +494,7 @@
               for="inputGroupSelectChildrenBelow25"
               >Children below 25</label
             >
-            <select
+            <!--<select
               class="form-select"
               id="inputGroupSelectChildrenBelow25"
               name="children_for_allocations_type_2"
@@ -364,8 +512,16 @@
               <option value="8">8</option>
               <option value="9">9</option>
               <option value="10">10</option>
-            </select>
+            </select>-->
+            {{ form.children_for_allocations_type_2 }}
           </div>
+          {% if form.children_for_allocations_type_2.errors %}
+            <div class="text-danger">
+              {% for error in form.children_for_allocations_type_2.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Start date -->
@@ -373,14 +529,22 @@
             <span class="input-group-text financial-color" id="basic-addon1"
               >Start date</span
             >
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.start_date.value }}"
               aria-describedby="basic-addon1"
               name="start_date"
-            />
+            />-->
+            {{ form.start_date }}
           </div>
+          {% if form.start_date.errors %}
+            <div class="text-danger">
+              {% for error in form.start_date.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
       </div>
       <!-- Row 8: Emergency contact, Emergency phone number, and End date -->
@@ -391,14 +555,22 @@
             <span class="input-group-text" id="basic-addon1"
               >Emergency contact</span
             >
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.emergency_contact.value }}"
               aria-describedby="basic-addon1"
               name="emergency_contact"
-            />
+            />-->
+            {{ form.emergency_contact }}
           </div>
+          {% if form.emergency_contact.errors %}
+            <div class="text-danger">
+              {% for error in form.emergency_contact.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for Emergency phone number -->
@@ -406,14 +578,22 @@
             <span class="input-group-text" id="basic-addon1"
               >Emergency phone number</span
             >
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.emergency_phonenumber.value }}"
               aria-describedby="basic-addon1"
               name="emergency_phonenumber"
-            />
+            />-->
+            {{ form.emergency_phonenumber }}
           </div>
+          {% if form.emergency_phonenumber.errors %}
+            <div class="text-danger">
+              {% for error in form.emergency_phonenumber.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for End date -->
@@ -421,14 +601,22 @@
             <span class="input-group-text financial-color" id="basic-addon1"
               >End date</span
             >
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.end_date.value }}"
               aria-describedby="basic-addon1"
               name="end_date"
-            />
+            />-->
+            {{ form.end_date }}
           </div>
+          {% if form.end_date.errors %}
+            <div class="text-danger">
+              {% for error in form.end_date.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
       </div>
       <!-- Row 9: Seniority, Is the employee active, and End date -->
@@ -437,14 +625,22 @@
           <!-- Input field for Seniority -->
           <div class="input-group mb-3 flex-nowrap">
             <span class="input-group-text" id="basic-addon1">Seniority</span>
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.seniority.value }}"
               aria-describedby="basic-addon1"
               name="seniority"
-            />
+            />-->
+            {{ form.seniority }}
           </div>
+          {% if form.seniority.errors %}
+              <div class="text-danger">
+                {% for error in form.seniority.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+          {% endif %}
         </div>
         <div class="col">
           <!-- Input field for active/inactive -->
@@ -452,14 +648,22 @@
             <span class="input-group-text" id="basic-addon1"
               >Is the employee active</span
             >
-            <input
+            <!--<input
               type="text"
               class="form-control"
               value="{{ form.employees_status.value }}"
               aria-describedby="basic-addon1"
               name="employees_status"
-            />
+            />-->
+            {{ form.employees_status }}
           </div>
+          {% if form.employees_status.errors %}
+            <div class="text-danger">
+              {% for error in form.employees_status.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
         </div>

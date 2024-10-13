@@ -15,9 +15,9 @@ class NewEmployeeForm(forms.ModelForm):
                   'employees_representation_allocation', 'seniority', 'employees_status', 'expense_report',
                   'public_transportation_fees', 'LPP_deduction_employee', 'LPP_deduction_employer',
                   'extraordinary_salary']
-        def clean(self):
-            cleaned_data = super().clean() # This ensures the model clean() is called
-            return cleaned_data
+    def clean(self):
+        cleaned_data = super().clean() # This ensures the model clean() is called
+        return cleaned_data
 
 
 class ModifyEmployeeForm(forms.ModelForm):
@@ -31,6 +31,9 @@ class ModifyEmployeeForm(forms.ModelForm):
                   'employees_representation_allocation', 'seniority', 'employees_status', 'expense_report',
                   'public_transportation_fees', 'LPP_deduction_employee', 'LPP_deduction_employer',
                   'extraordinary_salary']
+    def clean(self):
+        cleaned_data = super().clean() # This ensures the model clean() is called
+        return cleaned_data
 
 
 class NewYearForm(forms.ModelForm):

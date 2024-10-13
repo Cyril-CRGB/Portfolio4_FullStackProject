@@ -20,3 +20,8 @@ Input validation Enhancements summary:
 Please select a fix:" and gave it a wrong default value
 
 parsing dates + date format
+
+python manage.py makemigrations
+python manage.py migrate
+
+url name='generator_year' gave a mistake when no years was populated by user first: deal with the error by setting default values to 0 and adding messages
