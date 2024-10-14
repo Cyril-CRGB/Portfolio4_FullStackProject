@@ -11,3 +11,9 @@
 .italic-button {
     font-style: italic;
 }
+
+.coefficient-style {
+    font-size: 0.8em; /* smaller font size to make it appear like a coefficient */
+    font-style: italic; /* italic style for visual distinction */
+    vertical-align: top;  /* Align it appropriately relative to the text */
+}

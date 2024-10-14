@@ -81,10 +81,10 @@ class Employees(models.Model):
         },
         default='noneemail@noneemail.com'
     )
-    phone_number = models.CharField(max_length=15, blank=True, null=True, validators=[validate_phone_number_format, validate_not_blank_nor_null], help_text="Format: 0041/00.000.00.00")
+    phone_number = models.CharField(max_length=17, blank=True, null=True, validators=[validate_phone_number_format, validate_not_blank_nor_null], help_text="Format: 0041/00.000.00.00")
     emergency_contact = models.CharField(
         max_length=30, blank=True, null=True)
-    emergency_phonenumber = models.CharField(max_length=15, blank=True, null=True, validators=[validate_phone_number_format], help_text="Format: 0041/00.000.00.00")
+    emergency_phonenumber = models.CharField(max_length=17, blank=True, null=True, validators=[validate_phone_number_format], help_text="Format: 0041/00.000.00.00")
     employee_picture = CloudinaryField('image', default='placeholder')
     social_security_number = models.CharField(
         max_length=13, 

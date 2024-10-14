@@ -19,7 +19,15 @@
     <!-- Form to modify the year and its associated rates -->
     <div class="container-fluid">
         <div class="row">
-            <p></p><!-- Empty paragraph for spacing -->
+            <p>      
+                {% if messages %}
+                  <div class="messages">
+                    {% for message in messages %}
+                      <div class="alert {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+            </p> <!-- Empty paragraph for spacing -->
         </div>
         <form method="POST" action="{% url 'modify_year' pk=current_pk %}">
         {% csrf_token %}<!-- CSRF token for form security -->
@@ -145,23 +153,23 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
+                    <!--<div class="input-group mb-3 flex-nowrap">
                         <span class="input-group-text" id="basic-addon1">Expense report</span>
                         <input type="text" class="form-control" value="{{ form.expense_report.value }}"
                             aria-describedby="basic-addon1" name="expense_report" />
                         <span class="input-group-text">%</span>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <!-- Row 6: Input field for Public transportation fees -->
             <div class="row">
                 <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
+                    <!--<div class="input-group mb-3 flex-nowrap">
                         <label class="input-group-text" for="basic-addon1">Public transportation fees</label>
                         <input type="text" class="form-control" value="{{ form.public_transportation_fees.value }}"
                             aria-describedby="basic-addon1" name="public_transportation_fees">
                         <span class="input-group-text">%</span>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="col"><!-- Empty column for additional field -->
                 </div>

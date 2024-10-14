@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 from django.utils import timezone
 from django.db import models
+from django.utils.safestring import mark_safe
 
 # Defining a class named HomeView that inherits from the View class
 class HomeView(View):
@@ -25,9 +26,12 @@ class EmployeesList(generic.ListView):
     # Specify the model to be used for this view
     model = Employees
     # Defin a custom queryset, filtering employees with status 0 and ordering by last name
-    queryset = Employees.objects.filter(
-        employees_status=0).order_by('last_name')
+    #queryset = Employees.objects.filter(
+    #    employees_status=0).order_by('last_name')
     # Set the template name to be used for rendering this view
+    # Override get_queryset to get all empoyees, ordered by last name
+    def get_queryset(self):
+        return Employees.objects.order_by('last_name')
     template_name = 'employee_list.html'
     # Specify the number of items to display per page, enabling pagination
     paginate_by = 6
@@ -102,10 +106,17 @@ class ModifyEmployeeView(generic.edit.UpdateView):
 
     # Check if the form is invalide before saving
     def form_invalid(self, form):
-        print(form.errors) # Debugging line to print form errors in the console
-        messages.error(self.request, 'There was an error updating the employee. Please correct the highlighted fields.')
-        # return super().form_invalid(form)
+        # Extract and format the error messages without HTML
+        error_messages = []
+        for field, errors in form.errors.items():
+            for error in errors:
+                error_messages.append(f"{field.replace('_', ' ').capitalize()}: {error}")
+        # Combine all error messages into one string
+        error_message_str = "<br>".join(error_messages)
+        # Display the error message in the user interface
+        messages.error(self.request, mark_safe(f"Please correct the following fields:<br>{error_message_str}"))
         return self.render_to_response(self.get_context_data(form=form))
+
     # Check if the form is valide before saving
     def form_valid(self, form):
         messages.success(self.request, 'Employee updated successfully.')
@@ -152,6 +163,14 @@ class YearAddView(generic.edit.CreateView):
     form_class = NewYearForm
     # Set the URL to redirect to after a successful addition of a new salary year
     success_url = reverse_lazy('Yearview')
+    # Check if the form is invalide before saving
+    def form_invalid(self, form):
+        messages.error(self.request, 'There was an error creating the year. Please correct the highlighted fields.')
+        return super().form_invalid(form)
+    # Check if the form is valide before saving
+    def form_valid(self, form):
+        messages.success(self.request, 'Year added successfully.')
+        return super().form_valid(form)
 
 # A view to modify an existing salary year
 class ModifyYearView(generic.edit.UpdateView):
@@ -183,6 +202,24 @@ class ModifyYearView(generic.edit.UpdateView):
     def get_success_url(self):
         # Return the URL for displaying the details of the updated salary year
         return reverse_lazy('Detailofyears', kwargs={'pk': self.kwargs['pk']})
+
+        # Check if the form is invalide before saving
+    def form_invalid(self, form):
+        # Extract and format the error messages without HTML
+        error_messages = []
+        for field, errors in form.errors.items():
+            for error in errors:
+                error_messages.append(f"{field.replace('_', ' ').capitalize()}: {error}")
+        # Combine all error messages into one string
+        error_message_str = "<br>".join(error_messages)
+        # Display the error message in the user interface
+        messages.error(self.request, mark_safe(f"Please correct the following fields:<br>{error_message_str}"))
+        return self.render_to_response(self.get_context_data(form=form))
+
+    # Check if the form is valide before saving
+    def form_valid(self, form):
+        messages.success(self.request, 'Year updated successfully.')
+        return super().form_valid(form)
 
 
 class GeneratorYearView(View):

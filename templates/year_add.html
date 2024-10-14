@@ -20,7 +20,13 @@
   <div class="container-fluid">
     <div class="row">
       <p></p><!-- Empty paragraph for spacing -->
+
     </div>
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {{ form.non_field_errors|join:", " }}
+      </div>
+    {% endif %}
     <form method="POST" action="{% url 'Addayear' %}">
       {% csrf_token %}<!-- CSRF token for form security -->
     <!-- Row 1: Input for year and submit button -->
@@ -37,6 +43,13 @@
               aria-describedby="basic-addon1"
             />
           </div>
+          {% if form.validity_year.errors %}
+            <div class="text-danger">
+              {% for error in form.validity_year.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
             <!-- Button to submit the new year -->
@@ -64,6 +77,13 @@
             />
             <span class="input-group-text">%</span>
           </div>
+          {% if form.avs_item.errors %}
+            <div class="text-danger">
+              {% for error in form.avs_item.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <div class="input-group mb-3 flex-nowrap">
@@ -77,6 +97,13 @@
             />
             <span class="input-group-text">%</span>
           </div>
+          {% if form.ac_item.errors %}
+            <div class="text-danger">
+              {% for error in form.ac_item.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
             <div class="input-group mb-3 flex-nowrap">
@@ -85,6 +112,13 @@
                     name="ac2_item" />
                 <span class="input-group-text">%</span>
             </div>
+            {% if form.ac2_item.errors %}
+              <div class="text-danger">
+                {% for error in form.ac2_item.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
         </div>
       </div>
     <!-- Row 3: Input fields for LAA professional, LAA non professional, and LAA complementary rates -->
@@ -96,6 +130,13 @@
                     name="laap_item" />
                 <span class="input-group-text">%</span>
             </div>
+            {% if form.laap_item.errors %}
+              <div class="text-danger">
+                {% for error in form.laap_item.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
         </div>
         <div class="col">
             <div class="input-group mb-3 flex-nowrap">
@@ -104,6 +145,13 @@
                     name="laanp_item" />
                 <span class="input-group-text">%</span>
             </div>
+            {% if form.laanp_item.errors %}
+              <div class="text-danger">
+                {% for error in form.laanp_item.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
         </div>
         <div class="col">
         <div class="input-group mb-3 flex-nowrap">
@@ -112,6 +160,13 @@
                 name="laac_item" />
             <span class="input-group-text">%</span>
         </div>
+        {% if form.laac_item.errors %}
+          <div class="text-danger">
+            {% for error in form.laac_item.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
         </div>
       </div>
     <!-- Row 4: Input fields for LAA complementary exceeding, AMAT, and ALFA rates -->
@@ -123,6 +178,13 @@
                     name="laace_item"/>
                 <span class="input-group-text">%</span>
           </div>
+          {% if form.laace_item.errors %}
+            <div class="text-danger">
+              {% for error in form.laace_item.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
           <div class="input-group mb-3 flex-nowrap">
@@ -130,14 +192,28 @@
                 <input type="text" class="form-control" placeholder="Enter the AMAT rate" aria-describedby="basic-addon1" name="amat_item"/>
                 <span class="input-group-text">%</span>
            </div>
+           {% if form.amat_item.errors %}
+              <div class="text-danger">
+                {% for error in form.amat_item.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
         </div>
         <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">ALFA</span>
-            <input type="text" class="form-control" placeholder="Enter the ALFA rate" aria-describedby="basic-addon1"
-                name="alfa_item" />
-            <span class="input-group-text">%</span>
-        </div>
+          <div class="input-group mb-3 flex-nowrap">
+              <span class="input-group-text" id="basic-addon1">ALFA</span>
+              <input type="text" class="form-control" placeholder="Enter the ALFA rate" aria-describedby="basic-addon1"
+                  name="alfa_item" />
+              <span class="input-group-text">%</span>
+          </div>
+          {% if form.alfa_item.errors %}
+            <div class="text-danger">
+              {% for error in form.alfa_item.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
       </div>
     <!-- Row 5: Input fields for APG Sickness, Children care, and Expense report rates -->
@@ -149,6 +225,13 @@
                 name="apgmal_item"/>
             <span class="input-group-text">%</span>
           </div>
+          {% if form.apgmal_item.errors %}
+            <div class="text-danger">
+              {% for error in form.apgmal_item.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="col">
             <div class="input-group mb-3 flex-nowrap">
@@ -157,24 +240,45 @@
                     name="alpetiteenfance_item" />
                 <span class="input-group-text">%</span>
             </div>
+            {% if form.alpetiteenfance_item.errors %}
+              <div class="text-danger">
+                {% for error in form.alpetiteenfance_item.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
         </div>
         <div class="col">
-        <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Expense report</span>
-            <input type="text" class="form-control" placeholder="Enter the Expense report rate" aria-describedby="basic-addon1"
-                name="expense_report" />
-            <span class="input-group-text">%</span>
-        </div>
+          <!--<div class="input-group mb-3 flex-nowrap">
+              <span class="input-group-text" id="basic-addon1">Expense report</span>
+              <input type="text" class="form-control" placeholder="Enter the Expense report rate" aria-describedby="basic-addon1"
+                  name="expense_report" />
+              <span class="input-group-text">%</span>
+          </div>
+          {% if form.expense_report.errors %}
+            <div class="text-danger">
+              {% for error in form.expense_report.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}-->
         </div>
       </div>
     <!-- Row 6: Input field for Public transportation fees -->
       <div class="row">
         <div class="col">
-          <div class="input-group mb-3 flex-nowrap">
+          <!--<div class="input-group mb-3 flex-nowrap">
             <label class="input-group-text" for="basic-addon1">Public transportation fees</label>
             <input type="text" class="form-control" placeholder="Enter the Public transportation fees rate" aria-describedby="basic-addon1" name="public_transportation_fees">
-            <span class="input-group-text">%</span>
+            <span class="input-group-text">CHF</span>
           </div>
+          {% if form.public_transportation_fees.errors %}
+            <div class="text-danger">
+              {% for error in form.public_transportation_fees.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}-->
         </div>
         <div class="col"><!-- Empty column for futur field -->
         </div>

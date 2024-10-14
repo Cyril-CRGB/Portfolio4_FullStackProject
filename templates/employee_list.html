@@ -26,10 +26,19 @@
         <div class="col-md-4">
           <!-- Employee card -->
           <div class="card mb-4 text-center border-dark">
-            <div class="card-header financial-color">
-              <!-- Display employee's last and first name -->
-              {{ employee.last_name }} {{ employee.first_name }}
-            </div>
+            {% if employee.employees_status == 1 %}
+              <div class="card-header text-muted">
+                <!-- Display employee's last and first name -->
+                {{ employee.last_name }} {{ employee.first_name }}
+                <span class="coefficient-style">[inactive]</span>
+              </div>
+            {% else %}
+              <div class="card-header financial-color">
+                <!-- Display employee's last and first name -->
+                {{ employee.last_name }} {{ employee.first_name }} 
+                <span class="coefficient-style">[active]</span>
+              </div>
+            {% endif %}
             <div class="card-body">
               <div class="image-container">
                 <!-- Display employee's image, fallback to default image if placeholder -->
