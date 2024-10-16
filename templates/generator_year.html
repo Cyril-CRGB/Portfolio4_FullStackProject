@@ -1,75 +1,80 @@
 {% extends "base.html" %} {% block content %}
-<!-- Main container for the page content -->
-<div class="container-fluid">
-  <!-- Navigation tabs for the year selection page -->
-  <ul class="nav nav-tabs">
-    <!-- Current active tab for year selection -->
-    <li class="nav-item">
-      <a class="nav-link active" href="#">Year</a>
-    </li>
-  </ul>
-  <!-- Container for selecting the year -->
-  <div class="container-fluid">
-    <div class="row">
-      <p></p><!-- Empty paragraph for spacing -->
-    </div>
-    <div class="container text-center">
-      <!-- Heading to prompt the user to select the current year -->
-      <h2>Select current Year:</h2>
-      <!-- Loop through the available years and display their status -->
-      {% for year , status, is_previous_year_completed, is_current_year_completed in year_statuses %}
-      <!--link to next page-->
-      <div class="row align-items-start">
-        <div class="col list-group"></div>
-        <!-- Display different badges based on the year status -->
-        {% if status == "Completed" %}
-        <div class="col list-group">
-          <!-- Link to generator months page, and display a green badge for completed years -->
-          <a
-            href="{% url 'generator_month' year=year %}"
-            class="list-group-item"
-            >{{ year }}
-            <span
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
-              style="display: inline"
-              disabled
-              >Completed</span
-            ></a
-          >
+  {% if user.is_authenticated %}
+    <!-- Main container for the page content -->
+    <div class="container-fluid">
+      <!-- Navigation tabs for the year selection page -->
+      <ul class="nav nav-tabs">
+        <!-- Current active tab for year selection -->
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Year</a>
+        </li>
+      </ul>
+      <!-- Container for selecting the year -->
+      <div class="container-fluid">
+        <div class="row">
+          <p></p><!-- Empty paragraph for spacing -->
         </div>
-        {% elif status == "Current" %}
-        <div class="col list-group">
-          <!-- Link to generator months page, and display a yellow badge for current years -->
-          <a
-            href="{% url 'generator_month' year=year %}"
-            class="list-group-item"
-            >{{ year }}
-            <span
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning"
-              style="display: inline"
-              disabled
-              >Current</span
-            ></a
-          >
+        <div class="container text-center">
+          <!-- Heading to prompt the user to select the current year -->
+          <h2>Select current Year:</h2>
+          <!-- Loop through the available years and display their status -->
+          {% for year , status, is_previous_year_completed, is_current_year_completed in year_statuses %}
+          <!--link to next page-->
+          <div class="row align-items-start">
+            <div class="col list-group"></div>
+            <!-- Display different badges based on the year status -->
+            {% if status == "Completed" %}
+            <div class="col list-group">
+              <!-- Link to generator months page, and display a green badge for completed years -->
+              <a
+                href="{% url 'generator_month' year=year %}"
+                class="list-group-item"
+                >{{ year }}
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
+                  style="display: inline"
+                  disabled
+                  >Completed</span
+                ></a
+              >
+            </div>
+            {% elif status == "Current" %}
+            <div class="col list-group">
+              <!-- Link to generator months page, and display a yellow badge for current years -->
+              <a
+                href="{% url 'generator_month' year=year %}"
+                class="list-group-item"
+                >{{ year }}
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning"
+                  style="display: inline"
+                  disabled
+                  >Current</span
+                ></a
+              >
+            </div>
+            {% elif status == "not_available" %}
+            <div class="col list-group">
+              <!-- Link to generator months page, and display a gray badge for not available years -->
+              <a href="" class="list-group-item" disabled>
+                {{ year }}
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"
+                  style="display: inline"
+                  disabled
+                  >Not available
+                </span>
+              </a>
+            </div>
+            {% endif %}
+            <div class="col list-group"></div>
+          </div>
+          {% endfor %}
         </div>
-        {% elif status == "not_available" %}
-        <div class="col list-group">
-          <!-- Link to generator months page, and display a gray badge for not available years -->
-          <a href="" class="list-group-item" disabled>
-            {{ year }}
-            <span
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"
-              style="display: inline"
-              disabled
-              >Not available
-            </span>
-          </a>
-        </div>
-        {% endif %}
-        <div class="col list-group"></div>
       </div>
-      {% endfor %}
     </div>
-  </div>
-</div>
+  {% else %}
+    <!-- If the user is not authenticated, prompt them to log in -->
+    <p>You need to <a href="{% url 'account_login' %}">log in</a>!</p>
+  {% endif %}
 {% endblock %}

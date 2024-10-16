@@ -1,135 +1,139 @@
 {% extends "base.html" %} {% block content %} 
-<!-- Main container for the page content -->
-<div class="container-fluid"> 
-        <!-- Navigation tabs for year, months, active employees, and monthly table -->
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <!-- Link to generator year page -->
-                <a class="nav-link" aria-current="page" href="{% url 'generator_year' %}">Year</a>
-            </li>
-            <li class="nav-item">
-                <!-- Link to generator months page for the selected year -->
-                <a class="nav-link" aria-current="page" href="{% url 'generator_month' year=year %}">Months</a>
-            </li>
-            <li class="nav-item">
-                <!-- Link to active employees for the selected month -->
-                <a class="nav-link" aria-current="page" href="{% url 'generator_employees' year=year month=month %}">Active employees</a>
-            </li>
-            <li class="nav-item">
-                <!-- Current active tab for the monthly table -->
-                <a class="nav-link active" href="#">Monthly table</a>
-            </li>
-        </ul>
-    <!-- Alert message if data already exists or the selected month and year -->
-    {% if existing_data %}
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var existingDataAlert = document.getElementById("existingDataAlert");
-        existingDataAlert.classList.add("show");
-    });
-    </script>
-    <div
-    id="existingDataAlert"
-    class="alert alert-danger alert-dismissible fade show"
-    role="alert"
-    >
-    <div>
-        Data already exists for the selected month and year! return to 
-        <a href="{% url 'generator_month' year=year %}" class="alert-link"
-        >month selection</a
+  {% if user.is_authenticated %}
+    <!-- Main container for the page content -->
+    <div class="container-fluid"> 
+            <!-- Navigation tabs for year, months, active employees, and monthly table -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <!-- Link to generator year page -->
+                    <a class="nav-link" aria-current="page" href="{% url 'generator_year' %}">Year</a>
+                </li>
+                <li class="nav-item">
+                    <!-- Link to generator months page for the selected year -->
+                    <a class="nav-link" aria-current="page" href="{% url 'generator_month' year=year %}">Months</a>
+                </li>
+                <li class="nav-item">
+                    <!-- Link to active employees for the selected month -->
+                    <a class="nav-link" aria-current="page" href="{% url 'generator_employees' year=year month=month %}">Active employees</a>
+                </li>
+                <li class="nav-item">
+                    <!-- Current active tab for the monthly table -->
+                    <a class="nav-link active" href="#">Monthly table</a>
+                </li>
+            </ul>
+        <!-- Alert message if data already exists or the selected month and year -->
+        {% if existing_data %}
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var existingDataAlert = document.getElementById("existingDataAlert");
+            existingDataAlert.classList.add("show");
+        });
+        </script>
+        <div
+        id="existingDataAlert"
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert"
         >
+        <div>
+            Data already exists for the selected month and year! return to 
+            <a href="{% url 'generator_month' year=year %}" class="alert-link"
+            >month selection</a
+            >
 
-    </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        <!--<span aria-hidden="true">&times;</span>-->
-        </button>
-    </div>
-    {% endif %}
-    <!-- Container to display the selected month and year with a save button -->
-    <div class="container-fluid text-center">
-        <div class="row">
-            <p></p><!-- Empty paragraph for spacing -->
         </div>
-        <div class="d-flex justify-content-around align-items-center mb-3">
-            <!-- Dislay the selected month and year -->
-            <span><h1>{{ month }} - {{ year }}</h1></span>
-            <!-- Button to save monthly data -->
-            <span><a href="{% url 'generator_save_monthly_table' year=year month=month%}"
-                class="btn btn-outline-primary">Save Monthly Data</a>
-            </span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <!--<span aria-hidden="true">&times;</span>-->
+            </button>
         </div>
+        {% endif %}
+        <!-- Container to display the selected month and year with a save button -->
+        <div class="container-fluid text-center">
+            <div class="row">
+                <p></p><!-- Empty paragraph for spacing -->
+            </div>
+            <div class="d-flex justify-content-around align-items-center mb-3">
+                <!-- Dislay the selected month and year -->
+                <span><h1>{{ month }} - {{ year }}</h1></span>
+                <!-- Button to save monthly data -->
+                <span><a href="{% url 'generator_save_monthly_table' year=year month=month%}"
+                    class="btn btn-outline-primary">Save Monthly Data</a>
+                </span>
+            </div>
+        </div>
+      <!-- Responsive table to display employee salary details for the selected month -->
+        <div class="table-responsive container mt-5 overflow-scroll"> 
+          <table
+            class="table table-striped align-middle text-center"
+          >
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>SSN</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Worked days</th>
+                <th>Base</th>
+                <th>Salary for this month</th>
+                <th>Chidren alloc. below 18</th>
+                <th>Chidren alloc. below 25</th>
+                <th>Non financial wage</th>
+                <th>Bonus</th>
+                <th>Base deduction</th>
+                <th>Base taxes</th>
+                <th>AVS/AI</th>
+                <th>AC</th>
+                <th>AC2</th>
+                <th>LAANP</th>
+                <th>AMAT</th>
+                <th>APGMAL</th>
+                <th>LPP</th>
+                <th>TOTAL</th>
+                <th>Phone</th>
+                <th>Representation</th>
+                <th>Expenses</th>
+                <th>Correction non financial wage</th>
+                <th>PAID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Loop through each employee and display salary details -->
+              {% for employee in employees %}
+              <tr>
+                <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+                <td>{{ employee.social_security_number }}</td>
+                <td>{{ employee.start_date }}</td>
+                <td>{{ employee.end_date }}</td>
+                <td>{{ employee.worked_days }}</td>
+                <td>{{ employee.base_monthly_salary }}</td>
+                <td>{{ employee.calculated_monthly_salary }}</td>
+                <td>{{ employee.calculated_child_allocation_1 }}</td>
+                <td>{{ employee.calculated_child_allocation_2 }}</td>
+                <td>{{ employee.public_transportation_fees }}</td>
+                <td>{{ employee.extraordinary_salary }}</td>
+                <td>{{ employee.salary_for_social_deduction }}</td>
+                <td>{{ employee.salary_for_taxes }}</td>
+                <td>{{ employee.calculated_avs_employee }}</td>
+                <td>{{ employee.calculated_ac_employee }}</td>
+                <td>{{ employee.calculated_ac2_employee }}</td>
+                <td>{{ employee.calculated_laanp_employee }}</td>
+                <td>{{ employee.calculated_amat_employee }}</td>
+                <td>{{ employee.calculated_apgmal_employee }}</td>
+                <td>{{ employee.LPP_deduction_employee }}</td>
+                <td>{{ employee.calculated_total_deduction_employee }}</td>
+                <td>{{ employee.employees_phone_allocation }}</td>
+                <td>{{ employee.employees_representation_allocation }}</td>
+                <td>{{ employee.expense_report }}</td>
+                <td>{{ employee.calculated_correction_non_financial_wage }}</td>
+                <td>{{ employee.calculated_paid_salary }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      <!--</div>-->
     </div>
-  <!-- Responsive table to display employee salary details for the selected month -->
-    <div class="table-responsive container mt-5 overflow-scroll"> 
-      <table
-        class="table table-striped align-middle text-center"
-      >
-        <thead>
-          <tr>
-            <th>Employee</th>
-            <th>SSN</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Worked days</th>
-            <th>Base</th>
-            <th>Salary for this month</th>
-            <th>Chidren alloc. below 18</th>
-            <th>Chidren alloc. below 25</th>
-            <th>Non financial wage</th>
-            <th>Bonus</th>
-            <th>Base deduction</th>
-            <th>Base taxes</th>
-            <th>AVS/AI</th>
-            <th>AC</th>
-            <th>AC2</th>
-            <th>LAANP</th>
-            <th>AMAT</th>
-            <th>APGMAL</th>
-            <th>LPP</th>
-            <th>TOTAL</th>
-            <th>Phone</th>
-            <th>Representation</th>
-            <th>Expenses</th>
-            <th>Correction non financial wage</th>
-            <th>PAID</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Loop through each employee and display salary details -->
-          {% for employee in employees %}
-          <tr>
-            <td>{{ employee.first_name }} {{ employee.last_name }}</td>
-            <td>{{ employee.social_security_number }}</td>
-            <td>{{ employee.start_date }}</td>
-            <td>{{ employee.end_date }}</td>
-            <td>{{ employee.worked_days }}</td>
-            <td>{{ employee.base_monthly_salary }}</td>
-            <td>{{ employee.calculated_monthly_salary }}</td>
-            <td>{{ employee.calculated_child_allocation_1 }}</td>
-            <td>{{ employee.calculated_child_allocation_2 }}</td>
-            <td>{{ employee.public_transportation_fees }}</td>
-            <td>{{ employee.extraordinary_salary }}</td>
-            <td>{{ employee.salary_for_social_deduction }}</td>
-            <td>{{ employee.salary_for_taxes }}</td>
-            <td>{{ employee.calculated_avs_employee }}</td>
-            <td>{{ employee.calculated_ac_employee }}</td>
-            <td>{{ employee.calculated_ac2_employee }}</td>
-            <td>{{ employee.calculated_laanp_employee }}</td>
-            <td>{{ employee.calculated_amat_employee }}</td>
-            <td>{{ employee.calculated_apgmal_employee }}</td>
-            <td>{{ employee.LPP_deduction_employee }}</td>
-            <td>{{ employee.calculated_total_deduction_employee }}</td>
-            <td>{{ employee.employees_phone_allocation }}</td>
-            <td>{{ employee.employees_representation_allocation }}</td>
-            <td>{{ employee.expense_report }}</td>
-            <td>{{ employee.calculated_correction_non_financial_wage }}</td>
-            <td>{{ employee.calculated_paid_salary }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  <!--</div>-->
-</div>
-
+  {% else %}
+    <!-- If the user is not authenticated, prompt them to log in -->
+    <p>You need to <a href="{% url 'account_login' %}">log in</a>!</p>
+  {% endif %}
 {% endblock %}

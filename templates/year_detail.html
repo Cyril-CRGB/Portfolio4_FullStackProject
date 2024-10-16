@@ -1,100 +1,105 @@
 {% extends 'base.html' %} {% block content %}
-<!-- Main container for the page content -->
-<div class="masthead">
-  <!-- Navigation tabs for year management -->
-  <div>
-    <ul class="nav nav-tabs">
-      <!-- Link to list of years page -->
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'Yearview' %}">List of years</a>
-      </li>
-      <!-- Link to add a new year page -->
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'Addayear' %}">Add a new year</a>
-      </li>
-      <!-- Current active tab displaying the selected year -->
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#"
-          >{{ selected_year.validity_year }}</a
-        >
-      </li>
-    </ul>
-  </div>
-  <div class="table-responsive container mt-5">
-    <!-- Table 1: Displaying employees' deduction rates -->
-    <table class="table table-striped table-sm align-middle caption-top">
-      <caption>
-        Employees' deduction rates
-      </caption>
-      <thead>
-        <tr>
-          <th scope="col">Social insurences</th>
-          <th scope="col">Rates</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">AVS/AI:</th>
-          <td>{{ selected_year.avs_item }}</td>
-        </tr>
-        <tr>
-          <th scope="row">AC:</th>
-          <td>{{ selected_year.ac_item }}</td>
-        </tr>
-        <tr>
-          <th scope="row">AC2:</th>
-          <td>{{ selected_year.ac2_item }}</td>
-        </tr>
-        <tr>
-          <th scope="row">LAA professional:</th>
-          <td>{{ selected_year.laap_item }}</td>
-        </tr>
-        <tr>
-          <th scope="row">LAA non professional:</th>
-          <td>{{ selected_year.laanp_item }}</td>
-        </tr>
-        <tr>
-          <th scope="row">LAA complementary:</th>
-          <td>{{ selected_year.laac_item }}</td>
-        </tr>
-        <tr>
-          <th scope="row">LAA complementary exceding:</th>
-          <td>{{ selected_year.laace_item }}</td>
-        </tr>
-        <tr>
-          <th scope="row">AMAT:</th>
-          <td>{{ selected_year.amat_item }}</td>
-        </tr>
-        <tr>
-          <th scope="row">ALFA:</th>
-          <td>{{ selected_year.alfa_item }}</td>
-        </tr>
-        <tr>
-          <th scope="row">APG Sickness:</th>
-          <td>{{ selected_year.apgmal_item }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Children care:</th>
-          <td>{{ selected_year.alpetiteenfance_item }}</td>
-        </tr>
-        <!--<tr>
-          <th scope="row">Expense report:</th>
-          <td>{{ selected_year.expense_report }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Public transportation fees:</th>
-          <td>{{ selected_year.public_transportation_fees }}</td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-          <td></td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-          <td></td>
-        </tr>-->
-      </tbody>
-    </table>
-  </div>
-</div>
+  {% if user.is_authenticated %}
+    <!-- Main container for the page content -->
+    <div class="masthead">
+      <!-- Navigation tabs for year management -->
+      <div>
+        <ul class="nav nav-tabs">
+          <!-- Link to list of years page -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'Yearview' %}">List of years</a>
+          </li>
+          <!-- Link to add a new year page -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'Addayear' %}">Add a new year</a>
+          </li>
+          <!-- Current active tab displaying the selected year -->
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#"
+              >{{ selected_year.validity_year }}</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="table-responsive container mt-5">
+        <!-- Table 1: Displaying employees' deduction rates -->
+        <table class="table table-striped table-sm align-middle caption-top">
+          <caption>
+            Employees' deduction rates
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Social insurences</th>
+              <th scope="col">Rates</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">AVS/AI:</th>
+              <td>{{ selected_year.avs_item }}</td>
+            </tr>
+            <tr>
+              <th scope="row">AC:</th>
+              <td>{{ selected_year.ac_item }}</td>
+            </tr>
+            <tr>
+              <th scope="row">AC2:</th>
+              <td>{{ selected_year.ac2_item }}</td>
+            </tr>
+            <tr>
+              <th scope="row">LAA professional:</th>
+              <td>{{ selected_year.laap_item }}</td>
+            </tr>
+            <tr>
+              <th scope="row">LAA non professional:</th>
+              <td>{{ selected_year.laanp_item }}</td>
+            </tr>
+            <tr>
+              <th scope="row">LAA complementary:</th>
+              <td>{{ selected_year.laac_item }}</td>
+            </tr>
+            <tr>
+              <th scope="row">LAA complementary exceding:</th>
+              <td>{{ selected_year.laace_item }}</td>
+            </tr>
+            <tr>
+              <th scope="row">AMAT:</th>
+              <td>{{ selected_year.amat_item }}</td>
+            </tr>
+            <tr>
+              <th scope="row">ALFA:</th>
+              <td>{{ selected_year.alfa_item }}</td>
+            </tr>
+            <tr>
+              <th scope="row">APG Sickness:</th>
+              <td>{{ selected_year.apgmal_item }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Children care:</th>
+              <td>{{ selected_year.alpetiteenfance_item }}</td>
+            </tr>
+            <!--<tr>
+              <th scope="row">Expense report:</th>
+              <td>{{ selected_year.expense_report }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Public transportation fees:</th>
+              <td>{{ selected_year.public_transportation_fees }}</td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td></td>
+            </tr>-->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% else %}
+    <!-- If the user is not authenticated, prompt them to log in -->
+    <p>You need to <a href="{% url 'account_login' %}">log in</a>!</p>
+  {% endif %}
 {% endblock content %}

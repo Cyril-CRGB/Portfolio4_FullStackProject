@@ -1,215 +1,220 @@
 {% extends "base.html" %} {% block content %}
-<!-- Main container for the page content -->
-<div class="container-fluid">
-    <!-- Navigation tabs for year management -->
-    <ul class="nav nav-tabs">
-        <!-- Link to list of years page -->
-        <li class="nav-item">
-            <a class="nav-link"  href="{% url 'Yearview' %}">List of years</a>
-        </li>
-        <!-- Link to add a new year page -->
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'Addayear' %}">Add a new year</a>
-        </li>
-        <!-- Current active tab for modifying a year -->
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Modify year</a>
-        </li>
-    </ul>
-    <!-- Form to modify the year and its associated rates -->
-    <div class="container-fluid">
-        <div class="row">
-            <p>      
-                {% if messages %}
-                  <div class="messages">
-                    {% for message in messages %}
-                      <div class="alert {{ message.tags }}">{{ message }}</div>
-                    {% endfor %}
-                  </div>
-                {% endif %}
-            </p> <!-- Empty paragraph for spacing -->
-        </div>
-        <form method="POST" action="{% url 'modify_year' pk=current_pk %}">
-        {% csrf_token %}<!-- CSRF token for form security -->
-            <!-- Row 1: Input for year and submit button -->
-            <div class="row">
-                <div class="col">
-                    <!-- Input field for entering the year -->
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">Year</span>
-                        <input type="text" class="form-control" name="validity_year"
-                            aria-describedby="basic-addon1" value="{{ form.validity_year.value }}" {% if year_in_use %}readonly{% endif %}/>
-                    </div>
-                    {% if year_in_use %}
-                        <div class="text-danger">
-                            <p>>You cannot modify the year because it is associated with existing generated data</p>
+    {% if user.is_authenticated %}
+        <!-- Main container for the page content -->
+        <div class="container-fluid">
+            <!-- Navigation tabs for year management -->
+            <ul class="nav nav-tabs">
+                <!-- Link to list of years page -->
+                <li class="nav-item">
+                    <a class="nav-link"  href="{% url 'Yearview' %}">List of years</a>
+                </li>
+                <!-- Link to add a new year page -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Addayear' %}">Add a new year</a>
+                </li>
+                <!-- Current active tab for modifying a year -->
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Modify year</a>
+                </li>
+            </ul>
+            <!-- Form to modify the year and its associated rates -->
+            <div class="container-fluid">
+                <div class="row">
+                    <p>      
+                        {% if messages %}
+                        <div class="messages">
+                            {% for message in messages %}
+                            <div class="alert {{ message.tags }}">{{ message }}</div>
+                            {% endfor %}
                         </div>
-                    {% endif %}
+                        {% endif %}
+                    </p> <!-- Empty paragraph for spacing -->
                 </div>
-                <div class="col">
-                    <!-- Button to submit the changes for the year -->
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-outline-primary" id="button-addon2">Modify this year</button>
+                <form method="POST" action="{% url 'modify_year' pk=current_pk %}">
+                {% csrf_token %}<!-- CSRF token for form security -->
+                    <!-- Row 1: Input for year and submit button -->
+                    <div class="row">
+                        <div class="col">
+                            <!-- Input field for entering the year -->
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">Year</span>
+                                <input type="text" class="form-control" name="validity_year"
+                                    aria-describedby="basic-addon1" value="{{ form.validity_year.value }}" {% if year_in_use %}readonly{% endif %}/>
+                            </div>
+                            {% if year_in_use %}
+                                <div class="text-danger">
+                                    <p>>You cannot modify the year because it is associated with existing generated data</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col">
+                            <!-- Button to submit the changes for the year -->
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-outline-primary" id="button-addon2">Modify this year</button>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3"><!-- Empty column for spacing -->
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="mb-3"><!-- Empty column for spacing -->
+                    <!-- Row 2: Input fields for AVS/AI, AC, and AC2 rates -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group mb-3 flex-nowrap">
+                                <span class="input-group-text" id="basic-addon1">AVS/AI</span>
+                                <input type="text" class="form-control" value="{{ form.avs_item.value }}" aria-describedby="basic-addon1"
+                                    name="avs_item" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3 flex-nowrap">
+                                <span class="input-group-text" id="basic-addon1">AC</span>
+                                <input type="text" class="form-control" value="{{ form.ac_item.value }}" aria-describedby="basic-addon1"
+                                    name="ac_item" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3 flex-nowrap">
+                                <span class="input-group-text" id="basic-addon1">AC2</span>
+                                <input type="text" class="form-control" value="{{ form.ac2_item.value }}" aria-describedby="basic-addon1"
+                                    name="ac2_item" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <!-- Row 3: Input fields for LAA rates -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group mb-3 flex-nowrap">
+                                <span class="input-group-text" id="basic-addon1">LAA professional</span>
+                                <input type="text" class="form-control" value="{{ form.laap_item.value }}" aria-describedby="basic-addon1"
+                                    name="laap_item" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3 flex-nowrap">
+                                <span class="input-group-text" id="basic-addon1">LAA non professional</span>
+                                <input type="text" class="form-control" value="{{ form.laanp_item.value }}" aria-describedby="basic-addon1"
+                                    name="laanp_item" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3 flex-nowrap">
+                                <span class="input-group-text" id="basic-addon1">LAA complementary</span>
+                                <input type="text" class="form-control" value="{{ form.laac_item.value }}" aria-describedby="basic-addon1"
+                                    name="laac_item" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Row 4: Input fields for additional LAA rates, AMAT, and ALFA -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group mb-3 flex-nowrap">
+                                <span class="input-group-text" id="basic-addon1">LAA complementary exceding</span>
+                                <input type="text" class="form-control" value="{{ form.laace_item.value }}" aria-describedby="basic-addon1"
+                                    name="laace_item" />
+                                <!--{{ form.laace_item }}-->
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3 flex-nowrap">
+                                <span class="input-group-text" id="basic-addon1">AMAT</span>
+                                <input type="text" class="form-control" value="{{ form.amat_item.value }}" aria-describedby="basic-addon1"
+                                    name="amat_item" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3 flex-nowrap">
+                                <span class="input-group-text" id="basic-addon1">ALFA</span>
+                                <input type="text" class="form-control" value="{{ form.alfa_item.value }}" aria-describedby="basic-addon1"
+                                    name="alfa_item" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Row 5: Input fields for APG Sickness, Children care, and Expense report rates -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group mb-3 flex-nowrap">
+                                <span class="input-group-text" id="basic-addon1">APG Sickness</span>
+                                <input type="text" class="form-control" value="{{ form.apgmal_item.value }}"
+                                    aria-describedby="basic-addon1" name="apgmal_item" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3 flex-nowrap">
+                                <span class="input-group-text" id="basic-addon1">Children care</span>
+                                <input type="text" class="form-control" value="{{ form.alpetiteenfance_item.value }}"
+                                    aria-describedby="basic-addon1" name="alpetiteenfance_item" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <!--<div class="input-group mb-3 flex-nowrap">
+                                <span class="input-group-text" id="basic-addon1">Expense report</span>
+                                <input type="text" class="form-control" value="{{ form.expense_report.value }}"
+                                    aria-describedby="basic-addon1" name="expense_report" />
+                                <span class="input-group-text">%</span>
+                            </div>-->
+                        </div>
+                    </div>
+                    <!-- Row 6: Input field for Public transportation fees -->
+                    <div class="row">
+                        <div class="col">
+                            <!--<div class="input-group mb-3 flex-nowrap">
+                                <label class="input-group-text" for="basic-addon1">Public transportation fees</label>
+                                <input type="text" class="form-control" value="{{ form.public_transportation_fees.value }}"
+                                    aria-describedby="basic-addon1" name="public_transportation_fees">
+                                <span class="input-group-text">%</span>
+                            </div>-->
+                        </div>
+                        <div class="col"><!-- Empty column for additional field -->
+                        </div>
+                        <div class="col"><!-- Empty column for additional field -->
+                        </div>
+                    </div>
+                    <!-- Row 7: Empty rows for additional fields (if needed) -->
+                    <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                        </div>
+                    </div>
+                    <!-- Row 8: Empty rows for additional fields (if needed) -->
+                    <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                        </div>
+                    </div>
+                    <!-- Row 9: Empty rows for additional fields (if needed) -->
+                    <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                        </div>
+                    </div>
+                    </div>
+                </form>
             </div>
-            <!-- Row 2: Input fields for AVS/AI, AC, and AC2 rates -->
-            <div class="row">
-                <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
-                        <span class="input-group-text" id="basic-addon1">AVS/AI</span>
-                        <input type="text" class="form-control" value="{{ form.avs_item.value }}" aria-describedby="basic-addon1"
-                            name="avs_item" />
-                        <span class="input-group-text">%</span>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
-                        <span class="input-group-text" id="basic-addon1">AC</span>
-                        <input type="text" class="form-control" value="{{ form.ac_item.value }}" aria-describedby="basic-addon1"
-                            name="ac_item" />
-                        <span class="input-group-text">%</span>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
-                        <span class="input-group-text" id="basic-addon1">AC2</span>
-                        <input type="text" class="form-control" value="{{ form.ac2_item.value }}" aria-describedby="basic-addon1"
-                            name="ac2_item" />
-                        <span class="input-group-text">%</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Row 3: Input fields for LAA rates -->
-            <div class="row">
-                <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
-                        <span class="input-group-text" id="basic-addon1">LAA professional</span>
-                        <input type="text" class="form-control" value="{{ form.laap_item.value }}" aria-describedby="basic-addon1"
-                            name="laap_item" />
-                        <span class="input-group-text">%</span>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
-                        <span class="input-group-text" id="basic-addon1">LAA non professional</span>
-                        <input type="text" class="form-control" value="{{ form.laanp_item.value }}" aria-describedby="basic-addon1"
-                            name="laanp_item" />
-                        <span class="input-group-text">%</span>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
-                        <span class="input-group-text" id="basic-addon1">LAA complementary</span>
-                        <input type="text" class="form-control" value="{{ form.laac_item.value }}" aria-describedby="basic-addon1"
-                            name="laac_item" />
-                        <span class="input-group-text">%</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Row 4: Input fields for additional LAA rates, AMAT, and ALFA -->
-            <div class="row">
-                <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
-                        <span class="input-group-text" id="basic-addon1">LAA complementary exceding</span>
-                        <input type="text" class="form-control" value="{{ form.laace_item.value }}" aria-describedby="basic-addon1"
-                            name="laace_item" />
-                        <!--{{ form.laace_item }}-->
-                        <span class="input-group-text">%</span>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
-                        <span class="input-group-text" id="basic-addon1">AMAT</span>
-                        <input type="text" class="form-control" value="{{ form.amat_item.value }}" aria-describedby="basic-addon1"
-                            name="amat_item" />
-                        <span class="input-group-text">%</span>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
-                        <span class="input-group-text" id="basic-addon1">ALFA</span>
-                        <input type="text" class="form-control" value="{{ form.alfa_item.value }}" aria-describedby="basic-addon1"
-                            name="alfa_item" />
-                        <span class="input-group-text">%</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Row 5: Input fields for APG Sickness, Children care, and Expense report rates -->
-            <div class="row">
-                <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
-                        <span class="input-group-text" id="basic-addon1">APG Sickness</span>
-                        <input type="text" class="form-control" value="{{ form.apgmal_item.value }}"
-                            aria-describedby="basic-addon1" name="apgmal_item" />
-                        <span class="input-group-text">%</span>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-group mb-3 flex-nowrap">
-                        <span class="input-group-text" id="basic-addon1">Children care</span>
-                        <input type="text" class="form-control" value="{{ form.alpetiteenfance_item.value }}"
-                            aria-describedby="basic-addon1" name="alpetiteenfance_item" />
-                        <span class="input-group-text">%</span>
-                    </div>
-                </div>
-                <div class="col">
-                    <!--<div class="input-group mb-3 flex-nowrap">
-                        <span class="input-group-text" id="basic-addon1">Expense report</span>
-                        <input type="text" class="form-control" value="{{ form.expense_report.value }}"
-                            aria-describedby="basic-addon1" name="expense_report" />
-                        <span class="input-group-text">%</span>
-                    </div>-->
-                </div>
-            </div>
-            <!-- Row 6: Input field for Public transportation fees -->
-            <div class="row">
-                <div class="col">
-                    <!--<div class="input-group mb-3 flex-nowrap">
-                        <label class="input-group-text" for="basic-addon1">Public transportation fees</label>
-                        <input type="text" class="form-control" value="{{ form.public_transportation_fees.value }}"
-                            aria-describedby="basic-addon1" name="public_transportation_fees">
-                        <span class="input-group-text">%</span>
-                    </div>-->
-                </div>
-                <div class="col"><!-- Empty column for additional field -->
-                </div>
-                <div class="col"><!-- Empty column for additional field -->
-                </div>
-            </div>
-            <!-- Row 7: Empty rows for additional fields (if needed) -->
-            <div class="row">
-                <div class="col">
-                </div>
-                <div class="col">
-                </div>
-                <div class="col">
-                </div>
-            </div>
-            <!-- Row 8: Empty rows for additional fields (if needed) -->
-            <div class="row">
-                <div class="col">
-                </div>
-                <div class="col">
-                </div>
-                <div class="col">
-                </div>
-            </div>
-            <!-- Row 9: Empty rows for additional fields (if needed) -->
-            <div class="row">
-                <div class="col">
-                </div>
-                <div class="col">
-                </div>
-                <div class="col">
-                </div>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>
+        </div>
+    {% else %}
+        <!-- If the user is not authenticated, prompt them to log in -->
+        <p>You need to <a href="{% url 'account_login' %}">log in</a>!</p>
+    {% endif %}
 {% endblock %}

@@ -1,487 +1,491 @@
 {% extends "base.html" %} {% block content %}
-
-<!-- Container for the main content of the page -->
-<div class="container-fluid">
-  <!-- Navigation tabs -->
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <!-- Link to the list of employees page -->
-      <a class="nav-link" href="{% url 'Listofemployees' %}"
-        >List of employees</a
-      >
-    </li>
-    <li class="nav-item">
-      <!-- Current active page for adding a new employee -->
-      <a class="nav-link active" aria-current="page" href="#"
-        >New employee</a
-      >
-    </li>
-  </ul>
-  <!-- Form to add a new employee -->
-  <div class="container-fluid">
-    <div class="row">
-      <p></p> <!-- Empty paragraph for spacing -->
-    </div>
-    <form method="POST" action="{% url 'Addanemployees' %}">
-      {% csrf_token %} <!-- CSRF token for form security -->
-      {% if form.non_field_errors %}
-        <div class="alert alert-danger">
-          {{ form.non_field_errors|join:", " }}
+  {% if user.is_authenticated %}
+    <!-- Container for the main content of the page -->
+    <div class="container-fluid">
+      <!-- Navigation tabs -->
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <!-- Link to the list of employees page -->
+          <a class="nav-link" href="{% url 'Listofemployees' %}"
+            >List of employees</a
+          >
+        </li>
+        <li class="nav-item">
+          <!-- Current active page for adding a new employee -->
+          <a class="nav-link active" aria-current="page" href="#"
+            >New employee</a
+          >
+        </li>
+      </ul>
+      <!-- Form to add a new employee -->
+      <div class="container-fluid">
+        <div class="row">
+          <p></p> <!-- Empty paragraph for spacing -->
         </div>
-      {% endif %}
-    <!-- row 1: Employee title and submit button -->
-    <div class="row">
-        <div class="col">
-          <!-- Input field for employee title -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Title</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter the role of the employee"
-              name="title"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-          {% if form.title.errors %}
-            <div class="text-danger">
-              {% for error in form.title.errors %}
-                <p>{{ error }} </p>
-              {% endfor %}
+        <form method="POST" action="{% url 'Addanemployees' %}">
+          {% csrf_token %} <!-- CSRF token for form security -->
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+              {{ form.non_field_errors|join:", " }}
             </div>
           {% endif %}
-        </div>
-        <div class="col">
-            <!-- Button to submit the form -->
-            <div class="mb-3">
-                <button type="submit" class="btn btn-outline-primary" id="button-addon2">Add this employee</button>
+        <!-- row 1: Employee title and submit button -->
+        <div class="row">
+            <div class="col">
+              <!-- Input field for employee title -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Title</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter the role of the employee"
+                  name="title"
+                  aria-describedby="basic-addon1"
+                />
+              </div>
+              {% if form.title.errors %}
+                <div class="text-danger">
+                  {% for error in form.title.errors %}
+                    <p>{{ error }} </p>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
-        </div>
-        <div class="col">
-            <!-- Empty column for spacing -->
-            <div class="mb-3">
+            <div class="col">
+                <!-- Button to submit the form -->
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-outline-primary" id="button-addon2">Add this employee</button>
+                </div>
             </div>
-        </div>
-      </div>
-    <!-- row 2: Employee's first name, last ame, and bank account -->
-      <div class="row">
-        <div class="col">
-          <!-- Input field for first name -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">First name</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter the first name"
-              aria-describedby="basic-addon1"
-              name="first_name"
-            />
-          </div>
-          {% if form.first_name.errors %}
-            <div class="text-danger">
-              {% for error in form.first_name.errors %}
-                <p>{{ error }}</p>
-              {% endfor %}
+            <div class="col">
+                <!-- Empty column for spacing -->
+                <div class="mb-3">
+                </div>
             </div>
-          {% endif %}
-        </div>
-        <div class="col">
-          <!-- Input field for last name -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Last Name</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter the last name"
-              aria-describedby="basic-addon1"
-              name="last_name"
-            />
           </div>
-          {% if form.last_name.errors %}
-            <div class="text-danger">
-              {% for error in form.last_name.errors %}
-                <p>{{ error }}</p>
-              {% endfor %}
+        <!-- row 2: Employee's first name, last ame, and bank account -->
+          <div class="row">
+            <div class="col">
+              <!-- Input field for first name -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">First name</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter the first name"
+                  aria-describedby="basic-addon1"
+                  name="first_name"
+                />
+              </div>
+              {% if form.first_name.errors %}
+                <div class="text-danger">
+                  {% for error in form.first_name.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
-          {% endif %}
-        </div>
-        <div class="col">
-          <!-- Input field for bank account -->
-          <div class="input-group mb-3 flex-nowrap">
-              <span class="input-group-text financial-color" id="basic-addon1">Bank account</span>
-              <input type="text" class="form-control" placeholder="max 21 char" aria-describedby="basic-addon1"
-                  name="employees_bankaccount" />
-          </div>
-          {% if form.employees_bankaccount.errors %}
-            <div class="text-danger">
-              {% for error in form.employees_bankaccount.errors %}
-                <p>{{ error }}</p>
-              {% endfor %}
+            <div class="col">
+              <!-- Input field for last name -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Last Name</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter the last name"
+                  aria-describedby="basic-addon1"
+                  name="last_name"
+                />
+              </div>
+              {% if form.last_name.errors %}
+                <div class="text-danger">
+                  {% for error in form.last_name.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
-          {% endif %}
-        </div>
-      </div>
-    <!-- row 3: Marital status, gender, and monthly salary -->
-      <div class="row">
-        <div class="col">
-          <!-- Dropdown for marital status -->
-          <div class="input-group mb-3 flex-nowrap">
-                <label class="input-group-text" for="inputGroupSelectMaritalStatus">Marital status</label>
-                <select class="form-select" id="inputGroupSelectMaritalStatus" name="employees_marital_status">
-                    <option selected></option>
-                    <option value="M">Married</option>
-                    <option value="D">Divorced</option>
-                    <option value="S">Single</option>
-                    <option value="P">Partnership</option>
-                    <option value="O">Other</option>
-                </select>
-          </div>
-          {% if form.employees_marital_status.errors %}
-            <div class="text-danger">
-              {% for error in form.employees_marital_status.errors %}
-                <p>{{ error }}</p>
-              {% endfor %}
+            <div class="col">
+              <!-- Input field for bank account -->
+              <div class="input-group mb-3 flex-nowrap">
+                  <span class="input-group-text financial-color" id="basic-addon1">Bank account</span>
+                  <input type="text" class="form-control" placeholder="max 21 char" aria-describedby="basic-addon1"
+                      name="employees_bankaccount" />
+              </div>
+              {% if form.employees_bankaccount.errors %}
+                <div class="text-danger">
+                  {% for error in form.employees_bankaccount.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
-          {% endif %}
-        </div>
-        <div class="col">
-            <!-- Dropdown fo gender -->
-            <div class="input-group mb-3 flex-nowrap">
-                <label class="input-group-text" for="inputGroupSelectGender">Gender</label>
-                <select class="form-select" id="inputGroupSelectGender" name="employees_gender">
-                    <option selected></option>
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-                    <option value="O">Other</option>
-                </select>
+          </div>
+        <!-- row 3: Marital status, gender, and monthly salary -->
+          <div class="row">
+            <div class="col">
+              <!-- Dropdown for marital status -->
+              <div class="input-group mb-3 flex-nowrap">
+                    <label class="input-group-text" for="inputGroupSelectMaritalStatus">Marital status</label>
+                    <select class="form-select" id="inputGroupSelectMaritalStatus" name="employees_marital_status">
+                        <option selected></option>
+                        <option value="M">Married</option>
+                        <option value="D">Divorced</option>
+                        <option value="S">Single</option>
+                        <option value="P">Partnership</option>
+                        <option value="O">Other</option>
+                    </select>
+              </div>
+              {% if form.employees_marital_status.errors %}
+                <div class="text-danger">
+                  {% for error in form.employees_marital_status.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
-            {% if form.employees_gender.errors %}
-            <div class="text-danger">
-              {% for error in form.employees_gender.errors %}
-                <p>{{ error }}</p>
-              {% endfor %}
+            <div class="col">
+                <!-- Dropdown fo gender -->
+                <div class="input-group mb-3 flex-nowrap">
+                    <label class="input-group-text" for="inputGroupSelectGender">Gender</label>
+                    <select class="form-select" id="inputGroupSelectGender" name="employees_gender">
+                        <option selected></option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="O">Other</option>
+                    </select>
+                </div>
+                {% if form.employees_gender.errors %}
+                <div class="text-danger">
+                  {% for error in form.employees_gender.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
-          {% endif %}
-        </div>
-        <div class="col">
-          <!-- Input field for monthly salary -->
-          <div class="input-group mb-3 flex-nowrap">
-              <span class="input-group-text financial-color" id="basic-addon1">Monthly salary</span>
-              <span class="input-group-text">$</span>
-              <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
-                  name="base_monthly_salary" />
-              <span class="input-group-text">.00</span>
-          </div>
-          {% if form.base_monthly_salary.errors %}
-          <div class="text-danger">
-            {% for error in form.base_monthly_salary.errors %}
-              <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-        {% endif %}
-        </div>
-      </div>
-    <!-- row 4: Birth date, age, and phone allocation -->
-      <div class="row">
-        <div class="col">
-          <!-- Input field for birth date -->
-          <div class="input-group mb-3 flex-nowrap">
-                <span class="input-group-text" id="basic-addon1">Birth date</span>
-                <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1"
-                    name="birth_date"/>
-          </div>
-          {% if form.birth_date.errors %}
-          <div class="text-danger">
-            {% for error in form.birth_date.errors %}
-              <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-        {% endif %}
-        </div>
-        <div class="col">
-          <!-- Input field for age -->
-          <div class="input-group mb-3 flex-nowrap">
-                <span class="input-group-text" id="basic-addon1">Age</span>
-                <input type="text" class="form-control" placeholder="Enter the age" aria-describedby="basic-addon1" name="employees_age"/>
-          </div>
-          {% if form.employees_age.errors %}
-          <div class="text-danger">
-            {% for error in form.employees_age.errors %}
-              <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-        {% endif %}
-        </div>
-        <div class="col">
-          <!-- Input field for phone allocation -->
-          <div class="input-group mb-3 flex-nowrap">
-              <span class="input-group-text financial-color" id="basic-addon1">Phone allocation</span>
-              <span class="input-group-text">$</span>
-              <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
-                  name="employees_phone_allocation" />
-              <span class="input-group-text">.00</span>
-          </div>
-          {% if form.employees_phone_allocation.errors %}
-          <div class="text-danger">
-            {% for error in form.employees_phone_allocation.errors %}
-              <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-        {% endif %}
-        </div>
-      </div>
-    <!-- row 5: Phone number, Email address, and Representation allocation -->
-      <div class="row">
-        <div class="col">
-          <!-- Input field for Phone number -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Phone number</span>
-            <input type="text" class="form-control" placeholder="0041/00.000.00.00" aria-describedby="basic-addon1"
-                name="phone_number"/>
-          </div>
-          {% if form.phone_number.errors %}
-          <div class="text-danger">
-            {% for error in form.phone_number.errors %}
-              <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-          {% endif %}
-        </div>
-        <div class="col">
-            <!-- Input field for Email address -->
-            <div class="input-group mb-3 flex-nowrap">
-                <span class="input-group-text" id="basic-addon1">Email address</span>
-                <input type="email" class="form-control" placeholder="Enter a valid email address" aria-describedby="basic-addon1"
-                    name="email_adress" />
-            </div>
-            {% if form.email_adress.errors %}
-            <div class="text-danger">
-              {% for error in form.email_adress.errors %}
-                <p>{{ error }}</p>
-              {% endfor %}
-            </div>
+            <div class="col">
+              <!-- Input field for monthly salary -->
+              <div class="input-group mb-3 flex-nowrap">
+                  <span class="input-group-text financial-color" id="basic-addon1">Monthly salary</span>
+                  <span class="input-group-text">$</span>
+                  <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
+                      name="base_monthly_salary" />
+                  <span class="input-group-text">.00</span>
+              </div>
+              {% if form.base_monthly_salary.errors %}
+              <div class="text-danger">
+                {% for error in form.base_monthly_salary.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
             {% endif %}
-        </div>
-        <div class="col">
-          <!-- Input field for Representation allocation -->
-          <div class="input-group mb-3 flex-nowrap">
-              <span class="input-group-text financial-color" id="basic-addon1">Representation allocation</span>
-              <span class="input-group-text">$</span>
-              <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
-                  name="employees_representation_allocation" />
-              <span class="input-group-text">.00</span>
-          </div>
-          {% if form.employees_representation_allocation.errors %}
-          <div class="text-danger">
-            {% for error in form.employees_representation_allocation.errors %}
-              <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-          {% endif %}
-        </div>
-      </div>
-    <!-- row 6: picture, Social Security number, and Holiday right -->
-      <div class="row">
-        <div class="col">
-          <!-- Input field for Employee's picture -->
-          <div class="input-group mb-3 flex-nowrap">
-            <label class="input-group-text" for="inputGroupFilePicture">Employee's picture</label>
-            <input type="file" class="form-control" id="inputGroupFilePicture" name="employee_picture">
-          </div>
-          {% if form.employee_picture.errors %}
-          <div class="text-danger">
-            {% for error in form.employee_picture.errors %}
-              <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-          {% endif %}
-        </div>
-        <div class="col">
-          <!-- Input field for Social Security number -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Social Security number</span>
-            <input type="text" class="form-control" placeholder="max 13 char" aria-describedby="basic-addon1"
-                name="social_security_number"/>
-          </div>
-          {% if form.social_security_number.errors %}
-          <div class="text-danger">
-            {% for error in form.social_security_number.errors %}
-              <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-          {% endif %}
-        </div>
-        <div class="col">
-          <!-- Input field for Holiday right -->
-          <div class="input-group mb-3 flex-nowrap">
-              <span class="input-group-text financial-color" id="basic-addon1">Holiday right</span>
-              <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
-                  name="employees_holiday_rights" />
-          </div>
-          {% if form.employees_holiday_rights.errors %}
-          <div class="text-danger">
-            {% for error in form.employees_holiday_rights.errors %}
-              <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-          {% endif %}
-        </div>
-      </div>
-    <!-- row 7: Children below 18, Children below 25, and Start date -->
-      <div class="row">
-        <div class="col">
-            <!-- Input field for Children below 18 -->
-            <div class="input-group mb-3 flex-nowrap">
-                <label class="input-group-text" for="inputGroupSelectChildrenBelow18">Children below 18</label>
-                <select class="form-select" id="inputGroupSelectChildrenBelow18" name="children_for_allocations_type_1">
-                    <option selected></option>
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
             </div>
-            {% if form.children_for_allocations_type_1.errors %}
-            <div class="text-danger">
-              {% for error in form.children_for_allocations_type_1.errors %}
-                <p>{{ error }}</p>
-              {% endfor %}
-            </div>
+          </div>
+        <!-- row 4: Birth date, age, and phone allocation -->
+          <div class="row">
+            <div class="col">
+              <!-- Input field for birth date -->
+              <div class="input-group mb-3 flex-nowrap">
+                    <span class="input-group-text" id="basic-addon1">Birth date</span>
+                    <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1"
+                        name="birth_date"/>
+              </div>
+              {% if form.birth_date.errors %}
+              <div class="text-danger">
+                {% for error in form.birth_date.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
             {% endif %}
-        </div>
-        <div class="col">
-            <!-- Input field for Children below 25 -->
-            <div class="input-group mb-3 flex-nowrap">
-                <label class="input-group-text" for="inputGroupSelectChildrenBelow25">Children below 25</label>
-                <select class="form-select" id="inputGroupSelectChildrenBelow25" name="children_for_allocations_type_2">
-                    <option selected></option>
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
             </div>
-            {% if form.children_for_allocations_type_2.errors %}
-            <div class="text-danger">
-              {% for error in form.children_for_allocations_type_2.errors %}
-                <p>{{ error }}</p>
-              {% endfor %}
-            </div>
+            <div class="col">
+              <!-- Input field for age -->
+              <div class="input-group mb-3 flex-nowrap">
+                    <span class="input-group-text" id="basic-addon1">Age</span>
+                    <input type="text" class="form-control" placeholder="Enter the age" aria-describedby="basic-addon1" name="employees_age"/>
+              </div>
+              {% if form.employees_age.errors %}
+              <div class="text-danger">
+                {% for error in form.employees_age.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
             {% endif %}
-        </div>
-        <div class="col">
-          <!-- Input field for Start date -->
-          <div class="input-group mb-3 flex-nowrap">
-              <span class="input-group-text financial-color" id="basic-addon1">Start date</span>
-              <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1"
-                  name="start_date" />
-          </div>
-          {% if form.start_date.errors %}
-          <div class="text-danger">
-            {% for error in form.start_date.errors %}
-              <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-          {% endif %}
-        </div>
-      </div>
-    <!-- row 8: Emergency contact, Emergency phone number, and End date -->
-      <div class="row">
-        <div class="col">
-          <!-- Input field for Emergency contact -->
-            <div class="input-group mb-3 flex-nowrap">
-                <span class="input-group-text" id="basic-addon1">Emergency contact</span>
-                <input type="text" class="form-control" placeholder="Enter the name of contact in case of an emergency"
-                    aria-describedby="basic-addon1" name="emergency_contact" />
             </div>
-            {% if form.emergency_contact.errors %}
-            <div class="text-danger">
-              {% for error in form.emergency_contact.errors %}
-                <p>{{ error }}</p>
-              {% endfor %}
-            </div>
+            <div class="col">
+              <!-- Input field for phone allocation -->
+              <div class="input-group mb-3 flex-nowrap">
+                  <span class="input-group-text financial-color" id="basic-addon1">Phone allocation</span>
+                  <span class="input-group-text">$</span>
+                  <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
+                      name="employees_phone_allocation" />
+                  <span class="input-group-text">.00</span>
+              </div>
+              {% if form.employees_phone_allocation.errors %}
+              <div class="text-danger">
+                {% for error in form.employees_phone_allocation.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
             {% endif %}
-        </div>
-        <div class="col">
-          <!-- Input field for Emergency phone number -->
-            <div class="input-group mb-3 flex-nowrap">
-                <span class="input-group-text" id="basic-addon1">Emergency phone number</span>
+            </div>
+          </div>
+        <!-- row 5: Phone number, Email address, and Representation allocation -->
+          <div class="row">
+            <div class="col">
+              <!-- Input field for Phone number -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Phone number</span>
                 <input type="text" class="form-control" placeholder="0041/00.000.00.00" aria-describedby="basic-addon1"
-                    name="emergency_phonenumber" />
+                    name="phone_number"/>
+              </div>
+              {% if form.phone_number.errors %}
+              <div class="text-danger">
+                {% for error in form.phone_number.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+              {% endif %}
             </div>
-            {% if form.emergency_phonenumber.errors %}
-            <div class="text-danger">
-              {% for error in form.emergency_phonenumber.errors %}
-                <p>{{ error }}</p>
-              {% endfor %}
+            <div class="col">
+                <!-- Input field for Email address -->
+                <div class="input-group mb-3 flex-nowrap">
+                    <span class="input-group-text" id="basic-addon1">Email address</span>
+                    <input type="email" class="form-control" placeholder="Enter a valid email address" aria-describedby="basic-addon1"
+                        name="email_adress" />
+                </div>
+                {% if form.email_adress.errors %}
+                <div class="text-danger">
+                  {% for error in form.email_adress.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
-        </div>
-        <div class="col">
-          <!-- Input field for End date -->
-          <div class="input-group mb-3 flex-nowrap">
-              <span class="input-group-text financial-color" id="basic-addon1">End date</span>
-              <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1" name="end_date" />
+            <div class="col">
+              <!-- Input field for Representation allocation -->
+              <div class="input-group mb-3 flex-nowrap">
+                  <span class="input-group-text financial-color" id="basic-addon1">Representation allocation</span>
+                  <span class="input-group-text">$</span>
+                  <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
+                      name="employees_representation_allocation" />
+                  <span class="input-group-text">.00</span>
+              </div>
+              {% if form.employees_representation_allocation.errors %}
+              <div class="text-danger">
+                {% for error in form.employees_representation_allocation.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
           </div>
-          {% if form.end_date.errors %}
-          <div class="text-danger">
-            {% for error in form.end_date.errors %}
-              <p>{{ error }}</p>
-            {% endfor %}
+        <!-- row 6: picture, Social Security number, and Holiday right -->
+          <div class="row">
+            <div class="col">
+              <!-- Input field for Employee's picture -->
+              <div class="input-group mb-3 flex-nowrap">
+                <label class="input-group-text" for="inputGroupFilePicture">Employee's picture</label>
+                <input type="file" class="form-control" id="inputGroupFilePicture" name="employee_picture">
+              </div>
+              {% if form.employee_picture.errors %}
+              <div class="text-danger">
+                {% for error in form.employee_picture.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            <div class="col">
+              <!-- Input field for Social Security number -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Social Security number</span>
+                <input type="text" class="form-control" placeholder="max 13 char" aria-describedby="basic-addon1"
+                    name="social_security_number"/>
+              </div>
+              {% if form.social_security_number.errors %}
+              <div class="text-danger">
+                {% for error in form.social_security_number.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            <div class="col">
+              <!-- Input field for Holiday right -->
+              <div class="input-group mb-3 flex-nowrap">
+                  <span class="input-group-text financial-color" id="basic-addon1">Holiday right</span>
+                  <input type="text" class="form-control" placeholder="Enter a number" aria-describedby="basic-addon1"
+                      name="employees_holiday_rights" />
+              </div>
+              {% if form.employees_holiday_rights.errors %}
+              <div class="text-danger">
+                {% for error in form.employees_holiday_rights.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
           </div>
-          {% endif %}
+        <!-- row 7: Children below 18, Children below 25, and Start date -->
+          <div class="row">
+            <div class="col">
+                <!-- Input field for Children below 18 -->
+                <div class="input-group mb-3 flex-nowrap">
+                    <label class="input-group-text" for="inputGroupSelectChildrenBelow18">Children below 18</label>
+                    <select class="form-select" id="inputGroupSelectChildrenBelow18" name="children_for_allocations_type_1">
+                        <option selected></option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                {% if form.children_for_allocations_type_1.errors %}
+                <div class="text-danger">
+                  {% for error in form.children_for_allocations_type_1.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col">
+                <!-- Input field for Children below 25 -->
+                <div class="input-group mb-3 flex-nowrap">
+                    <label class="input-group-text" for="inputGroupSelectChildrenBelow25">Children below 25</label>
+                    <select class="form-select" id="inputGroupSelectChildrenBelow25" name="children_for_allocations_type_2">
+                        <option selected></option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                {% if form.children_for_allocations_type_2.errors %}
+                <div class="text-danger">
+                  {% for error in form.children_for_allocations_type_2.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col">
+              <!-- Input field for Start date -->
+              <div class="input-group mb-3 flex-nowrap">
+                  <span class="input-group-text financial-color" id="basic-addon1">Start date</span>
+                  <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1"
+                      name="start_date" />
+              </div>
+              {% if form.start_date.errors %}
+              <div class="text-danger">
+                {% for error in form.start_date.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        <!-- row 8: Emergency contact, Emergency phone number, and End date -->
+          <div class="row">
+            <div class="col">
+              <!-- Input field for Emergency contact -->
+                <div class="input-group mb-3 flex-nowrap">
+                    <span class="input-group-text" id="basic-addon1">Emergency contact</span>
+                    <input type="text" class="form-control" placeholder="Enter the name of contact in case of an emergency"
+                        aria-describedby="basic-addon1" name="emergency_contact" />
+                </div>
+                {% if form.emergency_contact.errors %}
+                <div class="text-danger">
+                  {% for error in form.emergency_contact.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col">
+              <!-- Input field for Emergency phone number -->
+                <div class="input-group mb-3 flex-nowrap">
+                    <span class="input-group-text" id="basic-addon1">Emergency phone number</span>
+                    <input type="text" class="form-control" placeholder="0041/00.000.00.00" aria-describedby="basic-addon1"
+                        name="emergency_phonenumber" />
+                </div>
+                {% if form.emergency_phonenumber.errors %}
+                <div class="text-danger">
+                  {% for error in form.emergency_phonenumber.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col">
+              <!-- Input field for End date -->
+              <div class="input-group mb-3 flex-nowrap">
+                  <span class="input-group-text financial-color" id="basic-addon1">End date</span>
+                  <input type="text" class="form-control" placeholder="yyyy-mm-dd" aria-describedby="basic-addon1" name="end_date" />
+              </div>
+              {% if form.end_date.errors %}
+              <div class="text-danger">
+                {% for error in form.end_date.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        <!-- row 9: Seniority, Is the employee active -->
+        <div class="row">
+            <div class="col">
+                <!-- Input field for Seniority -->
+                <div class="input-group mb-3 flex-nowrap">
+                    <span class="input-group-text" id="basic-addon1">Seniority</span>
+                    <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1"
+                        name="seniority" />
+                </div>
+                {% if form.seniority.errors %}
+                <div class="text-danger">
+                  {% for error in form.seniority.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col">
+                <!-- Input field for Is the employee active -->
+                <div class="input-group mb-3 flex-nowrap">
+                    <span class="input-group-text" id="basic-addon1">Is the employee active</span>
+                    <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1" name="employees_status" />
+                </div>
+                {% if form.employees_status.errors %}
+                <div class="text-danger">
+                  {% for error in form.employees_status.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col">
+            </div>
         </div>
+          </div>
+        </form>
       </div>
-    <!-- row 9: Seniority, Is the employee active -->
-    <div class="row">
-        <div class="col">
-            <!-- Input field for Seniority -->
-            <div class="input-group mb-3 flex-nowrap">
-                <span class="input-group-text" id="basic-addon1">Seniority</span>
-                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1"
-                    name="seniority" />
-            </div>
-            {% if form.seniority.errors %}
-            <div class="text-danger">
-              {% for error in form.seniority.errors %}
-                <p>{{ error }}</p>
-              {% endfor %}
-            </div>
-            {% endif %}
-        </div>
-        <div class="col">
-            <!-- Input field for Is the employee active -->
-            <div class="input-group mb-3 flex-nowrap">
-                <span class="input-group-text" id="basic-addon1">Is the employee active</span>
-                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1" name="employees_status" />
-            </div>
-            {% if form.employees_status.errors %}
-            <div class="text-danger">
-              {% for error in form.employees_status.errors %}
-                <p>{{ error }}</p>
-              {% endfor %}
-            </div>
-            {% endif %}
-        </div>
-        <div class="col">
-        </div>
     </div>
-      </div>
-    </form>
-  </div>
-</div>
+  {% else %}
+    <!-- If the user is not authenticated, prompt them to log in -->
+    <p>You need to <a href="{% url 'account_login' %}">log in</a>!</p>
+  {% endif %}
 {%endblock%}

@@ -1,170 +1,175 @@
 {% extends "base.html" %} {% block content %}
-<!-- Main container for the page content -->
-<div class="container-fluid">
-    <!-- Navigation tabs for year and months -->
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <!-- Link to generator year page -->
-            <a class="nav-link" aria-current="page" href="{% url 'generator_year' %}">Year</a>
-        </li>
-        <li class="nav-item">
-            <!-- Current active tab for months -->
-            <a class="nav-link active" href="#">Months</a>
-        </li>
-    </ul>
-    <!-- Container for displaying months and their details -->
-    <div class="container-fluid">
-        <div class="row">
-            <p></p><!-- Empty paragraph for spacing -->
-        </div>
-        <div class="container text-center">
-            <!-- Heading for the list of months for the selected year -->
-            <h2>Months for {{ year }}:</h2>
-            <!-- Loop through each month and display relevant information -->
-            {% for month_num, data_dict in generator_check_combined.items %}
-            <div class="row align-items-start">
-            <div class="col list-group"></div>
-            <div class="col list-group">
-                <a href="#" class="list-group-item d-flex justify-content-between">
-                <!-- Display status indicators based on the data dictionary -->
-                {% if data_dict.is_paid %}
-                <span
-                    class="position-absolute top-0 start-0 translate-middle p-2 bg-success border border-dark rounded-circle"
-                ></span>
-                {% elif data_dict.has_data %}
-                <span
-                    class="position-absolute top-0 start-0 translate-middle p-2 bg-primary border border-dark rounded-circle"
-                ></span>
-                {% else %}
-                <span
-                    class="position-absolute top-0 start-0 translate-middle p-2 bg-light border border-dark rounded-circle"
-                ></span>
-                {% endif %} <!-- Display month name --> {{ months|slice:month_num|last }} 
-                <!-- Action buttons based on data availability and payment status -->
-                {%if data_dict.has_data_truebefore_falseafter and data_dict.is_paid_truebefore_falseafter%}
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <!-- Save button -->
-                    <span>
-                    <form
-                        method="get"
-                        action="{% url 'generator_employees' year=year month=forloop.counter %}"
-                        style="display: inline"
-                    >
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-primary btn-sm">
-                        Save
-                        </button>
-                    </form>
-                    </span>
-                    <!-- Delete button -->
-                    <span>
-                    <form
-                        method="post"
-                        action="{% url 'generator_delete_monthly_data' year=year month=forloop.counter %}"
-                        style="display: inline"
-                    >
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-danger btn-sm">
-                        Delete
-                        </button>
-                    </form>
-                    </span>
-                    <!-- Pay button with confirmation -->
-                    <span>
-                    <form
-                        method="post"
-                        action="{% url 'generator_pay' year=year month=forloop.counter %}"
-                        style="display: inline"
-                        onsubmit="return confirm('Are you sure you want to make the payment? this would be irreversible!')"
-                    >
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-success btn-sm">
-                        Pay
-                        </button>
-                    </form></span
-                    >
-                    <!-- See button -->
-                    <span>
-                        <span>
-                            <form method="get" action="{% url 'generator_see' year=year month=forloop.counter %}" style="display: inline">
+    {% if user.is_authenticated %}
+        <!-- Main container for the page content -->
+        <div class="container-fluid">
+            <!-- Navigation tabs for year and months -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <!-- Link to generator year page -->
+                    <a class="nav-link" aria-current="page" href="{% url 'generator_year' %}">Year</a>
+                </li>
+                <li class="nav-item">
+                    <!-- Current active tab for months -->
+                    <a class="nav-link active" href="#">Months</a>
+                </li>
+            </ul>
+            <!-- Container for displaying months and their details -->
+            <div class="container-fluid">
+                <div class="row">
+                    <p></p><!-- Empty paragraph for spacing -->
+                </div>
+                <div class="container text-center">
+                    <!-- Heading for the list of months for the selected year -->
+                    <h2>Months for {{ year }}:</h2>
+                    <!-- Loop through each month and display relevant information -->
+                    {% for month_num, data_dict in generator_check_combined.items %}
+                    <div class="row align-items-start">
+                    <div class="col list-group"></div>
+                    <div class="col list-group">
+                        <a href="#" class="list-group-item d-flex justify-content-between">
+                        <!-- Display status indicators based on the data dictionary -->
+                        {% if data_dict.is_paid %}
+                        <span
+                            class="position-absolute top-0 start-0 translate-middle p-2 bg-success border border-dark rounded-circle"
+                        ></span>
+                        {% elif data_dict.has_data %}
+                        <span
+                            class="position-absolute top-0 start-0 translate-middle p-2 bg-primary border border-dark rounded-circle"
+                        ></span>
+                        {% else %}
+                        <span
+                            class="position-absolute top-0 start-0 translate-middle p-2 bg-light border border-dark rounded-circle"
+                        ></span>
+                        {% endif %} <!-- Display month name --> {{ months|slice:month_num|last }} 
+                        <!-- Action buttons based on data availability and payment status -->
+                        {%if data_dict.has_data_truebefore_falseafter and data_dict.is_paid_truebefore_falseafter%}
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <!-- Save button -->
+                            <span>
+                            <form
+                                method="get"
+                                action="{% url 'generator_employees' year=year month=forloop.counter %}"
+                                style="display: inline"
+                            >
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-dark btn-sm">
-                                    See
+                                <button type="submit" class="btn btn-outline-primary btn-sm">
+                                Save
                                 </button>
                             </form>
-                        </span>
-                    </span>
-                </div>
-                {% elif data_dict.has_data and data_dict.is_paid_truebefore_falseafter%}
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <!-- Delete button -->
-                                <span>
-                                    <form method="post" action="{% url 'generator_delete_monthly_data' year=year month=forloop.counter %}"
-                                        style="display: inline">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-outline-danger btn-sm">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </span>
-                                <!-- Pay button with confirmation -->
-                                <span>
-                                    <form method="post" action="{% url 'generator_pay' year=year month=forloop.counter %}" style="display: inline"
-                                        onsubmit="return confirm('Are you sure you want to make the payment? this would be irreversible!')">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-outline-success btn-sm">
-                                            Pay
-                                        </button>
-                                    </form>
-                                </span>
-                                <!-- See button  -->
+                            </span>
+                            <!-- Delete button -->
+                            <span>
+                            <form
+                                method="post"
+                                action="{% url 'generator_delete_monthly_data' year=year month=forloop.counter %}"
+                                style="display: inline"
+                            >
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                Delete
+                                </button>
+                            </form>
+                            </span>
+                            <!-- Pay button with confirmation -->
+                            <span>
+                            <form
+                                method="post"
+                                action="{% url 'generator_pay' year=year month=forloop.counter %}"
+                                style="display: inline"
+                                onsubmit="return confirm('Are you sure you want to make the payment? this would be irreversible!')"
+                            >
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-success btn-sm">
+                                Pay
+                                </button>
+                            </form></span
+                            >
+                            <!-- See button -->
+                            <span>
                                 <span>
                                     <form method="get" action="{% url 'generator_see' year=year month=forloop.counter %}" style="display: inline">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-outline-dark btn-sm">
+                                        <button type="submit" class="btn btn-dark btn-sm">
                                             See
                                         </button>
                                     </form>
                                 </span>
-                            </div>
-                    {% elif data_dict.has_data and data_dict.is_paid %}
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <!-- Reopen button -->
-                                    <span>
-                                        <form method="post" action="{% url 'generator_reopen' year=year month=forloop.counter %}" style="display: inline" onsubmit="return confirm('Are you sure you want to reopen this month? This month salaries have been paid.')">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-outline-warning btn-sm">
-                                                reopen
-                                            </button>
-                                        </form>
-                                    </span>
-                                    <!-- See button -->
-                                    <span>
-                                        <form method="get" action="{% url 'generator_see' year=year month=forloop.counter %}" style="display: inline">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-outline-dark btn-sm">
-                                                See
-                                            </button>
-                                        </form>
-                                    </span>
-                                </div>
-                    {% else %}
-                    <!-- Disabled button for unavailable periods -->
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <span>
-                                            <button type="submit" class="btn btn-light btn-sm italic-button" disabled>
-                                                this period is not available
-                                            </button>
+                            </span>
+                        </div>
+                        {% elif data_dict.has_data and data_dict.is_paid_truebefore_falseafter%}
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <!-- Delete button -->
+                                        <span>
+                                            <form method="post" action="{% url 'generator_delete_monthly_data' year=year month=forloop.counter %}"
+                                                style="display: inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </span>
+                                        <!-- Pay button with confirmation -->
+                                        <span>
+                                            <form method="post" action="{% url 'generator_pay' year=year month=forloop.counter %}" style="display: inline"
+                                                onsubmit="return confirm('Are you sure you want to make the payment? this would be irreversible!')">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-outline-success btn-sm">
+                                                    Pay
+                                                </button>
+                                            </form>
+                                        </span>
+                                        <!-- See button  -->
+                                        <span>
+                                            <form method="get" action="{% url 'generator_see' year=year month=forloop.counter %}" style="display: inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-outline-dark btn-sm">
+                                                    See
+                                                </button>
+                                            </form>
+                                        </span>
+                                    </div>
+                            {% elif data_dict.has_data and data_dict.is_paid %}
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <!-- Reopen button -->
+                                            <span>
+                                                <form method="post" action="{% url 'generator_reopen' year=year month=forloop.counter %}" style="display: inline" onsubmit="return confirm('Are you sure you want to reopen this month? This month salaries have been paid.')">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-outline-warning btn-sm">
+                                                        reopen
+                                                    </button>
+                                                </form>
+                                            </span>
+                                            <!-- See button -->
+                                            <span>
+                                                <form method="get" action="{% url 'generator_see' year=year month=forloop.counter %}" style="display: inline">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-outline-dark btn-sm">
+                                                        See
+                                                    </button>
+                                                </form>
+                                            </span>
+                                        </div>
+                            {% else %}
+                            <!-- Disabled button for unavailable periods -->
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <span>
+                                                    <button type="submit" class="btn btn-light btn-sm italic-button" disabled>
+                                                        this period is not available
+                                                    </button>
 
-                                    </span>
-                                </div>
-                {% endif %}
-                </a>
+                                            </span>
+                                        </div>
+                        {% endif %}
+                        </a>
+                    </div>
+                    <div class="col list-group"></div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
-            <div class="col list-group"></div>
-            </div>
-            {% endfor %}
         </div>
-    </div>
-</div>
+    {% else %}
+        <!-- If the user is not authenticated, prompt them to log in -->
+        <p>You need to <a href="{% url 'account_login' %}">log in</a>!</p>
+    {% endif %}
 {% endblock %}

@@ -1,482 +1,487 @@
 {% extends "base.html" %} {% block content %}
-<!-- Container for the main content of the page -->
-<div class="container-fluid">
-  <!-- Navigation tabs -->
-  <ul class="nav nav-tabs">
-    <!-- Link to the list of employees page -->
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'Listofemployees' %}"
-        >List of employees</a
-      >
-    </li>
-    <!-- Link to add a new employee -->
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'Addanemployees' %}"
-        >Add a new employee</a
-      >
-    </li>
-    <!-- Current active tab for modifying an employee -->
-    <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="#"
-        >Modify employee</a
-      >
-    </li>
-  </ul>
-  <!-- Form to modify an employee's details -->
-  <div class="container-fluid">
-    <div class="row">
-      <p>      
-        {% if messages %}
-          <div class="messages">
-            {% for message in messages %}
-              <div class="alert {{ message.tags }}">{{ message }}</div>
-            {% endfor %}
-          </div>
-        {% endif %}
-      </p> 
-    </div>
-    <form method="POST" action="{% url 'modify_employee' pk=current_pk %}">
-      {% csrf_token %} <!-- CSRF token for form security -->
-      <!-- Row 1: Employee title and modify button -->
-      <div class="row">
-        <div class="col">
-          <!-- Input field for employee title -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Title</span>
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.title.value|default_if_none:'' }}"
-              name="title"
-              aria-describedby="basic-addon1"
-              {% if employee_in_use %}readonly{% endif %}
-            />
-          </div>
-          {% if employee_in_use %}
-            <div class="text-danger">
-                <p>>You cannot modify the title because it is associated with existing generated data</p>
+  {% if user.is_authenticated %}
+    <!-- Container for the main content of the page -->
+    <div class="container-fluid">
+      <!-- Navigation tabs -->
+      <ul class="nav nav-tabs">
+        <!-- Link to the list of employees page -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'Listofemployees' %}"
+            >List of employees</a
+          >
+        </li>
+        <!-- Link to add a new employee -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'Addanemployees' %}"
+            >Add a new employee</a
+          >
+        </li>
+        <!-- Current active tab for modifying an employee -->
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#"
+            >Modify employee</a
+          >
+        </li>
+      </ul>
+      <!-- Form to modify an employee's details -->
+      <div class="container-fluid">
+        <div class="row">
+          <p>      
+            {% if messages %}
+              <div class="messages">
+                {% for message in messages %}
+                  <div class="alert {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </p> 
+        </div>
+        <form method="POST" action="{% url 'modify_employee' pk=current_pk %}">
+          {% csrf_token %} <!-- CSRF token for form security -->
+          <!-- Row 1: Employee title and modify button -->
+          <div class="row">
+            <div class="col">
+              <!-- Input field for employee title -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Title</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.title.value|default_if_none:'' }}"
+                  name="title"
+                  aria-describedby="basic-addon1"
+                  {% if employee_in_use %}readonly{% endif %}
+                />
+              </div>
+              {% if employee_in_use %}
+                <div class="text-danger">
+                    <p>>You cannot modify the title because it is associated with existing generated data</p>
+                </div>
+              {% endif %}
             </div>
-          {% endif %}
-        </div>
-        <div class="col">
-          <!-- Button to submit modifications -->
-          <div class="mb-3">
-            <button
-              type="submit"
-              class="btn btn-outline-primary"
-              id="button-addon2"
-            >
-              Modify this employee
-            </button>
+            <div class="col">
+              <!-- Button to submit modifications -->
+              <div class="mb-3">
+                <button
+                  type="submit"
+                  class="btn btn-outline-primary"
+                  id="button-addon2"
+                >
+                  Modify this employee
+                </button>
+              </div>
+            </div>
+            <div class="col">
+              <!-- Empty column for spacing -->
+              <div class="mb-3"></div>
+            </div>
           </div>
-        </div>
-        <div class="col">
-          <!-- Empty column for spacing -->
-          <div class="mb-3"></div>
-        </div>
+          <!-- Row 2: First name, last name, and bank account -->
+          <div class="row">
+            <div class="col">
+              <!-- Input field for first name -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">First name</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.first_name.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="first_name"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for last name -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Last Name</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.last_name.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="last_name"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for bank account -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text financial-color" id="basic-addon1"
+                  >Bank account</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.employees_bankaccount.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="employees_bankaccount"
+                />
+                <!--{{ form.employees_bankaccount }}-->
+              </div>
+            </div>
+          </div>
+          <!-- Row 3: Marital status, Gender, and Monthly salary -->
+          <div class="row">
+            <div class="col">
+              <!-- Option field for Marital status -->
+              <div class="input-group mb-3 flex-nowrap">
+                <label class="input-group-text" for="inputGroupSelectMaritalStatus"
+                  >Marital status</label
+                >
+                <!--<select
+                  class="form-select"
+                  id="inputGroupSelectMaritalStatus"
+                  name="employees_marital_status"
+                  value="{{ form.employees_marital_status.value }}"
+                >
+                  <option selected></option>
+                  <option value="M">Married</option>
+                  <option value="D">Divorced</option>
+                  <option value="S">Single</option>
+                  <option value="P">Partnership</option>
+                  <option value="O">Other</option>
+                </select>-->
+                {{ form.employees_marital_status }}
+              </div>
+            </div>
+            <div class="col">
+              <!-- Option field for Gender -->
+              <div class="input-group mb-3 flex-nowrap">
+                <label class="input-group-text" for="inputGroupSelectGender"
+                  >Gender</label
+                >
+                <!--<select
+                  class="form-select"
+                  id="inputGroupSelectGender"
+                  name="employees_gender"
+                  value="{{ form.employees_gender.value }}"
+                >
+                  <option selected></option>
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>
+                  <option value="O">Other</option>
+                </select>-->
+                {{ form.employees_gender }}
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for Monthly salary -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text financial-color" id="basic-addon1"
+                  >Monthly salary</span
+                >
+                <span class="input-group-text">$</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.base_monthly_salary.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="base_monthly_salary"
+                />
+                <span class="input-group-text">.00</span>
+              </div>
+            </div>
+          </div>
+          <!-- Row 4: Birth date, Age, and Phone allocation -->
+          <div class="row">
+            <div class="col">
+              <!-- Date field for Birth date -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Birth date</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.birth_date.value|date:'Y-m-d' }}"
+                  aria-describedby="basic-addon1"
+                  name="birth_date"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for Age -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Age</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.employees_age.value|default_if_none:''  }}"
+                  aria-describedby="basic-addon1"
+                  name="employees_age"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for Phone allocation -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text financial-color" id="basic-addon1"
+                  >Phone allocation</span
+                >
+                <span class="input-group-text">$</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.employees_phone_allocation.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="employees_phone_allocation"
+                />
+                <span class="input-group-text">.00</span>
+              </div>
+            </div>
+          </div>
+          <!-- Row 5: Phone number, Email address, and Representation allocation -->
+          <div class="row">
+            <div class="col">
+              <!-- Input field for Phone number -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Phone number</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.phone_number.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="phone_number"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for Phone Email address -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1"
+                  >Email address</span
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  value="{{ form.email_adress.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="email_adress"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for Representation allocation -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text financial-color" id="basic-addon1"
+                  >Representation allocation</span
+                >
+                <span class="input-group-text">$</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.employees_representation_allocation.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="employees_representation_allocation"
+                />
+                <span class="input-group-text">.00</span>
+              </div>
+            </div>
+          </div>
+          <!-- Row 6: Employee's picture, Social Security number, and Holiday right -->
+          <div class="row">
+            <div class="col">
+              <!-- Upload field for Employee's picture -->
+              <div class="input-group mb-3 flex-nowrap">
+                <label class="input-group-text" for="inputGroupFilePicture"
+                  >Employee's picture</label
+                >
+                <input
+                  type="file"
+                  class="form-control"
+                  id="inputGroupFilePicture"
+                  name="employee_picture"
+                  value="{{ form.employee_picture.value }}"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for Social Security number -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1"
+                  >Social Security number</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.social_security_number.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="social_security_number"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for Holiday right -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text financial-color" id="basic-addon1"
+                  >Holiday right</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.employees_holiday_rights.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="employees_holiday_rights"
+                />
+            </div>
+          </div>
+          <!-- Row 7: Children below 18, Children below 25, and Start date -->
+          <div class="row">
+            <div class="col">
+              <!-- Option field for Children below 18 -->
+              <div class="input-group mb-3 flex-nowrap">
+                <label class="input-group-text"
+                  for="inputGroupSelectChildrenBelow18">Children below 18</label>
+                <!--<select
+                  class="form-select"
+                  id="inputGroupSelectChildrenBelow18"
+                  name="children_for_allocations_type_1"
+                  value="{{ form.children_for_allocations_type_1.value }}"
+                >
+                  <option selected></option>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>-->
+                {{ form.children_for_allocations_type_1 }}
+              </div>
+            </div>
+            <div class="col">
+              <!-- Option field for Children below 25 -->
+              <div class="input-group mb-3 flex-nowrap">
+                <label class="input-group-text"
+                  for="inputGroupSelectChildrenBelow25">Children below 25</label>
+                <!--<select
+                  class="form-select"
+                  id="inputGroupSelectChildrenBelow25"
+                  name="children_for_allocations_type_2"
+                  value="{{ form.children_for_allocations_type_2.value }}"
+                >
+                  <option selected></option>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>-->
+                {{ form.children_for_allocations_type_2 }}
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for Start date -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text financial-color" id="basic-addon1"
+                  >Start date</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.start_date.value|date:'Y-m-d' }}"
+                  aria-describedby="basic-addon1"
+                  name="start_date"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Row 8: Emergency contact, Emergency phone number, and End date -->
+          <div class="row">
+            <div class="col">
+              <!-- Input field for Emergency contact -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1"
+                  >Emergency contact</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.emergency_contact.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="emergency_contact"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for Emergency phone number -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1"
+                  >Emergency phone number</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.emergency_phonenumber.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="emergency_phonenumber"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for End date -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text financial-color" id="basic-addon1"
+                  >End date</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.end_date.value|date:'Y-m-d'|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="end_date"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Row 9: Seniority, Is the employee active, and End date -->
+          <div class="row">
+            <div class="col">
+              <!-- Input field for Seniority -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1">Seniority</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.seniority.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="seniority"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <!-- Input field for active/inactive -->
+              <div class="input-group mb-3 flex-nowrap">
+                <span class="input-group-text" id="basic-addon1"
+                  >Is the employee active</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ form.employees_status.value|default_if_none:'' }}"
+                  aria-describedby="basic-addon1"
+                  name="employees_status"
+                />
+              </div>
+            </div>
+            <div class="col">
+            </div>
+          </div>
+        </form>
       </div>
-      <!-- Row 2: First name, last name, and bank account -->
-      <div class="row">
-        <div class="col">
-          <!-- Input field for first name -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">First name</span>
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.first_name.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="first_name"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for last name -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Last Name</span>
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.last_name.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="last_name"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for bank account -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1"
-              >Bank account</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.employees_bankaccount.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="employees_bankaccount"
-            />
-            <!--{{ form.employees_bankaccount }}-->
-          </div>
-        </div>
-      </div>
-      <!-- Row 3: Marital status, Gender, and Monthly salary -->
-      <div class="row">
-        <div class="col">
-          <!-- Option field for Marital status -->
-          <div class="input-group mb-3 flex-nowrap">
-            <label class="input-group-text" for="inputGroupSelectMaritalStatus"
-              >Marital status</label
-            >
-            <!--<select
-              class="form-select"
-              id="inputGroupSelectMaritalStatus"
-              name="employees_marital_status"
-              value="{{ form.employees_marital_status.value }}"
-            >
-              <option selected></option>
-              <option value="M">Married</option>
-              <option value="D">Divorced</option>
-              <option value="S">Single</option>
-              <option value="P">Partnership</option>
-              <option value="O">Other</option>
-            </select>-->
-            {{ form.employees_marital_status }}
-          </div>
-        </div>
-        <div class="col">
-          <!-- Option field for Gender -->
-          <div class="input-group mb-3 flex-nowrap">
-            <label class="input-group-text" for="inputGroupSelectGender"
-              >Gender</label
-            >
-            <!--<select
-              class="form-select"
-              id="inputGroupSelectGender"
-              name="employees_gender"
-              value="{{ form.employees_gender.value }}"
-            >
-              <option selected></option>
-              <option value="M">Male</option>
-              <option value="F">Female</option>
-              <option value="O">Other</option>
-            </select>-->
-            {{ form.employees_gender }}
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for Monthly salary -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1"
-              >Monthly salary</span
-            >
-            <span class="input-group-text">$</span>
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.base_monthly_salary.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="base_monthly_salary"
-            />
-            <span class="input-group-text">.00</span>
-          </div>
-        </div>
-      </div>
-      <!-- Row 4: Birth date, Age, and Phone allocation -->
-      <div class="row">
-        <div class="col">
-          <!-- Date field for Birth date -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Birth date</span>
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.birth_date.value|date:'Y-m-d' }}"
-              aria-describedby="basic-addon1"
-              name="birth_date"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for Age -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Age</span>
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.employees_age.value|default_if_none:''  }}"
-              aria-describedby="basic-addon1"
-              name="employees_age"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for Phone allocation -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1"
-              >Phone allocation</span
-            >
-            <span class="input-group-text">$</span>
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.employees_phone_allocation.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="employees_phone_allocation"
-            />
-            <span class="input-group-text">.00</span>
-          </div>
-        </div>
-      </div>
-      <!-- Row 5: Phone number, Email address, and Representation allocation -->
-      <div class="row">
-        <div class="col">
-          <!-- Input field for Phone number -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Phone number</span>
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.phone_number.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="phone_number"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for Phone Email address -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1"
-              >Email address</span
-            >
-            <input
-              type="email"
-              class="form-control"
-              value="{{ form.email_adress.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="email_adress"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for Representation allocation -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1"
-              >Representation allocation</span
-            >
-            <span class="input-group-text">$</span>
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.employees_representation_allocation.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="employees_representation_allocation"
-            />
-            <span class="input-group-text">.00</span>
-          </div>
-        </div>
-      </div>
-      <!-- Row 6: Employee's picture, Social Security number, and Holiday right -->
-      <div class="row">
-        <div class="col">
-          <!-- Upload field for Employee's picture -->
-          <div class="input-group mb-3 flex-nowrap">
-            <label class="input-group-text" for="inputGroupFilePicture"
-              >Employee's picture</label
-            >
-            <input
-              type="file"
-              class="form-control"
-              id="inputGroupFilePicture"
-              name="employee_picture"
-              value="{{ form.employee_picture.value }}"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for Social Security number -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1"
-              >Social Security number</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.social_security_number.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="social_security_number"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for Holiday right -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1"
-              >Holiday right</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.employees_holiday_rights.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="employees_holiday_rights"
-            />
-        </div>
-      </div>
-      <!-- Row 7: Children below 18, Children below 25, and Start date -->
-      <div class="row">
-        <div class="col">
-          <!-- Option field for Children below 18 -->
-          <div class="input-group mb-3 flex-nowrap">
-            <label class="input-group-text"
-              for="inputGroupSelectChildrenBelow18">Children below 18</label>
-            <!--<select
-              class="form-select"
-              id="inputGroupSelectChildrenBelow18"
-              name="children_for_allocations_type_1"
-              value="{{ form.children_for_allocations_type_1.value }}"
-            >
-              <option selected></option>
-              <option value="0">0</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-            </select>-->
-            {{ form.children_for_allocations_type_1 }}
-          </div>
-        </div>
-        <div class="col">
-          <!-- Option field for Children below 25 -->
-          <div class="input-group mb-3 flex-nowrap">
-            <label class="input-group-text"
-              for="inputGroupSelectChildrenBelow25">Children below 25</label>
-            <!--<select
-              class="form-select"
-              id="inputGroupSelectChildrenBelow25"
-              name="children_for_allocations_type_2"
-              value="{{ form.children_for_allocations_type_2.value }}"
-            >
-              <option selected></option>
-              <option value="0">0</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-            </select>-->
-            {{ form.children_for_allocations_type_2 }}
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for Start date -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1"
-              >Start date</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.start_date.value|date:'Y-m-d' }}"
-              aria-describedby="basic-addon1"
-              name="start_date"
-            />
-          </div>
-        </div>
-      </div>
-      <!-- Row 8: Emergency contact, Emergency phone number, and End date -->
-      <div class="row">
-        <div class="col">
-          <!-- Input field for Emergency contact -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1"
-              >Emergency contact</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.emergency_contact.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="emergency_contact"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for Emergency phone number -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1"
-              >Emergency phone number</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.emergency_phonenumber.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="emergency_phonenumber"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for End date -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text financial-color" id="basic-addon1"
-              >End date</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.end_date.value|date:'Y-m-d'|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="end_date"
-            />
-          </div>
-        </div>
-      </div>
-      <!-- Row 9: Seniority, Is the employee active, and End date -->
-      <div class="row">
-        <div class="col">
-          <!-- Input field for Seniority -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1">Seniority</span>
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.seniority.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="seniority"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <!-- Input field for active/inactive -->
-          <div class="input-group mb-3 flex-nowrap">
-            <span class="input-group-text" id="basic-addon1"
-              >Is the employee active</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              value="{{ form.employees_status.value|default_if_none:'' }}"
-              aria-describedby="basic-addon1"
-              name="employees_status"
-            />
-          </div>
-        </div>
-        <div class="col">
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
+    </div>
+  {% else %}
+    <!-- If the user is not authenticated, prompt them to log in -->
+    <p>You need to <a href="{% url 'account_login' %}">log in</a>!</p>
+  {% endif %}
 {% endblock %}
