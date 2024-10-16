@@ -814,3 +814,39 @@ class OverviewExportView(View):
         # Pass the category values to the invisible table template
         context = {'form': form, 'fields': category_values}
         return render(request, self.template_name, context)
+
+
+class GeneratorReopenView(View):
+    def post(self, request, year, month, *args, **kwargs):
+        year = int(year)
+        month = int(month)
+
+        generator_data_list = GeneratorData.objects.filter(
+            gd_year=year, gd_month=month)
+
+        # Check if next month's data has been saved
+        next_month = month + 1
+        next_year = year
+        if next_month > 12:
+            next_month = 1
+            next_year += 1
+        
+        next_month_data_exists = GeneratorData.objects.filter(gd_year=next_year, gd_month=next_month).exists()
+
+        if next_month_data_exists:
+            messages.error(request, 'Cannot reopen this month as there is a following month already saved, delete it first.')
+            return redirect('generator_month', year=year)
+
+        if generator_data_list.exists():
+            if any(generator_data.gd_monthly_table_paid for generator_data in generator_data_list):
+                for generator_data in generator_data_list:
+                    generator_data.gd_monthly_table_paid = None
+                    generator_data.save()
+                messages.success(request, 'Reopen successful. The month is now available for deletion or paying.')
+            else:
+                messages.warning(
+                    request, 'This month is not marked as paid, so it cannot be reopened.')
+        else:
+            messages.error(request, 'No records found for the specified year and month. You need to save it first!')
+        
+        return redirect('generator_month', year=year)

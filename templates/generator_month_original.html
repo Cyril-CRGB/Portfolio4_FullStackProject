@@ -129,16 +129,6 @@
                             </div>
                     {% elif data_dict.has_data and data_dict.is_paid %}
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <!-- Reopen button -->
-                                    <span>
-                                        <form method="post" action="{% url 'generator_reopen' year=year month=forloop.counter %}" style="display: inline" onsubmit="return confirm('Are you sure you want to reopen this month? This month salaries have been paid.')">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-outline-warning btn-sm">
-                                                reopen
-                                            </button>
-                                        </form>
-                                    </span>
-                                    <!-- See button -->
                                     <span>
                                         <form method="get" action="{% url 'generator_see' year=year month=forloop.counter %}" style="display: inline">
                                             {% csrf_token %}

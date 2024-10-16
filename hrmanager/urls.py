@@ -36,6 +36,8 @@ urlpatterns = [
          views.GeneratorSeeView.as_view(), name='generator_see'),
     path('generator/<int:year>/<str:month>/pay/',
          views.GeneratorPayView.as_view(), name='generator_pay'),
+    path('generator/<int:year>/<str:month>/reopen/',
+         views.GeneratorReopenView.as_view(), name='generator_reopen'),
     path('overview/', views.OverviewYearView.as_view(), name='overview'),
     path('overview/export/', views.OverviewExportView.as_view(),
          name='overview_export'),
