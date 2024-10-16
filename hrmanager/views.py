@@ -13,6 +13,8 @@ from django.contrib import messages
 from django.utils import timezone
 from django.db import models
 from django.utils.safestring import mark_safe
+from django.views.generic.edit import DeleteView
+
 
 # Defining a class named HomeView that inherits from the View class
 class HomeView(View):
@@ -850,3 +852,27 @@ class GeneratorReopenView(View):
             messages.error(request, 'No records found for the specified year and month. You need to save it first!')
         
         return redirect('generator_month', year=year)
+
+# A view to delete an employee
+class DeleteEmployeeView(View):
+    def post(self, request, pk, *args, **kwargs):
+        # Get the employee instance by primary key (pk)
+        employee = get_object_or_404(Employees, pk=pk)
+
+        # Check if the employee has data in the GeneratorData model
+        employee_has_data = GeneratorData.objects.filter(
+            gd_title=employee.title,
+            gd_first_name=employee.first_name,
+            gd_last_name=employee.last_name
+        ).exists()
+
+        if employee_has_data:
+            # If the employee has associated data, prevent deletion
+            messages.error(request, "Cannot delete this employee as they have associated generated data.")
+        else:
+            # If no associated data, delete the employee
+            employee.delete()
+            messages.success(request, "Employee deleted successfully.")
+        
+        # Redirect back to the list of employees
+        return redirect('Listofemployees')

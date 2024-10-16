@@ -13,6 +13,8 @@ urlpatterns = [
          name='Addanemployees'),
     path('employee/<int:pk>/modify/', views.ModifyEmployeeView.as_view(),
          name='modify_employee'),
+    path('employee/<int:pk>/delete/', views.DeleteEmployeeView.as_view(),
+         name='delete_employee'),
     path('years/', views.YearList.as_view(),
          name='Yearview'),
     path('year/<int:pk>/', views.YearDetailView.as_view(),
