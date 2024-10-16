@@ -107,9 +107,9 @@ class Employees(models.Model):
     LPP_deduction_employer = models.IntegerField(
         blank=True, null=True, default=0)
     employees_phone_allocation = models.PositiveSmallIntegerField(
-        blank=True, null=True, default=0)
+        blank=False, null=False, default=0, validators=[validate_not_blank_nor_null])
     employees_representation_allocation = models.PositiveSmallIntegerField(
-        blank=True, null=True, default=0)
+        blank=False, null=False, default=0, validators=[validate_not_blank_nor_null])
     # temporary variables for manual entries --> should be in Employees model
     expense_report = models.DecimalField(
         max_digits=5, decimal_places=2, default=0, blank=True, null=True)
