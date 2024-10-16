@@ -38,8 +38,13 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Year</span>
                         <input type="text" class="form-control" name="validity_year"
-                            aria-describedby="basic-addon1" value="{{ form.validity_year.value }}"/>
+                            aria-describedby="basic-addon1" value="{{ form.validity_year.value }}" {% if year_in_use %}readonly{% endif %}/>
                     </div>
+                    {% if year_in_use %}
+                        <div class="text-danger">
+                            <p>>You cannot modify the year because it is associated with existing generated data</p>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="col">
                     <!-- Button to submit the changes for the year -->

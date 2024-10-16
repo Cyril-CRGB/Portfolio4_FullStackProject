@@ -14,6 +14,7 @@ from django.utils import timezone
 from django.db import models
 from django.utils.safestring import mark_safe
 from django.views.generic.edit import DeleteView
+from django.http import Http404
 
 
 # Defining a class named HomeView that inherits from the View class
@@ -95,6 +96,10 @@ class ModifyEmployeeView(generic.edit.UpdateView):
     def get_context_data(self, **kwargs):
         # Call the superclass method to get the default context
         context = super().get_context_data(**kwargs)
+        # Check if the current employee exists in the GeneratorData model
+        employee_in_use = GeneratorData.objects.filter(gd_title=self.object.title).exists()
+        # Add the check to the context
+        context['employee_in_use'] = employee_in_use
         # Add the current primary key and the form for the current employee to the context
         context['current_pk'] = self.object.pk
         context['form'] = ModifyEmployeeForm(instance=self.object)
@@ -188,12 +193,18 @@ class ModifyYearView(generic.edit.UpdateView):
         # Retrieve the primary key from the URL parameters
         pk = self.kwargs.get('pk')
         # Get the salary year object or return a 404 response if not found
-        return get_object_or_404(salary_items, pk=pk)
+        return get_object_or_404(salary_items, pk=pk) 
 
     # Override the get_context_data method to add additional context data
     def get_context_data(self, **kwargs):
         # Call the superclass method to get the default context
         context = super().get_context_data(**kwargs)
+        # Get the current year value from the form instance
+        current_year = self.object.validity_year
+        # Check if the current year exists in the GeneratorData model
+        year_in_use = GeneratorData.objects.filter(gd_year=current_year).exists()
+        # Add the check to the context
+        context['year_in_use'] = year_in_use
         # Add the current primary key and the form for the current salary year to the context
         context['current_pk'] = self.object.pk
         context['form'] = ModifyYearForm(instance=self.object)
@@ -862,8 +873,6 @@ class DeleteEmployeeView(View):
         # Check if the employee has data in the GeneratorData model
         employee_has_data = GeneratorData.objects.filter(
             gd_title=employee.title,
-            gd_first_name=employee.first_name,
-            gd_last_name=employee.last_name
         ).exists()
 
         if employee_has_data:
