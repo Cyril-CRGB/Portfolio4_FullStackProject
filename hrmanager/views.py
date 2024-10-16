@@ -876,3 +876,26 @@ class DeleteEmployeeView(View):
         
         # Redirect back to the list of employees
         return redirect('Listofemployees')
+
+
+# A view to delete a year
+class DeleteYearView(View):
+    def post(self, request, pk, *args, **kwargs):
+        # Get the year instance by primary key
+        year = get_object_or_404(salary_items, pk=pk)
+
+        # Check if the year has generated data in the GeneratorData table
+        year_has_data = GeneratorData.objects.filter(
+            gd_year=year.validity_year
+        ).exists()
+
+        if year_has_data:
+            # If the year has associated data, prevent deletion
+            messages.error(request, "Cannot delete this year as it has associated generated data.")
+        else:
+            # If no associated data, delete the year
+            year.delete()
+            messages.success(request, "Year deleted successfully.")
+
+        # Redirect back to the list of years
+        return redirect('Yearview')

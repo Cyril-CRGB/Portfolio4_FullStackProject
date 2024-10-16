@@ -23,6 +23,8 @@ urlpatterns = [
          name='Addayear'),
     path('year/<int:pk>/modify/', views.ModifyYearView.as_view(),
          name='modify_year'),
+    path('year/<int:pk>/delete/', views.DeleteYearView.as_view(),
+         name='delete_year'),
     path('generator/', views.GeneratorYearView.as_view(), name='generator_year'),
     path('generator/<int:year>/',
          views.GeneratorMonthView.as_view(), name='generator_month'),
