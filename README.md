@@ -85,7 +85,7 @@ We tested our statics files .css , with [jigsaw](https://jigsaw.w3.org/css-valid
 
 We tested our static file .js (also the script that we have on template 'overview.html) with [jshint](https://jshint.com/) and no error where found.
 
-We also tested our .html templates with [validator.w3](https://validator.w3.org/#validate_by_input), and we found one </span> that needed to be deleted. 
+We also tested our .html templates with [validator.w3](https://validator.w3.org/#validate_by_input), and we found one ```</span>``` that needed to be deleted. 
 
 
 ## Performance
@@ -116,21 +116,21 @@ Please select a fix:" and gave it a wrong default value
 
 ## Installation
 1. Clone the Repository
-<git clone <repository-url>>
-<cd app name>
+```<git clone <repository-url>>```
+```<cd app name>```
 2. Set up virtual Environment
-<python -m venv venv>
-<venv\Scripts\activate> (Windows)
+```<python -m venv venv>```
+```<venv\Scripts\activate> (Windows)```
 3. Install Requirements
-<pip install -r requirements.txt>
+```<pip install -r requirements.txt>```
 4. Configure Environnement variables, file name **env.py** for secret keys/urls.
 5. Apply Migrations
-<python manage.py makemigrations>
-<python manage.py migrate>
+```<python manage.py makemigrations>```
+```<python manage.py migrate>```
 6. Create Superuser
-<python manage.py createsuperuser>
+```<python manage.py createsuperuser>```
 7. Run the server
-<python manage.py runserver>
+```<python manage.py runserver>```
 
 
 ## Heroku deployment
