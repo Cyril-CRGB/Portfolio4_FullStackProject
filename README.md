@@ -115,6 +115,13 @@ Please select a fix:" and gave it a wrong default value
 - Embedded graph, using [Chart.js](https://www.chartjs.org/)
 
 
+## Methodology used
+- We used Agile methodologies: 
+1. github issues as userstories
+2. github milestones as sprint
+3. github Project to track progress
+
+
 ## Installation
 1. Clone the Repository
 ```<git clone <repository-url>>```
