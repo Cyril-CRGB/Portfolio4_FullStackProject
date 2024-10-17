@@ -60,7 +60,7 @@ Once 'Pay' as been clicked we see the badge of the concerned month become **Gree
 
 <img src="images/8_printscreen_Readme.jpg" alt="ReadmePicture8">
 
-The overall logic of this is describe by these steps (left to right)
+The overall logic of this is described by these steps (left to right)
 <img src="images/12_printscreen_Readme.jpg" alt="ReadmePicture12">
 
 #### C) Overview the data:
@@ -89,7 +89,7 @@ We also tested our .html templates with [validator.w3](https://validator.w3.org/
 
 
 ## Performance
-We tested the performance of our app with lighthouse, the result are good. 
+We tested the performance of our app with lighthouse, the results are good. 
 
 <img src="images/11_printscreen_Readme.jpg" alt="ReadmePicture11">
 
