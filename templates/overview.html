@@ -1,136 +1,143 @@
 {% extends "base.html" %} {% block content %}
-  {% if user.is_authenticated %}
-    <!-- Main container for the overview page content -->
-    <div class="container-fluid">
-      <!-- Title of the overview page -->
+{% if user.is_authenticated %} 
+<!-- Main container for the overview page content -->
+  <div class="container-fluid">
+    <!-- Title of the overview page -->
+    <div class="text-center">
+      <h2>Overview</h2>
+    </div>
+    <div><p></p></div><!-- Empty paragraph for spacing -->
+    <!-- Form to filter data by year, month, and employee -->
+    <div class="container-sm mb-3">
       <div class="text-center">
-        <h2>Overview</h2>
-      </div>
-      <div><p></p></div><!-- Empty paragraph for spacing -->
-      <!-- Form to filter data by year, month, and employee -->
-      <div class="container-sm mb-3">
-        <div class="text-center">
-          <form method="post" action="{% url 'overview_export' %}">
-            {% csrf_token %} <!-- CSRF token for form security -->
-            <div class="row">
-              <!-- Year selection dropdown -->
-              <div class="col">
-                <div class="input-group mb-3 flex-nowrap">
-                  <label class="input-group-text" for="inputGroupSelectYear"
-                    >Year</label
-                  >
-                  <select class="form-select" id="inputGroupSelectYear" name="year">
-                    <option selected>all</option>
-                    {% for year in validity_years %}
-                    <option value="{{ year }}">{{ year }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-              <!-- Month selection dropdown -->
-              <div class="col">
-                <div class="input-group mb-3 flex-nowrap">
-                  <label class="input-group-text" for="inputGroupSelectMonth"
-                    >Month</label
-                  >
-                  <select
-                    class="form-select"
-                    id="inputGroupSelectMonth"
-                    name="month"
-                  >
-                    <option selected>all</option>
-                    {% for month in validity_months %}
-                    <option value="{{ month }}">{{ month }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-              <!-- Employee selection dropdown -->
-              <div class="col">
-                <div class="input-group mb-3 flex-nowrap">
-                  <label class="input-group-text" for="inputGroupSelectEmployee"
-                    >Employee</label
-                  >
-                  <select
-                    class="form-select"
-                    id="inputGroupSelectEmployee"
-                    name="employee"
-                  >
-                    <option selected>all</option>
-                    {% for employee in validity_employees %}
-                    <option value="{{ employee }}">{{ employee }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-              <!-- Button to view aggregated data based on selected filters -->
-              <div class="col">
-                <button type="submit" class="btn btn-outline-primary">
-                  View aggregated Data
-                </button>
+        <form method="post" action="{% url 'overview_export' %}">
+          {% csrf_token %} <!-- CSRF token for form security -->
+          <div class="row">
+            <!-- Year selection dropdown -->
+            <div class="col">
+              <div class="input-group mb-3 flex-nowrap">
+                <label class="input-group-text" for="inputGroupSelectYear"
+                  >Year</label
+                >
+                <select class="form-select" id="inputGroupSelectYear" name="year">
+                  <option selected>all</option>
+                  {% for year in validity_years %}
+                  <option value="{{ year }}">{{ year }}</option>
+                  {% endfor %}
+                </select>
               </div>
             </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <!-- Horizontal line separator -->
-    <hr />
-    <!-- Container for displaying a chart -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <div class="container-fluid">
-      <div class="container text-center">
-        <div class="row align-items-center">
-          <div class="col col-lg-2"></div><!-- Empyt column for spacing -->
-          <div class="col align-self-center">
-            <!-- Canvas element for the chart -->
-            <canvas id="myChartx"></canvas>
+            <!-- Month selection dropdown -->
+            <div class="col">
+              <div class="input-group mb-3 flex-nowrap">
+                <label class="input-group-text" for="inputGroupSelectMonth"
+                  >Month</label
+                >
+                <select
+                  class="form-select"
+                  id="inputGroupSelectMonth"
+                  name="month"
+                >
+                  <option selected>all</option>
+                  {% for month in validity_months %}
+                  <option value="{{ month }}">{{ month }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <!-- Employee selection dropdown -->
+            <div class="col">
+              <div class="input-group mb-3 flex-nowrap">
+                <label class="input-group-text" for="inputGroupSelectEmployee"
+                  >Employee</label
+                >
+                <select
+                  class="form-select"
+                  id="inputGroupSelectEmployee"
+                  name="employee"
+                >
+                  <option selected>all</option>
+                  {% for employee in validity_employees %}
+                  <option value="{{ employee }}">{{ employee }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <!-- Button to view aggregated data based on selected filters -->
+            <div class="col">
+              <button type="submit" class="btn btn-outline-primary">
+                View aggregated Data
+              </button>
+            </div>
           </div>
-          <div class="col col-lg-2"></div><!-- Empyt column for spacing -->
-        </div>
+        </form>
       </div>
     </div>
-    <!-- Javascript code to create a bar chart using Chart.js -->
-    <script>
-      const ctx = document.getElementById("myChartx");
+  </div>
+  <!-- Horizontal line separator -->
+  <hr />
+  <!-- Container for displaying a chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <div class="container-fluid">
+    <div class="container text-center">
+      <div class="row align-items-center">
+        <div class="col col-lg-2"></div><!-- Empyt column for spacing -->
+        <div class="col align-self-center">
+          <!-- Canvas element for the chart -->
+          <canvas id="myChartx"></canvas>
+        </div>
+        <div class="col col-lg-2"></div><!-- Empyt column for spacing -->
+      </div>
+    </div>
+  </div>
 
-      // Extract data from Django context for the chart
-      const uniqueMonths = {{ unique_months|safe }};
-      const currentYearData = Object.values({{ aggregated_data_current_year|safe }});
-      const previousYearData = Object.values({{ aggregated_data_previous_year|safe }});
-      // Creat a new bar chart
-      new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: uniqueMonths, // x-axis labels representing months
-            datasets: [
-                  {
-                      label: "{{ current_year }}",
-                      data: currentYearData, // Data for the current year
-                      backgroundColor: 'rgba(255, 99, 132, 0.5)', // Customize the color for current year
-                      borderColor: 'rgba(255, 99, 132, 1)', // Customize the border color for current year
-                      borderWidth: 1,
-                  },
-                  {
-                      label: "{{ previous_year }}",
-                      data: previousYearData, // Data for the previous year
-                      backgroundColor: 'rgba(54, 162, 235, 0.5)', // Customize the color for previous year
-                      borderColor: 'rgba(54, 162, 235, 1)', // Customize the border color for previous year
-                      borderWidth: 1,
-                  },
-              ],
-          },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true, // Start the y-axis from zero
-            },
-          },
+<!-- Javascript code to create a bar chart using Chart.js -->
+<script>
+  const ctx = document.getElementById("myChartx");
+
+  // Extract data from Django context for the chart
+  const uniqueMonths = {{ unique_months|safe }};
+  const currentYearData = Object.values({{ aggregated_data_current_year|safe }});
+  const previousYearData = Object.values({{ aggregated_data_previous_year|safe }});
+  // Creat a new bar chart
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: uniqueMonths, // x-axis labels representing months
+        datasets: [
+              {
+                  label: "{{ current_year }}",
+                  data: currentYearData, // Data for the current year
+                  backgroundColor: 'rgba(255, 99, 132, 0.5)', // Customize the color for current year
+                  borderColor: 'rgba(255, 99, 132, 1)', // Customize the border color for current year
+                  borderWidth: 1,
+              },
+              {
+                  label: "{{ previous_year }}",
+                  data: previousYearData, // Data for the previous year
+                  backgroundColor: 'rgba(54, 162, 235, 0.5)', // Customize the color for previous year
+                  borderColor: 'rgba(54, 162, 235, 1)', // Customize the border color for previous year
+                  borderWidth: 1,
+              },
+          ],
+      },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true, // Start the y-axis from zero
         },
-      });
-    </script>
-  {% else %}
-    <!-- If the user is not authenticated, prompt them to log in -->
-    <p>You need to <a href="{% url 'account_login' %}">log in</a>!</p>
-  {% endif %}
+      },
+    },
+  });
+</script>
+
+{% else %}
+  <!--If the user is not authenticated, prompt them to log in-->
+  <div class="container-fluid">
+    <div class="text-center">
+      <p>You need to <a href="{% url 'account_login' %}">log in</a>!</p>
+    </div>
+  </div>
+{% endif %}
+
 {% endblock %}
