@@ -3,7 +3,7 @@
 The Django Payroll Management System is a web-based application designed to manage employee payroll, salary and related data. 
 It includes features such as employee management, salary year configuration, salary data generation, and reports for both current and previous years. An **export** in excel is also possible. This project leverages Django for backend processing and database management, and uses templates for the fronted user interface.
 
-This app is called **HR|Manager**'** and it is part of a larger project called **OCTOPUS**, have a look at the schematic:
+This app is called **HR|Manager** and it is part of a larger project called **OCTOPUS**, have a look at the schematic:
 
 <img src="images/1_printscreen_Readme.jpeg" alt="ReadmePicture1">
 
