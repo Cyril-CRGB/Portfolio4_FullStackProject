@@ -1,9 +1,9 @@
-# Django Payroll Management System: HR MANAGER
+# Django Payroll Management System: HR|Manager
 ## Description
 The Django Payroll Management System is a web-based application designed to manage employee payroll, salary and related data. 
 It includes features such as employee management, salary year configuration, salary data generation, and reports for both current and previous years. An **export** in excel is also possible. This project leverages Django for backend processing and database management, and uses templates for the fronted user interface.
 
-This app is called 'HR MANAGER' and it is part of a larger project called 'OCTOPUS', have a look at the schematic:
+This app is called **HR|Manager**'** and it is part of a larger project called **OCTOPUS**, have a look at the schematic:
 
 <img src="images/1_printscreen_Readme.jpeg" alt="ReadmePicture1">
 
@@ -105,6 +105,7 @@ Please select a fix:" and gave it a wrong default value
 - Make possible on 'overview' to filter also the graph with the filters: 'Year' / 'Month' / 'Employee'
 - Give a bit more design to it.
 - Create account for Employees while creating an 'Employee' itself in the app, sending an automatic email with connection informations. Giving Employees restricted authorisation on data (only theirs).
+- Develope further **OCTOPUS** Project apps
 
 
 ## Technologies used
@@ -160,7 +161,7 @@ update ```'DATABASES' = {'default': dj_database_url.parse(os.environ.get('DATABA
 ```<heroku run python manage.py migrate>```
 12. Create superuser
 ```<heroku run python manage.py createsuperuser>```
-13. Here you go, access your app at 'https://your-app-name.herokuapp.com'
+13. Here you go, access your app at [HR|Manager](https://portfolio4-fullstackproject-67b0ea26bc65.herokuapp.com/)
 
 
 ## Credits
@@ -184,8 +185,8 @@ update ```'DATABASES' = {'default': dj_database_url.parse(os.environ.get('DATABA
 - [The site is live here](https://portfolio4-fullstackproject-67b0ea26bc65.herokuapp.com/)
 
 Credentials for visitors
-user: **Admin**
-Password: **br5*9v/iOG;6**
+**```user: Admin```**
+**```Password: br5*9v/iOG;6```**
 
 
 
