@@ -111,7 +111,7 @@ Please select a fix:" and gave it a wrong default value
 - Python / Django
 - PostgreSQL with [MyElephant](https://www.elephantsql.com/) => EoS early 2025
 - Database for pictures with [Cloudinary](https://cloudinary.com/)
-- Embedded graph, using **Chart.js**
+- Embedded graph, using [Chart.js](https://www.chartjs.org/)
 
 
 ## Installation
@@ -136,30 +136,30 @@ Please select a fix:" and gave it a wrong default value
 ## Heroku deployment
 1. Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 2. Log in to Heroku, through your command line
-<heroku login>
+```<heroku login>```
 3. Create a Heroku app
-<heroku create your-app-name>
+```<heroku create your-app-name>```
 4. Add Heroku PostgreSQL add-on
-<heroku addons:create heroku-postgresql:hobby-dev>
+```<heroku addons:create heroku-postgresql:hobby-dev>```
 5. Configure Settings
-set 'DEBUGS' to False
-update 'ALLOWED_HOSTS' = ['your-app-name.herokuapp.com'] 
-update 'DATABASES' = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))} #refers to your env.py, do not forget to import dj_databse_url and os
+set ```'DEBUGS' to False```
+update ```'ALLOWED_HOSTS' = ['your-app-name.herokuapp.com']```
+update ```'DATABASES' = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}``` refers to your env.py, do not forget to import dj_databse_url and os
 6. Create a file named 'Procfile' in the root of your project
-<web: gunicorn your-app-name.wsgi>
+```<web: gunicorn your-app-name.wsgi>```
 7. Static files configuration
-'STATIC_ROOT' / 'STATIC_URL' / 'STATICFILES_STORAGE' (cloudinary for instance)
+```'STATIC_ROOT'``` / ```'STATIC_URL'``` / ```'STATICFILES_STORAGE'``` (cloudinary for instance)
 8. Install gunicorn (update requirements.txt)
-<pip install gunicorn>
+```<pip install gunicorn>```
 9. Update your middleware in 'settings.py'
 10. Push to Heroku
-<git add .>
-<git commit -m "Update:Heroku deployment">
-<git push heroku master/main>
+```<git add .>```
+```<git commit -m "Update:Heroku deployment">```
+```<git push heroku master/main>```
 11. Run Migrations
-<heroku run python manage.py migrate>
+```<heroku run python manage.py migrate>```
 12. Create superuser
-<heroku run python manage.py createsuperuser>
+```<heroku run python manage.py createsuperuser>```
 13. Here you go, access your app at 'https://your-app-name.herokuapp.com'
 
 
@@ -180,8 +180,9 @@ update 'DATABASES' = {'default': dj_database_url.parse(os.environ.get('DATABASE_
 
 
 ## Find this web site:
-[Github page](https://github.com/Cyril-CRGB/Portfolio4_FullStackProject)
-[The site is live here](https://portfolio4-fullstackproject-67b0ea26bc65.herokuapp.com/)
+- [Github page](https://github.com/Cyril-CRGB/Portfolio4_FullStackProject)
+- [The site is live here](https://portfolio4-fullstackproject-67b0ea26bc65.herokuapp.com/)
+
 Credentials for visitors
 user: **Admin**
 Password: **br5*9v/iOG;6**
