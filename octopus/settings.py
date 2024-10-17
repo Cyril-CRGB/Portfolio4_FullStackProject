@@ -30,18 +30,14 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
-# if development:
-#    ALLOWED_HOSTS = [
-#        '8000-cyril-crgb-portfolio4-fu-5iyjbxlegt.us2.codeanyapp.com']
-# else:
-#    ALLOWED_HOSTS = [
-#        'portfolio4-fullstackproject-67b0ea26bc65.herokuapp.com']
 
-ALLOWED_HOSTS = ['8000-cyrilcrgb-portfolio4ful-o8t78x0qcc9.ws-eu116.gitpod.io']
+ALLOWED_HOSTS = ['portfolio4-fullstackproject-67b0ea26bc65.herokuapp.com']
+
+#ALLOWED_HOSTS = ['8000-cyrilcrgb-portfolio4ful-o8t78x0qcc9.ws-eu116.gitpod.io']
 
 # Application definition
 
@@ -88,39 +84,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'octopus.urls'
 
-# if development:
-#     TEMPLATES = [
-#         {
-#             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-#             'DIRS': [TEMPLATES_DIR],
-#             'APP_DIRS': True,
-#             'OPTIONS': {
-#                 'context_processors': [
-#                     'django.template.context_processors.debug',
-#                     'django.template.context_processors.request',
-#                     'django.contrib.auth.context_processors.auth',
-#                     'django.contrib.messages.context_processors.messages',
-#                 ],
-#             },
-#         },
-#     ]
-# else:
-#     TEMPLATES = [
-#         {
-#             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-#             'DIRS': [TEMPLATES_DIR],
-#             'APP_DIRS': True,
-#             'OPTIONS': {
-#                 'context_processors': [
-#                     'django.template.context_processors.debug',
-#                     'django.template.context_processors.request',
-#                     'django.contrib.auth.context_processors.auth',
-#                     'django.contrib.messages.context_processors.messages',
-#                 ],
-#             },
-#         },
-#     ]
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -150,10 +113,7 @@ WSGI_APPLICATION = 'octopus.wsgi.application'
 #             'NAME': BASE_DIR / 'db.sqlite3',
 #         }
 #     }
-# else:
-#     DATABASES = {
-#         'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-#     }
+
 DATABASES = {
     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
